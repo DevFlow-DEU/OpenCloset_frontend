@@ -1,0 +1,8 @@
+#root {
+  display: flex;
+  flex-direction: column;
+}
+body {
+  background-color: #f3f3f3;
+  margin: 0 0 0 0;
+}
