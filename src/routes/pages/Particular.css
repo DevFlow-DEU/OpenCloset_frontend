@@ -1,0 +1,311 @@
+/* Particular.css */
+
+.product-page {
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: #dddfe4;
+    position: relative;
+  }
+  /*헤더 -----------------------------------------------------*/
+  .header {
+    position: fixed;
+    /*height: 55px;*/
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgb(255, 255, 255);
+    padding: 0.63rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+  
+  .header-icons {
+    display: flex;
+    align-items: center;
+   
+  }
+  .header-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #333;
+  margin-right: 20px;
+  margin-left: 12px;
+}
+  .header-button.share {
+    margin-right: 15px;
+  }
+
+
+  /*내용부분분 -----------------------------------------------------*/
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding-top: 3.5rem;
+    padding-bottom: 4.42rem;
+  }
+  /*사진--------------------------------------*/
+  .image-slider {
+    position: relative;
+    height: 400px;
+    max-width: 100%;
+    width: 100vw;
+    background: rgba(243, 243, 243, 1);
+    overflow: hidden;
+  }
+  
+  .slider-track {
+    display: flex;
+    transition: transform 0.3s ease-out;
+    height: 100%;
+  }
+  
+  .slide {
+    min-width: 100%;
+    flex-shrink: 0;
+  }
+  
+  .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+  }
+  
+  .dots {
+    
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+  }
+  
+  .dot {
+    all: unset;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin: 0 4px;
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+  }
+  
+  .dot.active {
+    background: white;
+  }
+   /*----------------------------------------------------*/
+
+   
+  .section {
+    background: rgba(243, 243, 243, 1);
+    padding: 18px 12px;
+    border-bottom: 2px solid #e5e7eb;
+    
+  }
+  
+  .user-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+
+  /* 유저 정보------------------------------*/
+  .user-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 9999px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+  }
+  
+  .user-name{
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 9px;
+    font-weight: bold;
+  }
+  
+  .user-location {
+    font-size: 12px;
+    color: #555;
+  }
+  
+  /* .review {
+    font-size: 0.875rem;
+    color: #fbbf24;
+    font-weight: 500;
+  } */
+  /* ------------------------------*/
+  
+
+  /*내용---------------------------------*/
+  .title {
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+  .price {
+    font-size: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .price span {
+    font-size: 11px;
+    font-weight: normal;
+    margin-left: 0.25rem;
+  }
+  
+  .description {
+    font-size: 0.75rem;
+    color: #666;
+    line-height: 1.5;
+    width: 80%;
+  }
+
+  /*필터 정보? ----------------------------------------*/
+
+
+
+ .meta {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(112, 112, 112, 1);
+    margin-bottom: 8px;
+  }
+  
+
+
+  /*태그----------------------------------------*/
+  .tag-size-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    color: #333;
+    
+  }
+  
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 10px;
+  }
+  
+   .tag-section{
+    margin-bottom: 20px;
+   }
+
+   .tag-box {
+    padding: 4px 10px;
+    border: 1px solid rgb(142, 142, 142);
+    border-radius: 9999px;
+    color: #666;
+  }
+
+
+
+
+   /*사용자 사이즈 정보--------------------------------*/
+   .size-table {
+    width: 200px; 
+    border-collapse: separate;      
+    border-spacing: 0;
+    border: 1px solid rgb(195, 193, 193);
+    border-radius: 3px;
+    overflow: hidden;
+    font-size: 10px;
+    text-align: center;
+    color: rgb(162, 162, 162);
+  }
+  
+  .size-table th,
+  .size-table td {
+    padding: 8px;
+    border-right: 1px solid #ccc;
+  }
+  
+  .size-table th:last-child,
+  .size-table td:last-child {
+    border-right: none; 
+  }
+  
+  
+  .size-table thead tr {
+    background-color: rgb(195, 193, 193);
+    color: rgb(99, 99, 99);
+  }
+  
+  
+  .size-table thead th:first-child {
+    border-top-left-radius: 2px;
+  }
+  .size-table thead th:last-child {
+    border-top-right-radius: 2px;
+  }
+  
+
+
+
+  /*푸터 -------------------------------------------------*/
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 12px;
+    border-top: 1px solid #e5e7eb;
+    z-index: 10;
+    gap: 8px;
+  }
+  
+
+
+  .like-heart {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: white;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .like-heart.active {
+    color: red;           
+  }
+  
+
+
+
+  .footer-button {
+    flex: 1;
+    height: 44px;
+    border-radius: 7px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid #10b981;
+    background: white;
+    color: #10b981;
+  }
+  
+  .footer-button.deel {
+    background: #10b981;
+    color: white;
+    border: none;
+  }
+  
