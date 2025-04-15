@@ -8,6 +8,14 @@ import MapIcon from '../../assets/map.svg?react';
 import ProfileIcon from '../../assets/profile.svg?react';
 import HomeIcon from '../../assets/home.svg?react';
 import ChatIcon from '../../assets/chat.svg?react';
+import TopsIcon from '../../assets/icon/Category/Tops.svg?react';
+import PantsIcon from '../../assets/icon/Category/Pants.svg?react';
+import OuterIcon from '../../assets/icon/Category/Outer.svg?react';
+import BagIcon from '../../assets/icon/Category/Bag.svg?react';
+import JewelryIcon from '../../assets/icon/Category/Jewelry.svg?react';
+import OnePieceIcon from '../../assets/icon/Category/OnePiece.svg?react';
+import ShoesIcon from '../../assets/icon/Category/Shoes.svg?react';
+import AccessoryIcon from '../../assets/icon/Category/Accessory.svg?react';
 export default function Home() {
   return (
     <>
@@ -25,55 +33,69 @@ export default function Home() {
           <img src='/광고창.png' alt='광고창' width='100%' />
         </div>
         <div className='category-list'>
-          <div className='category-header'>Categories</div>
-          <div className='category-container'>
-            <div className='category-item'>
+          <div className={styles['category-header']}>Categories</div>
+          <div className={styles['category-container']}>
+            <div className={styles['category-item']}>
               <Link>
-                <div>
-                  <img src='' alt='' />
+                <div className={styles['category-icon']}>
+                  <TopsIcon width='39.26px' height='39.26px' />
                 </div>
                 상의
               </Link>
             </div>
-            <div className='category-item'>
+            <div className={styles['category-item']}>
               <Link>
-                <img src='' alt='' />
+                <div className={styles['category-icon']}>
+                  <PantsIcon width='39.26px' height='39.26px' />
+                </div>
                 하의
               </Link>
             </div>
-            <div className='category-item'>
+            <div className={styles['category-item']}>
               <Link>
-                <img src='' alt='' />
+                <div className={styles['category-icon']}>
+                  <OuterIcon width='39.26px' height='39.26px' />
+                </div>
                 아우터
               </Link>
             </div>
-            <div className='category-item'>
+            <div className={styles['category-item']}>
               <Link>
-                <img src='' alt='' />
+                <div className={styles['category-icon']}>
+                  <JewelryIcon width='39.26px' height='39.26px' />
+                </div>
                 주얼리
               </Link>
             </div>
-            <div className='category-item'>
+            <div className={styles['category-item']}>
               <Link>
-                <img src='' alt='' />
+                <div className={styles['category-icon']}>
+                  <OnePieceIcon width='39.26px' height='39.26px' />
+                </div>
                 원피스
               </Link>
             </div>
-            <div className='category-item'>
+            <div className={styles['category-item']}>
               <Link>
-                <img src='' alt='' />
+                <div className={styles['category-icon']}>
+                  <ShoesIcon width='39.26px' height='39.26px' />
+                </div>
                 신발
               </Link>
             </div>
-            <div className='category-item'>
+            <div className={styles['category-item']}>
               <Link>
-                <img src='' alt='' />
+                <div className={styles['category-icon']}>
+                  <BagIcon width='39.26px' height='39.26px' />
+                </div>
                 가방
               </Link>
             </div>
-            <div className='category-item'>
+            <div className={styles['category-item']}>
               <Link>
-                <img src='' alt='' />
+                <div className={styles['category-icon']}>
+                  <AccessoryIcon width='39.26px' height='39.26px' />
+                </div>
                 악세서리
               </Link>
             </div>
