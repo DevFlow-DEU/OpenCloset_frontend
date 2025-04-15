@@ -16,6 +16,8 @@ import JewelryIcon from '../../assets/icon/Category/Jewelry.svg?react';
 import OnePieceIcon from '../../assets/icon/Category/OnePiece.svg?react';
 import ShoesIcon from '../../assets/icon/Category/Shoes.svg?react';
 import AccessoryIcon from '../../assets/icon/Category/Accessory.svg?react';
+import LikeGrayHeartIcon from '../../assets/icon/Like_gray_heart.svg?react';
+import LikeRedHeartIcon from '../../assets/icon/Like_red_heart.svg?react';
 export default function Home() {
   return (
     <>
@@ -102,56 +104,110 @@ export default function Home() {
           </div>
         </div>
         <div className='item-list'>
-          <div className='item-list-header'>오늘의 추천 상품</div>
-          <div className='item'>
-            <Link>
-              <button className='save-button'>
-                <img src='' alt='' />
-              </button>
-              <div className='item-thumbnail'>
-                <img src='' alt='' />
-              </div>
-              <div className='item-name'>Script Logo Heavyweigh...</div>
-              <div className='item-cost'>3,700원</div> /
-              <div className='item-period'>3일</div>
-              <div className='item-location'>중앙동</div>
-            </Link>
-          </div>
-          <div className='item'>
-            <button className='save-button'>
-              <img src='' alt='' />
-            </button>
-            <div className='item-thumbnail'>
-              <img src='' alt='' />
+          <h2 className={styles['item-list-header']}>
+            오늘의 <br /> 추천 상품
+          </h2>
+          <div className={styles['item-container']}>
+            <div className={styles['item']}>
+              <Link>
+                <button className={styles['save-button']}>
+                  <LikeRedHeartIcon width={'16.06px'} height={'14.34px'} />
+                </button>
+                <div className={styles['item-thumbnail']}>
+                  <img
+                    src='/hoodie.png'
+                    alt='hoodie'
+                    width='170.13px'
+                    height='169.56px'
+                  />
+                </div>
+                <div className={styles['item-description-container']}>
+                  <div className={styles['item-name']}>
+                    Script Logo Heavyweigh...
+                  </div>
+                  <div>
+                    <span className={styles['item-cost']}>3,700원</span>
+                    <span className={styles['item-period']}> / 3일</span>
+                  </div>
+                  <div className={styles['item-location']}>중앙동</div>
+                </div>
+              </Link>
             </div>
-            <div className='item-name'>Script Logo Heavyweigh...</div>
-            <div className='item-cost'>3,700원</div> /
-            <div className='item-period'>3일</div>
-            <div className='item-location'>중앙동</div>
-          </div>
-          <div className='item'>
-            <button className='save-button'>
-              <img src='' alt='' />
-            </button>
-            <div className='item-thumbnail'>
-              <img src='' alt='' />
+            <div className={styles['item']}>
+              <Link>
+                <button className={styles['save-button']}>
+                  <LikeGrayHeartIcon width={'16.06px'} height={'14.34px'} />
+                </button>
+                <div className={styles['item-thumbnail']}>
+                  <img
+                    src='/windbreaker.png'
+                    alt='windbreaker'
+                    width='170.13px'
+                    height='169.56px'
+                  />
+                </div>
+                <div className={styles['item-description-container']}>
+                  <div className={styles['item-name']}>
+                    Script Logo Heavyweigh...
+                  </div>
+                  <div>
+                    <span className={styles['item-cost']}>3,700원</span>
+                    <span className={styles['item-period']}> / 3일</span>
+                  </div>
+                  <div className={styles['item-location']}>중앙동</div>
+                </div>
+              </Link>
             </div>
-            <div className='item-name'>Script Logo Heavyweigh...</div>
-            <div className='item-cost'>3,700원</div> /
-            <div className='item-period'>3일</div>
-            <div className='item-location'>중앙동</div>
-          </div>
-          <div className='item'>
-            <button className='save-button'>
-              <img src='' alt='' />
-            </button>
-            <div className='item-thumbnail'>
-              <img src='' alt='' />
+            <div className={styles['item']}>
+              <Link>
+                <button className={styles['save-button']}>
+                  <LikeGrayHeartIcon width={'16.06px'} height={'14.34px'} />
+                </button>
+                <div className={styles['item-thumbnail']}>
+                  <img
+                    src='/pants.png'
+                    alt='pants'
+                    width='170.13px'
+                    height='169.56px'
+                  />
+                </div>
+                <div className={styles['item-description-container']}>
+                  <div className={styles['item-name']}>
+                    Script Logo Heavyweigh...
+                  </div>
+                  <div>
+                    <span className={styles['item-cost']}>3,700원</span>
+                    <span className={styles['item-period']}> / 3일</span>
+                  </div>
+                  <div className={styles['item-location']}>중앙동</div>
+                </div>
+              </Link>
             </div>
-            <div className='item-name'>Script Logo Heavyweigh...</div>
-            <div className='item-cost'>3,700원</div> /
-            <div className='item-period'>3일</div>
-            <div className='item-location'>중앙동</div>
+            <div className={styles['item']}>
+              <Link>
+                <button className={styles['save-button']}>
+                  <LikeGrayHeartIcon width={'16.06px'} height={'14.34px'} />
+                </button>
+                <div className={styles['item-thumbnail']}>
+                  <img
+                    src='/pants1.png'
+                    alt='pants1'
+                    width='170.13px'
+                    height='169.56px'
+                  />
+                </div>
+                <div className={styles['item-description-container']}>
+                  <div className={styles['item-name']}>
+                    Script Logo Heavyweigh...
+                  </div>
+                  <div>
+                    <span className={styles['item-cost']}>3,700원</span>
+                    <span className={styles['item-period']}> / 3일</span>
+                  </div>
+                  <div className={styles['item-location']}>중앙동</div>
+                </div>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
