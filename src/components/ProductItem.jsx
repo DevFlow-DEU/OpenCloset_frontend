@@ -13,7 +13,7 @@ export default function ProductItem({
   location,
 }) {
   return (
-    <div key={id} className={styles['item']}>
+    <div className={styles['item']}>
       <Link to={`/product/${id}`}>
         {isSaved ? (
           <button className={styles['save-button']}>

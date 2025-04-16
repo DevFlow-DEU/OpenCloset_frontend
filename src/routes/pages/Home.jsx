@@ -149,7 +149,7 @@ export default function Home() {
           </h2>
           <div className={styles['item-container']}>
             {products.map((product) => (
-              <ProductItem {...product} />
+              <ProductItem key={product.id} {...product} />
             ))}
           </div>
         </div>
