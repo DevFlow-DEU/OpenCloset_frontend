@@ -4,11 +4,6 @@ import styles from './Home.module.css';
 import Logo from '../../assets/logo.svg?react';
 import HamburgerIcon from '../../assets/hamburger.svg?react';
 import SearchIcon from '../../assets/search.svg?react';
-import SaveIcon from '../../assets/save.svg?react';
-import MapIcon from '../../assets/map.svg?react';
-import ProfileIcon from '../../assets/profile.svg?react';
-import HomeIcon from '../../assets/home.svg?react';
-import ChatIcon from '../../assets/chat.svg?react';
 import TopsIcon from '../../assets/icon/Category/Tops.svg?react';
 import PantsIcon from '../../assets/icon/Category/Pants.svg?react';
 import OuterIcon from '../../assets/icon/Category/Outer.svg?react';
@@ -19,6 +14,7 @@ import ShoesIcon from '../../assets/icon/Category/Shoes.svg?react';
 import AccessoryIcon from '../../assets/icon/Category/Accessory.svg?react';
 import AddProductIcon from '../../assets/icon/Add_product.svg?react';
 import ProductItem from '../../components/ProductItem';
+import NavBar from '../../components/NavBar';
 export default function Home() {
   const mockProductsData = [
     {
@@ -157,43 +153,11 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <Link className={styles['add-button']}>
+        <Link to='/add_product' className={styles['add-button']}>
           <AddProductIcon />
         </Link>
       </div>
-      <div className={styles['nav-bar']}>
-        <Link>
-          <div>
-            <MapIcon width={20.66} height={20.66} />
-          </div>
-          지도
-        </Link>
-
-        <Link>
-          <div>
-            <ChatIcon width={20.66} height={20.66} />
-          </div>
-          채팅
-        </Link>
-        <Link>
-          <div>
-            <HomeIcon width={20.66} height={20.66} />
-          </div>
-          홈
-        </Link>
-        <Link>
-          <div>
-            <SaveIcon width={20.66} height={20.66} />
-          </div>
-          찜
-        </Link>
-        <Link>
-          <div>
-            <ProfileIcon width={20.66} height={20.66} />
-          </div>
-          내 정보
-        </Link>
-      </div>
+      <NavBar />
     </>
   );
 }
