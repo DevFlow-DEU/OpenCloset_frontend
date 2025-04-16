@@ -1,0 +1,122 @@
+header {
+  padding-top: 70px;
+  padding-bottom: 16.29px;
+  padding-inline: 23.5px;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  justify-content: space-between;
+  font-size: 17px;
+  background-color: white;
+  z-index: 1;
+}
+.container {
+  margin-top: 108px;
+  margin-bottom: 132.92px;
+}
+.category-header {
+  padding-inline: 24px;
+  margin-top: 29px;
+  margin-bottom: 7.6px;
+  font-size: 24px;
+}
+.category-container {
+  display: flex;
+  text-align: center;
+  column-gap: 6.5%;
+  line-height: 110%;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.category-container a {
+  text-decoration: none;
+  color: black;
+  font-size: 11px;
+}
+.category-icon {
+  padding: 11.78px 11.78px 6.24px 11.78px;
+  background-color: white;
+  border-radius: 40px;
+}
+.caregory-item {
+  width: calc(25% - 20px);
+}
+.item-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 9px;
+  column-gap: 5px;
+}
+.item a {
+  text-decoration: none;
+  color: black;
+}
+.add-button {
+  z-index: 1;
+  position: fixed;
+  bottom: 80px;
+  left: 85vw;
+  padding: 0px 0px 0px 0px;
+}
+
+.nav-bar {
+  height: 68.85px;
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  align-items: center;
+  background-color: white;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.nav-bar a {
+  text-decoration: none;
+  color: black;
+}
+.save-button {
+  position: absolute;
+  top: 8.61px;
+  left: 142.86px;
+  border: 0;
+  background-color: transparent;
+  padding: 0px 0px 0px 0px;
+}
+.item {
+  position: relative;
+}
+.item-thumbnail img {
+  border-top-right-radius: 24px;
+  border-top-left-radius: 24px;
+}
+.item-name {
+  font-size: 13px;
+}
+.item-cost {
+  font-size: 16px;
+}
+.item-period {
+  font-size: 13px;
+}
+.item-location {
+  font-size: 11px;
+  color: #575757;
+}
+.item-list-header {
+  font-weight: normal;
+  margin-inline: 24px;
+  margin-bottom: 17px;
+  letter-spacing: 10%;
+}
+.item-description-container {
+  background-color: white;
+  border-bottom-right-radius: 24px;
+  border-bottom-left-radius: 24px;
+  padding-inline: 11px;
+  padding-top: 5px;
+  padding-bottom: 13.68px;
+}
