@@ -18,6 +18,7 @@ import ShoesIcon from '../../assets/icon/Category/Shoes.svg?react';
 import AccessoryIcon from '../../assets/icon/Category/Accessory.svg?react';
 import LikeGrayHeartIcon from '../../assets/icon/Like_gray_heart.svg?react';
 import LikeRedHeartIcon from '../../assets/icon/Like_red_heart.svg?react';
+import AddProductIcon from '../../assets/icon/Add_product.svg?react';
 export default function Home() {
   return (
     <>
@@ -210,10 +211,10 @@ export default function Home() {
             </div>
           </div>
         </div>
+        <Link className={styles['add-button']}>
+          <AddProductIcon />
+        </Link>
       </div>
-      <button className='add-button'>
-        <img />
-      </button>
       <div className={styles['nav-bar']}>
         <Link>
           <div>

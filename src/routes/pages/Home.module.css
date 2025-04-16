@@ -54,6 +54,14 @@ header {
   text-decoration: none;
   color: black;
 }
+.add-button {
+  z-index: 1;
+  position: fixed;
+  bottom: 80px;
+  left: 85vw;
+  padding: 0px 0px 0px 0px;
+}
+
 .nav-bar {
   height: 68.85px;
   display: flex;
