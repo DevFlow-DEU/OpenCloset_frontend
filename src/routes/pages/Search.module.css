@@ -1,0 +1,42 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: inherit;
+  padding: 70px 0px 0px 0px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+.header-item {
+  display: flex;
+  padding-block: 12px;
+  justify-content: center;
+  gap: 19px;
+}
+.search-bar {
+  border-radius: 5px;
+  justify-content: space-around;
+  align-items: center;
+  display: flex;
+  width: 303.19px;
+  height: 35.58px;
+  background-color: #e6e6e6;
+}
+.search-bar input {
+  width: 80%;
+  background-color: transparent;
+  border: 0;
+  font-size: 16px;
+}
+.header-icons {
+  display: flex;
+  align-items: center;
+}
+.header-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #333;
+}

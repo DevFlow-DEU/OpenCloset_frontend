@@ -66,7 +66,7 @@ export default function Home() {
           <HamburgerIcon height={16.92} width={22.38} />
         </Link>
         <Logo height={20} width={118} />
-        <Link className='search-button'>
+        <Link to={'/search'} lassName='search-button'>
           <SearchIcon height={16.92} width={22.38} />
         </Link>
       </header>
