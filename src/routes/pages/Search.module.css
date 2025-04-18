@@ -5,14 +5,18 @@
   right: 0;
   background: inherit;
   padding: 70px 0px 0px 0px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   z-index: 10;
 }
 .header-item {
   display: flex;
-  padding-block: 12px;
-  justify-content: center;
+  padding-inline: 6.5px;
   gap: 19px;
+}
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button,
+input::-webkit-search-results-button,
+input::-webkit-search-results-decoration {
+  display: none;
 }
 .search-bar {
   border-radius: 5px;
@@ -28,6 +32,70 @@
   background-color: transparent;
   border: 0;
   font-size: 16px;
+  outline: none;
+}
+
+.search-history {
+  margin-top: 27.6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.search-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 25px;
+}
+.search-history-header h3 {
+  margin: 0;
+  font-weight: normal;
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+.search-history-container {
+  padding-left: 25px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: no-wrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+.search-rank {
+  padding-inline: 25px;
+}
+.search-rank h3 {
+  margin-bottom: 14px;
+  font-weight: normal;
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+.search-rank ol {
+  letter-spacing: 1.6px;
+  color: #494949;
+  font-size: 16px;
+  padding-left: 20px;
+  margin-block: 5px;
+  row-gap: 2px;
+  flex-wrap: wrap;
+  height: 117px;
+  width: 312px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.search-history-container::-webkit-scrollbar {
+  display: none;
+}
+.word {
+  text-align: center;
+  border-style: solid;
+  border-radius: 5px;
+  border-color: #b4b2b2;
+  color: #494949;
+  white-space: nowrap;
+  letter-spacing: 2.4px;
+  padding: 3.4px 1.4px 3.4px 3.4px;
 }
 .header-icons {
   display: flex;
@@ -39,4 +107,12 @@
   padding: 0;
   cursor: pointer;
   color: #333;
+}
+.delete-history-button {
+  border: 0;
+  background-color: transparent;
+}
+hr {
+  margin-top: 12px;
+  margin-bottom: 22px;
 }
