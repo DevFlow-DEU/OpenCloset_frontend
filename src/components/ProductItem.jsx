@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import styles from '../routes/pages/Home.module.css';
+import styles from './ProductItem.module.css';
 import LikeGrayHeartIcon from '../assets/icon/Like_gray_heart.svg?react';
 import LikeRedHeartIcon from '../assets/icon/Like_red_heart.svg?react';
 export default function ProductItem({

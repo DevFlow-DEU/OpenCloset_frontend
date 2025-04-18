@@ -43,17 +43,6 @@ header {
 .caregory-item {
   width: calc(25% - 20px);
 }
-.item-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  row-gap: 9px;
-  column-gap: 5px;
-}
-.item a {
-  text-decoration: none;
-  color: black;
-}
 .add-button {
   z-index: 1;
   position: fixed;
@@ -78,45 +67,9 @@ header {
   text-decoration: none;
   color: black;
 }
-.save-button {
-  position: absolute;
-  top: 8.61px;
-  left: 142.86px;
-  border: 0;
-  background-color: transparent;
-  padding: 0px 0px 0px 0px;
-}
-.item {
-  position: relative;
-}
-.item-thumbnail img {
-  border-top-right-radius: 24px;
-  border-top-left-radius: 24px;
-}
-.item-name {
-  font-size: 13px;
-}
-.item-cost {
-  font-size: 16px;
-}
-.item-period {
-  font-size: 13px;
-}
-.item-location {
-  font-size: 11px;
-  color: #575757;
-}
 .item-list-header {
   font-weight: normal;
   margin-inline: 24px;
   margin-bottom: 17px;
   letter-spacing: 10%;
-}
-.item-description-container {
-  background-color: white;
-  border-bottom-right-radius: 24px;
-  border-bottom-left-radius: 24px;
-  padding-inline: 11px;
-  padding-top: 5px;
-  padding-bottom: 13.68px;
 }

@@ -1,0 +1,7 @@
+.item-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 9px;
+  column-gap: 5px;
+}

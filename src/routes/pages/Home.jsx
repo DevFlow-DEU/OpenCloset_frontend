@@ -15,6 +15,7 @@ import AccessoryIcon from '../../assets/icon/Category/Accessory.svg?react';
 import AddProductIcon from '../../assets/icon/Add_product.svg?react';
 import ProductItem from '../../components/ProductItem';
 import NavBar from '../../components/NavBar';
+import ProductList from '../../components/ProductList';
 export default function Home() {
   const mockProductsData = [
     {
@@ -147,11 +148,7 @@ export default function Home() {
           <h2 className={styles['item-list-header']}>
             오늘의 <br /> 추천 상품
           </h2>
-          <div className={styles['item-container']}>
-            {products.map((product) => (
-              <ProductItem key={product.id} {...product} />
-            ))}
-          </div>
+          <ProductList products={mockProductsData} />
         </div>
         <Link to='/add_product' className={styles['add-button']}>
           <AddProductIcon />
