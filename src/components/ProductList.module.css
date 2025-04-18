@@ -1,7 +1,8 @@
 .item-container {
+  padding-inline: 5%;
+  justify-content: space-between;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   row-gap: 9px;
   column-gap: 5px;
 }
