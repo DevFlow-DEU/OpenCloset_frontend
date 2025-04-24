@@ -1,7 +1,7 @@
 import NavBar from '../../components/NavBar';
 import ProductList from '../../components/ProductList';
 import styles from './SearchResult.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import {
   ChevronLeft,
   ChevronDown,
@@ -9,7 +9,13 @@ import {
   Search as SearchIcon,
 } from 'lucide-react';
 import { productsData } from '../../constants/mockData';
+import { useState } from 'react';
 export default function SearchResult() {
+  let param = useParams();
+  const [searchText, setSearchText] = useState('');
+  const onSearchInputChange = (e) => {
+    setSearchText(e.target.value);
+  };
   return (
     <>
       <div className={styles['header']}>
@@ -23,12 +29,16 @@ export default function SearchResult() {
               name=''
               id=''
               placeholder='검색어를 입력해주세요'
+              onChange={onSearchInputChange}
+              defaultValue={param.searchText}
             />
-            <SearchIcon
-              width={'15.61px'}
-              height={'16.07px'}
-              color={'#8d8d8d'}
-            />
+            <Link to={`../search/result/${searchText}`}>
+              <SearchIcon
+                width={'15.61px'}
+                height={'16.07px'}
+                color={'#8d8d8d'}
+              />
+            </Link>
           </div>
         </div>
         <div className={styles['filter-container']}>
@@ -62,7 +72,11 @@ export default function SearchResult() {
         </div>
       </div>
       <div className={styles['container']}>
-        <ProductList products={productsData} />
+        <ProductList
+          products={productsData.filter((product) =>
+            product.name.includes(param.searchText)
+          )}
+        />
         <NavBar />
       </div>
     </>
