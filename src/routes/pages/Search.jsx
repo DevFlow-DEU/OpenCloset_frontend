@@ -3,8 +3,10 @@ import { Search as SearchIcon, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import styles from './Search.module.css';
 import { useState } from 'react';
+import { searchHistoryData } from '../../constants/mockData';
 export default function Search() {
   const [searchText, setSearchText] = useState('');
+  const [history, setHistory] = useState(searchHistoryData);
   const onSearchInputChange = (e) => {
     setSearchText(e.target.value);
   };
@@ -35,16 +37,21 @@ export default function Search() {
         <div className={styles['search-history']}>
           <div className={styles['search-history-header']}>
             <h3>최근 검색어</h3>
-            <button className={styles['delete-history-button']}>
+            <button
+              className={styles['delete-history-button']}
+              onClick={() => {
+                setHistory([]);
+              }}
+            >
               <Trash2 />
             </button>
           </div>
           <div className={styles['search-history-container']}>
-            <div className={styles['word']}>후드집업</div>
-            <div className={styles['word']}>바람막이</div>
-            <div className={styles['word']}>버뮤다 팬츠</div>
-            <div className={styles['word']}>가디건</div>
-            <div className={styles['word']}>마인드 브릿지</div>
+            {history.map((historyData) => (
+              <div key={historyData.id} className={styles['word']}>
+                {historyData.word}
+              </div>
+            ))}
           </div>
         </div>
         <hr height='3px' color='#E9E9E9' />

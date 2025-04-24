@@ -117,5 +117,26 @@ const productsData = [
     isSaved: false,
   },
 ];
-
-export { productsData };
+const searchHistoryData = [
+  {
+    id: 1,
+    word: '후드집업',
+  },
+  {
+    id: 2,
+    word: '바람막이',
+  },
+  {
+    id: 3,
+    word: '버뮤다 팬츠',
+  },
+  {
+    id: 4,
+    word: '가디건',
+  },
+  {
+    id: 5,
+    word: '마인드 브릿지',
+  },
+];
+export { productsData, searchHistoryData };
