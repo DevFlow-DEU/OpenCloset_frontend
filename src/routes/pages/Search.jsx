@@ -2,7 +2,12 @@ import { ChevronLeft } from 'lucide-react';
 import { Search as SearchIcon, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import styles from './Search.module.css';
+import { useState } from 'react';
 export default function Search() {
+  const [searchText, setSearchText] = useState('');
+  const onSearchInputChange = (e) => {
+    setSearchText(e.target.value);
+  };
   return (
     <>
       <div className={styles['header']}>
@@ -15,13 +20,16 @@ export default function Search() {
               type='search'
               name=''
               id=''
+              onChange={onSearchInputChange}
               placeholder='검색어를 입력해주세요'
             />
-            <SearchIcon
-              width={'15.61px'}
-              height={'16.07px'}
-              color={'#8d8d8d'}
-            />
+            <Link to={`/search/result/${searchText}`}>
+              <SearchIcon
+                width={'15.61px'}
+                height={'16.07px'}
+                color={'#8d8d8d'}
+              />
+            </Link>
           </div>
         </div>
         <div className={styles['search-history']}>
