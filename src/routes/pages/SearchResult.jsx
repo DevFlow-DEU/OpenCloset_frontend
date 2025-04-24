@@ -2,81 +2,14 @@ import NavBar from '../../components/NavBar';
 import ProductList from '../../components/ProductList';
 import styles from './SearchResult.module.css';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronDown, Settings2Icon } from 'lucide-react';
-import { Search as SearchIcon } from 'lucide-react';
+import {
+  ChevronLeft,
+  ChevronDown,
+  Settings2Icon,
+  Search as SearchIcon,
+} from 'lucide-react';
+import { productsData } from '../../constants/mockData';
 export default function SearchResult() {
-  const mockProductsData = [
-    {
-      id: 5, // 매물에 대한 ID (정수)
-      name: 'Script Logo Heavyweigh...', // 매물 제품명
-      rentalPeriod: 3, // 대여 일 수 (정수, 예: 7일)
-      rentalCost: 3700, // 대여 비용 (정수, 예: 15000원)
-      location: '중앙동', // 지역명
-      imageUrl: '/hoodie.png', // 대표 이미지 URL
-      createdAt: '2025-04-08T10:00:00Z', // 생성된 날짜 (ISO 8601 포맷 추천)
-      isSaved: true,
-    },
-    {
-      id: 2,
-      name: '윈드브레이커 자켓_블랙',
-      rentalPeriod: 7,
-      rentalCost: 5300,
-      location: '범일동',
-      imageUrl: '/windbreaker.png',
-      createdAt: '2025-04-07T15:30:00Z',
-      isSaved: false,
-    },
-    {
-      id: 7,
-      name: 'Script Logo Heavyweigh...',
-      rentalPeriod: 14,
-      rentalCost: 10700,
-      location: '가야동',
-      imageUrl: '/pants.png',
-      createdAt: '2025-04-07T15:30:00Z',
-      isSaved: false,
-    },
-    {
-      id: 1,
-      name: '와이드 롱 스웨트 팬츠',
-      rentalPeriod: 5,
-      rentalCost: 7300,
-      location: '남포동',
-      imageUrl: '/pants1.png',
-      createdAt: '2025-04-07T15:30:00Z',
-      isSaved: false,
-    },
-    {
-      id: 1,
-      name: '와이드 롱 스웨트 팬츠',
-      rentalPeriod: 5,
-      rentalCost: 7300,
-      location: '남포동',
-      imageUrl: '/pants1.png',
-      createdAt: '2025-04-07T15:30:00Z',
-      isSaved: false,
-    },
-    {
-      id: 1,
-      name: '와이드 롱 스웨트 팬츠',
-      rentalPeriod: 5,
-      rentalCost: 7300,
-      location: '남포동',
-      imageUrl: '/pants1.png',
-      createdAt: '2025-04-07T15:30:00Z',
-      isSaved: false,
-    },
-    {
-      id: 1,
-      name: '와이드 롱 스웨트 팬츠',
-      rentalPeriod: 5,
-      rentalCost: 7300,
-      location: '남포동',
-      imageUrl: '/pants1.png',
-      createdAt: '2025-04-07T15:30:00Z',
-      isSaved: false,
-    },
-  ];
   return (
     <>
       <div className={styles['header']}>
@@ -129,7 +62,7 @@ export default function SearchResult() {
         </div>
       </div>
       <div className={styles['container']}>
-        <ProductList products={mockProductsData} />
+        <ProductList products={productsData} />
         <NavBar />
       </div>
     </>
