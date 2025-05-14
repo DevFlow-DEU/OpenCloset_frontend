@@ -13,18 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
       - name: Deploy to server
         uses: appleboy/ssh-action@master
         with:
@@ -52,7 +40,8 @@ jobs:
               cd OpenCloset_frontend
               git pull origin main
             fi
-
+            # 의존성 설치 및 빌드
+            npm install && npm run build
             # 빌드된 파일을 nginx 경로로 복사
             cp -r dist/* /var/www/html/
 
