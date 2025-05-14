@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Deploy to server
-        uses: appleboy/ssh-action@v1
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
@@ -23,10 +23,6 @@ jobs:
           command_timeout: '10m'
           script_stop: true
           script: |
-            # SSH 호스트 키 체크 비활성화
-            mkdir -p ~/.ssh
-            echo "StrictHostKeyChecking no" >> ~/.ssh/config
-            chmod 600 ~/.ssh/config
 
             # 프로젝트 디렉토리로 이동
             cd /var/www/html
@@ -34,16 +30,16 @@ jobs:
             # 리포지토리가 존재하는지 확인
             if [ ! -d "OpenCloset_frontend" ]; then
               # 리포지토리가 없으면 main 브랜치 클론
-              git clone -b main https://github.com/${{ github.repository }}.git OpenCloset_frontend
+              sudo git clone -b main https://github.com/${{ github.repository }}.git OpenCloset_frontend
             else
               # 리포지토리가 있으면 풀
               cd OpenCloset_frontend
-              git pull origin main
+              sudo git pull origin main
             fi
             # 의존성 설치 및 빌드
-            npm install && npm run build
+            sudo npm install && sudo npm run build
             # 빌드된 파일을 nginx 경로로 복사
-            cp -r dist/* /var/www/html/
+            sudo cp -r dist/* /var/www/html/
 
             # nginx 설정 리로드
             sudo systemctl reload nginx
