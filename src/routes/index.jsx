@@ -2,18 +2,28 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/Home';
 import Particular from './pages/Particular';
 import Search from './pages/Search';
+import SearchResult from './pages/SearchResult';
+import Registration from './pages/Registration';
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Home />,
   },
   {
-    path: '/product/1',
+    path: '/product/:id',
     element: <Particular />,
   },
   {
     path: '/search',
     element: <Search />,
+  },
+  {
+    path: '/search/result/:searchText',
+    element: <SearchResult />,
+  },
+  {
+    path: '/add_product',
+    element: <Registration />,
   },
 ]);
 
