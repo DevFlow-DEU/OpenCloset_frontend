@@ -1,0 +1,45 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main] # main 브랜치에 푸시될 때 실행
+  workflow_dispatch: # 수동 실행을 위한 이벤트 추가
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          command_timeout: '10m'
+          script_stop: true
+          script: |
+            # 프로젝트 디렉토리로 이동
+            cd /var/www/html
+
+            # 리포지토리가 존재하는지 확인
+            if [ ! -d "OpenCloset_frontend" ]; then
+              # 리포지토리가 없으면 main 브랜치 클론
+              sudo git clone -b main https://github.com/${{ github.repository }}.git OpenCloset_frontend
+              cd OpenCloset_frontend
+              else
+              # 리포지토리가 있으면 풀
+              cd OpenCloset_frontend
+              sudo git pull origin main
+            fi
+            # 의존성 설치 및 빌드
+            sudo npm install && sudo npm run build
+            # 빌드된 파일을 nginx 경로로 복사
+            sudo cp -r dist/* /var/www/html/
+
+            # nginx 설정 리로드
+            sudo systemctl reload nginx
