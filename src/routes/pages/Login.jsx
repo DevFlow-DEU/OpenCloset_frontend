@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import './Login.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);//로딩아이콘용
+  const [loading, setLoading] = useState(false);//로그인 버튼 로딩용용
+  const navigate = useNavigate();
   
   
   function validation(value) {
@@ -56,6 +57,7 @@ const LoginPage = () => {
       if (res.ok) {// 토큰 받았을 때
         // console.log('서버 응답:', data); //디버그용용
         localStorage.setItem('token', data.token); // 토큰저장 토큰 형식은 알아서 바꿔야 함
+        navigate('/home');//로그인 되면 홈으로 가도록
       } else { //토큰 못 받았을 때
         setMessage(`아이디 또는 비밀번호가 일치하지 않습니다`);
       }
@@ -82,8 +84,8 @@ const LoginPage = () => {
 
 
         <div className="logo-container">
-          {/* <img src="../../assets/logo_main.svg?react" alt="logo" /> */}
-          <img src="/logo_main.svg" />
+          <img src="../../assets/logo_main.svg?react" alt="logo" />
+          {/* <img src="/logo_main.svg" /> */}
         </div>
 
         <div className='inputmargin'>
