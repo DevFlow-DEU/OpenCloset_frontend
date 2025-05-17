@@ -1,0 +1,67 @@
+.container {
+  margin-top: 160px;
+  margin-bottom: 132.92px;
+}
+.header {
+  background-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 70px 0px 10px 0px;
+  z-index: 1;
+}
+.header-item {
+  display: flex;
+  padding-inline: 6.5px;
+  gap: 19px;
+}
+
+.search-bar {
+  border-radius: 5px;
+  justify-content: space-around;
+  align-items: center;
+  display: flex;
+  width: 303.19px;
+  height: 35.58px;
+  background-color: #e6e6e6;
+}
+.search-bar input {
+  width: 80%;
+  background-color: transparent;
+  border: 0;
+  font-size: 16px;
+  outline: none;
+}
+.filter-container {
+  padding-inline: 10px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.filter-detail-button {
+  height: 0%;
+  color: #8d8d8d;
+  border-color: #8d8d8d;
+  background-color: transparent;
+  border-style: solid;
+  border-radius: 26.5px;
+  border-width: 1px;
+  letter-spacing: 2px;
+  padding-block: 3px;
+}
+.filter-button {
+  color: #8d8d8d;
+  border-color: #8d8d8d;
+  background-color: transparent;
+  border-style: solid;
+  border-radius: 26.5px;
+  border-width: 1px;
+  padding-block: 3px;
+}
+
+.filter-detail-button div {
+  display: flex;
+  text-wrap: nowrap;
+  align-items: center;
+}
