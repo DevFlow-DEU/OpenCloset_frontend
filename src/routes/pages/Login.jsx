@@ -43,8 +43,9 @@ const LoginPage = () => {
 
 
       //기본양식식
-      const res = await fetch('http://113.198.229.158:8888/auth/login', {//await 비동기 처리 (굳이 싶지만 하면 좋으니깐 ^^)
+      const res = await fetch('http://113.198.229.158:8880/auth/login', {//await 비동기 처리 (굳이 싶지만 하면 좋으니깐 ^^)
         method: 'POST',
+        headers:{'content-type': 'application/json'},
         body: JSON.stringify({
           username,
           password,
@@ -57,7 +58,7 @@ const LoginPage = () => {
       
       if (res.ok) {// 토큰 받았을 때
         // console.log('서버 응답:', data); //디버그용용
-        localStorage.setItem('token', data.token); // 토큰저장 토큰 형식은 알아서 바꿔야 함
+        localStorage.setItem('token', data.accessToken); // 토큰저장 토큰 형식은 알아서 바꿔야 함
         navigate('/home');//로그인 되면 홈으로 가도록
       } else { //토큰 못 받았을 때
         setMessage(`아이디 또는 비밀번호가 일치하지 않습니다`);
