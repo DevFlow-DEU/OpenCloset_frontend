@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
 import { Link, useNavigate } from 'react-router-dom';
+import Logo_main from '../../assets/logo_main.svg?react';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -84,7 +85,8 @@ const LoginPage = () => {
 
 
         <div className="logo-container">
-          <img src="../../assets/logo_main.svg?react" alt="logo" />
+          {/* <img src="main_logo" alt="logo" /> */}
+          <Logo_main />
           {/* <img src="/logo_main.svg" /> */}
         </div>
 
