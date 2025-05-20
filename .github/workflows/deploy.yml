@@ -37,7 +37,7 @@ jobs:
             sudo git clone -b main https://github.com/DevFlow-DEU/OpenCloset_frontend.git
 
             # 경로 이동
-            cd OpenCloset_frontends
+            cd OpenCloset_frontend
 
             # 의존성 설치 및 빌드
             sudo npm install && sudo npm run build
