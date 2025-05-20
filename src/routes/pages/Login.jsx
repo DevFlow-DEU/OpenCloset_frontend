@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import './Login.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Logo_main from '../../assets/logo_main.svg?react';
+
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);//로딩아이콘용
-  
-  
+  const [loading, setLoading] = useState(false);//로그인 버튼 로딩용용
+  const navigate = useNavigate();
+ 
   function validation(value) {
   return value.length > 0 // && value.length <= 20
 }
@@ -40,9 +42,10 @@ const LoginPage = () => {
   }
 
 
-      //기본양식식
-      const res = await fetch('http://113.198.229.158:8888/auth/login', {//await 비동기 처리 (굳이 싶지만 하면 좋으니깐 ^^)
+      //기본양식
+      const res = await fetch('http://113.198.229.158:8880/auth/login', {//await 비동기 처리 (굳이 싶지만 하면 좋으니깐 ^^)
         method: 'POST',
+        headers:{'content-type': 'application/json'},p
         body: JSON.stringify({
           username,
           password,
@@ -55,7 +58,9 @@ const LoginPage = () => {
       
       if (res.ok) {// 토큰 받았을 때
         // console.log('서버 응답:', data); //디버그용용
-        localStorage.setItem('token', data.token); // 토큰저장 토큰 형식은 알아서 바꿔야 함
+
+        localStorage.setItem('token', data.accessToken); // 토큰저장 토큰 형식은 알아서 바꿔야 함
+        navigate('/home');//로그인 되면 홈으로 가도록
       } else { //토큰 못 받았을 때
         setMessage(`아이디 또는 비밀번호가 일치하지 않습니다`);
       }
@@ -82,8 +87,13 @@ const LoginPage = () => {
 
 
         <div className="logo-container">
+
+          {/* <img src="main_logo" alt="logo" /> */}
+          <Logo_main />
+
+
+
           {/* <img src="../../assets/logo_main.svg?react" alt="logo" /> */}
-          <img src="/logo_main.svg" />
         </div>
 
         <div className='inputmargin'>
