@@ -8,7 +8,7 @@ const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);//로그인 버튼 로딩용용
+  const [loading, setLoading] = useState(false);//로그인 버튼 로딩용
   const navigate = useNavigate();
   
   
