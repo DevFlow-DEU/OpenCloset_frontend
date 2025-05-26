@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronLeft, CirclePlus } from 'lucide-react';
 import DatePicker from 'react-datepicker';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import './Registration.css';
 // import Area from '../../components/area';
@@ -29,12 +29,9 @@ const ProductRegistrationForm = () => {
   // const [tags, setTags] = useState([]);
  
   
-  const token = localStorage.getItem('accessToken');// 토큰큰
-  console.log(token);
-
-
-  
-
+  const token = localStorage.getItem('token');// 토큰큰
+  // console.log(token);
+  const navigate = useNavigate();
   //-------------------------------------------------------------------------사진 추가, 제거
   const handleImageUpload = (e) => {
     if (e.target.files) {
@@ -90,39 +87,49 @@ const handleSubmit = async (e) => {
     return;
   }
 
-  const formData = new FormData();
-  formData.append('title', title);
-  formData.append('description', description);
-  formData.append('price', price);
-  formData.append('size', size);
-  formData.append('sex', sex);
-  formData.append('place', place);
-  formData.append('category', category);
-  formData.append('date', date);
+  // const formData = new FormData();
+  // formData.append('title', title);
+  // formData.append('description', description);
+  // formData.append('price', price);
+  // formData.append('size', size);
+  // formData.append('sex', sex);
+  // formData.append('place', place);
+  // formData.append('category', category);
+  // formData.append('date', date);
 
-  image.forEach((imgObj) => {
-    formData.append('images', imgObj.file);
-  });
+  // image.forEach((imgObj) => {
+  //   formData.append('images', imgObj.file);
+  // });
 
   try {
-    const res = await fetch('http://113.198.229.158:8880//board/create', {
+    const res = await fetch('http://113.198.229.158:8880/board/create', {
       method: 'POST',
-      body: formData,
+      body: JSON.stringify({
+          title,
+          description,
+          price,
+          size,
+          sex,
+          place,
+          category,
+          date,
+          image : "https://www.venturesquare.net/wp-content/uploads/2022/03/이미지-조연-무신사-CTO.jpg"//수정해야함함
+        }),
       headers: {
-     Authorization: `Bearer ${token}`, // 씌이이이이이발 모르겠다
+         "Content-Type": "application/json",
+     Authorization: `Bearer ${token}`, 
   },
     });
 
     if (res.ok) {
-      alert('등록되었습니다.');
-      console.log("등록됨")
+      console.log("등록됨");
+      navigate('/home');
+
     } else {
-      alert('Error');
        console.log("에러")
     }
   } catch (err) {
-    alert('Error: ' + err.message);
-    console.log("에러2")
+    console.log(err)
   }
 };
 
