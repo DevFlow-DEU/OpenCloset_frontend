@@ -77,12 +77,6 @@ const LoginPage = () => {
           <Logo_main />
 
 
-        <div className="logo-container">
-
-          {/* <img src="main_logo" alt="logo" /> */}
-          <Logo_main />
-
-
           {/* <img src="/logo_main.svg" /> */}
         </div>
 
