@@ -42,7 +42,6 @@ import React, { useEffect } from "react";
 
 function Kakaomap({ address }) {
   useEffect(() => {
-    if (!address) return; // 주소 없으면 실행 안 함
 
     if (!window.kakao || !window.kakao.maps) {
       const script = document.createElement("script");
@@ -78,11 +77,11 @@ function Kakaomap({ address }) {
             position: coords,
           });
 
-          const infowindow = new window.kakao.maps.InfoWindow({
-            content: `<div style='width:150px;text-align:center;padding:6px 0;'>${address}</div>`,
-          });
+          const infowindow = new window.kakao.maps.InfoWindow(
+            
+          );
 
-          infowindow.open(map, marker);
+          infowindow.open(map);
           map.setCenter(coords);
         }
       });
@@ -90,10 +89,10 @@ function Kakaomap({ address }) {
   }, [address]); // 주소 변경 시 재실행
 
   return (
-    <div>
-      <div id="map" style={{ width: "300px", height: "300px" }}></div>
+    
+      <div id="map" style={{ width: "300px", height: "300px", border :"2px solid #ccc" }}/>
       
-    </div>
+    
   );
 }
 

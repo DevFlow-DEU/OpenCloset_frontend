@@ -413,7 +413,9 @@ export default function ProductPage() {
               </tbody>
             </table>
             <div className='meta'>거래 장소</div>
+            
             <Kakaomap address={data.place}></Kakaomap>
+            
           </div>
         </div>
       </div>
