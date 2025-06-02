@@ -9,11 +9,11 @@ import Registration from './pages/Registration';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Login />,
+    element: <Home />,
   },
   {
-    path: '/Home',
-    element: <Home />,
+    path: '/login',
+    element: <Login />,
   },
   {
     path: '/product/:id',
