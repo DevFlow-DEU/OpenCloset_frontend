@@ -32,7 +32,7 @@ export default function NavBar() {
         </div>
         찜
       </Link>
-      <Link to={'/profile'}>
+      <Link to={'/login'}>
         <div>
           <ProfileIcon width={20.66} height={20.66} />
         </div>
