@@ -209,6 +209,7 @@
 // }
 import React, { useEffect, useState, useRef } from 'react';
 // import axios from 'axios';
+import Kakaomap from '../../components/Kakaomap';
 import { Heart, ChevronLeft, Share2, MoreHorizontal } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import './Particular.css';
@@ -411,6 +412,8 @@ export default function ProductPage() {
                 </tr>
               </tbody>
             </table>
+            <div className='meta'>거래 장소</div>
+            <Kakaomap address={data.place}></Kakaomap>
           </div>
         </div>
       </div>
