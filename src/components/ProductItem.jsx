@@ -4,11 +4,11 @@ import LikeGrayHeartIcon from '../assets/icon/Like_gray_heart.svg?react';
 import LikeRedHeartIcon from '../assets/icon/Like_red_heart.svg?react';
 export default function ProductItem({
   id,
-  imageUrl,
+  image,
   createdAt,
-  name,
-  rentalCost,
-  rentalPeriod,
+  title,
+  price,
+  date,
   isSaved,
   location,
 }) {
@@ -26,18 +26,18 @@ export default function ProductItem({
         )}
 
         <div className={styles['item-thumbnail']}>
-          <img src={imageUrl} alt={id} width='170.13px' height='169.56px' />
+          <img src={image} alt={id} width='170.13px' height='169.56px' />
         </div>
         <div className={styles['item-description-container']}>
-          <div className={styles['item-name']}>{name}</div>
+          <div className={styles['item-name']}>{title}</div>
           <div>
             <span className={styles['item-cost']}>
-              {rentalCost.toLocaleString('ko-kr', {
+              {price.toLocaleString('ko-kr', {
                 maximumFractionDigits: 4,
               })}
               원
             </span>
-            <span className={styles['item-period']}> / {rentalPeriod}일</span>
+            <span className={styles['item-period']}> / {date}일</span>
           </div>
           <div className={styles['item-location']}>{location}</div>
         </div>
