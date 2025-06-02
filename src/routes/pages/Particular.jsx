@@ -208,7 +208,7 @@
 //   );
 // }
 import React, { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import { Heart, ChevronLeft, Share2, MoreHorizontal } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import './Particular.css';
@@ -221,9 +221,20 @@ export default function ProductPage() {
   const [liked, setLiked] = useState(false);
   const token = localStorage.getItem('token');
 
+
+
+
+
+
+
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const touchStartX = useRef(0);
   const isMouseDown = useRef(false);
+
+
+
+
 
   const handleTouchStart = (e) => {
     touchStartX.current = e.touches[0].clientX;
@@ -250,24 +261,41 @@ export default function ProductPage() {
     }
   };
 
+
+
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(`http://113.198.229.158:8880/board/${id}`, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setData(res.data);
-        const imageArray = Array.isArray(res.data.image) ? res.data.image : res.data.image ? [res.data.image] : [];
-        setImages(imageArray);
-      } catch (err) {
-        setError(err.message);
-      }
-    };
-    fetchData();
-  }, [id]);
+  const fetchData = async () => {
+    try {
+      const res = await fetch(`http://113.198.229.158:8880/board/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) throw new Error("서버 응답 실패");
+
+      const jsonData = await res.json(); // ⬅️ 응답을 JSON으로 파싱
+
+      setData(jsonData);
+
+      const imageArray = Array.isArray(jsonData.image)
+        ? jsonData.image
+        : jsonData.image
+        ? [jsonData.image]
+        : [];
+
+      setImages(imageArray);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  fetchData();
+}, [id]);
+
 
   if (error) return <div>에러 발생: {error}</div>;
   if (!data) return <div>로딩 중...</div>;
