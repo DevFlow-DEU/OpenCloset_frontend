@@ -8,14 +8,21 @@ import {
   Settings2Icon,
   Search as SearchIcon,
 } from 'lucide-react';
-import { productsData } from '../../constants/mockData';
 import { useState } from 'react';
+import { useProducts } from '../../utils/products';
 export default function SearchResult() {
+  const token = localStorage.getItem('token');
   let param = useParams();
   const [searchText, setSearchText] = useState('');
   const onSearchInputChange = (e) => {
     setSearchText(e.target.value);
   };
+  const productsData = useProducts('search', token, {
+    method: 'POST',
+    body: JSON.stringify({
+      title: param.searchText,
+    }),
+  });
   return (
     <>
       <div className={styles['header']}>
@@ -73,9 +80,16 @@ export default function SearchResult() {
       </div>
       <div className={styles['container']}>
         <ProductList
-          products={productsData.filter((product) =>
-            product.name.includes(param.searchText)
-          )}
+          products={productsData.map((product) => {
+            return {
+              ...product,
+              title: product.name,
+              price: product.rentalCost,
+              date: product.rentalPeriod,
+              image: product.imageUrl,
+              price: product.rentalPeriod,
+            };
+          })}
         />
         <NavBar />
       </div>

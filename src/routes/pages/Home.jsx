@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 import styles from './Home.module.css';
 import Logo from '../../assets/logo.svg?react';
 import HamburgerIcon from '../../assets/hamburger.svg?react';
@@ -15,9 +14,10 @@ import AccessoryIcon from '../../assets/icon/Category/Accessory.svg?react';
 import AddProductIcon from '../../assets/icon/Add_product.svg?react';
 import NavBar from '../../components/NavBar';
 import ProductList from '../../components/ProductList';
-import { productsData } from '../../constants/mockData';
+import { useProducts } from '../../utils/products';
 export default function Home() {
-  const [products, setProducts] = useState(productsData);
+  const token = localStorage.getItem('token');
+  const products = useProducts('board/All', token);
   return (
     <>
       <header>
