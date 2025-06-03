@@ -7,7 +7,9 @@ const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false); //로그인 버튼 로딩용용
+
+  const [loading, setLoading] = useState(false); //로그인 버튼 로딩용
+
   const navigate = useNavigate();
 
   function validation(value) {
@@ -32,12 +34,11 @@ const LoginPage = () => {
         setMessage('비밀번호를 입력해주세요.');
         return;
       }
-
-      //기본양식
+      //기본양식식
       const res = await fetch('http://113.198.229.158:8880/auth/login', {
         //await 비동기 처리 (굳이 싶지만 하면 좋으니깐 ^^)
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           username,
           password,
@@ -51,7 +52,7 @@ const LoginPage = () => {
         // console.log('서버 응답:', data); //디버그용용
 
         localStorage.setItem('token', data.accessToken); // 토큰저장 토큰 형식은 알아서 바꿔야 함
-        navigate('/home'); //로그인 되면 홈으로 가도록
+        navigate('/'); //로그인 되면 홈으로 가도록
       } else {
         //토큰 못 받았을 때
         setMessage(`아이디 또는 비밀번호가 일치하지 않습니다`);
@@ -77,7 +78,7 @@ const LoginPage = () => {
           {/* <img src="main_logo" alt="logo" /> */}
           <Logo_main />
 
-          {/* <img src="../../assets/logo_main.svg?react" alt="logo" /> */}
+          {/* <img src="/logo_main.svg" /> */}
         </div>
 
         <div className='inputmargin'>
