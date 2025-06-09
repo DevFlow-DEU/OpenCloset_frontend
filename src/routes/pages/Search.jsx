@@ -14,7 +14,7 @@ export default function Search() {
     <>
       <div className={styles['header']}>
         <div className={styles['header-item']}>
-          <Link to={'/'} className={styles['header-button']}>
+          <Link to={-1} className={styles['header-button']}>
             <ChevronLeft size={35} color={'#8d8d8d'} />
           </Link>
           <div className={styles['search-bar']}>
@@ -25,7 +25,7 @@ export default function Search() {
               onChange={onSearchInputChange}
               placeholder='검색어를 입력해주세요'
             />
-            <Link to={`/search/result/${searchText}`}>
+            <Link to={searchText !== '' ? `/search/result/${searchText}` : ''}>
               <SearchIcon
                 width={'15.61px'}
                 height={'16.07px'}

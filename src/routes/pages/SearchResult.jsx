@@ -13,7 +13,7 @@ import { useProducts } from '../../utils/products';
 export default function SearchResult() {
   const token = localStorage.getItem('token');
   let param = useParams();
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState(param.searchText);
   const onSearchInputChange = (e) => {
     setSearchText(e.target.value);
   };
@@ -27,7 +27,7 @@ export default function SearchResult() {
     <>
       <div className={styles['header']}>
         <div className={styles['header-item']}>
-          <Link to={'/'} className={styles['header-button']}>
+          <Link to={-1} className={styles['header-button']}>
             <ChevronLeft size={35} color={'black'} />
           </Link>
           <div className={styles['search-bar']}>
@@ -87,7 +87,6 @@ export default function SearchResult() {
               price: product.rentalCost,
               date: product.rentalPeriod,
               image: product.imageUrl,
-              price: product.rentalPeriod,
             };
           })}
         />
