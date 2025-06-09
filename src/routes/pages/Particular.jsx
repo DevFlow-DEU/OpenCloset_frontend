@@ -213,6 +213,7 @@ import Kakaomap from '../../components/Kakaomap';
 import { Heart, ChevronLeft, Share2, MoreHorizontal } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import './Particular.css';
+import Chat from './Chat';
 
 export default function ProductPage() {
   const { id } = useParams();
@@ -304,7 +305,7 @@ export default function ProductPage() {
   return (
     <div className='product-page'>
       <div className='header'>
-        <Link to={'/'} className='header-button'>
+        <Link to={-1} className='header-button'>
           <ChevronLeft size={35} />
         </Link>
         <div className='header-icons'>
@@ -433,7 +434,7 @@ export default function ProductPage() {
           />
         </button>
 
-        <button className='footer-button'>채팅하기</button>
+        <Link to={'/Chat'} className='footer-button'>채팅하기</Link>
         <button className='footer-button deel'>거래하기</button>
       </div>
     </div>

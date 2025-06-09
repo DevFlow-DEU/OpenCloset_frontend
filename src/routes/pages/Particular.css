@@ -216,6 +216,12 @@
     color: red;
 }
 .footer-button {
+    all: unset;
+  display: inline-flex;            
+  align-items: center;           
+  justify-content: center;        
+  text-decoration: none;
+  cursor: pointer;
     flex: 1;
     height: 2.75rem;
     border-radius: 0.4375rem;
@@ -229,4 +235,10 @@
     background: #10b981;
     color: white;
     border: none;
+     flex: 1;
+    height: 2.75rem;
+    border-radius: 0.4375rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+ 
 }
