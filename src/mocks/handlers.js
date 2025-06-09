@@ -1,89 +1,17 @@
 import { http, HttpResponse } from 'msw';
-
+const messages = [
+  {
+    id: 17,
+    content: '바쁘신가요',
+    sentAt: '2025-06-09T15:18:47.08335',
+    senderId: 3,
+    senderName: 'qudwnals',
+    chatRoomId: 52,
+  },
+];
 export const handlers = [
   http.get('http://113.198.229.158:8880/api/chat/rooms/52/messages', () => {
-    return HttpResponse.json([
-      {
-        id: 17,
-        content: '바쁘신가요',
-        sentAt: '2025-06-09T15:18:47.08335',
-        senderId: 3,
-        senderName: 'qudwnals',
-        chatRoomId: 52,
-      },
-      {
-        id: 16,
-        content: '저기요',
-        sentAt: '2025-06-09T11:53:34.997529',
-        senderId: 3,
-        senderName: 'qudwnals',
-        chatRoomId: 52,
-      },
-      {
-        id: 15,
-        content: '가능합니다',
-        sentAt: '2025-06-06T17:21:02.892756',
-        senderId: 3,
-        senderName: 'qudwnals',
-        chatRoomId: 52,
-      },
-      {
-        id: 14,
-        content: '가능합니다',
-        sentAt: '2025-06-05T15:02:15.887567',
-        senderId: 3,
-        senderName: 'qudwnals',
-        chatRoomId: 52,
-      },
-      {
-        id: 13,
-        content: '개금역 1번 출구 가능한가요?',
-        sentAt: '2025-06-05T14:56:37.548134',
-        senderId: 4,
-        senderName: 'Siu',
-        chatRoomId: 52,
-      },
-      {
-        id: 12,
-        content: '어디가 편하신가요?',
-        sentAt: '2025-06-05T14:56:16.011946',
-        senderId: 3,
-        senderName: 'qudwnals',
-        chatRoomId: 52,
-      },
-      {
-        id: 11,
-        content: '네',
-        sentAt: '2025-06-05T14:55:45.770788',
-        senderId: 3,
-        senderName: 'qudwnals',
-        chatRoomId: 52,
-      },
-      {
-        id: 10,
-        content: '대여 하실건가요',
-        sentAt: '2025-06-05T14:51:02.158296',
-        senderId: 4,
-        senderName: 'Siu',
-        chatRoomId: 52,
-      },
-      {
-        id: 9,
-        content: '안녕하세요',
-        sentAt: '2025-06-05T14:48:12.542662',
-        senderId: 4,
-        senderName: 'Siu',
-        chatRoomId: 52,
-      },
-      {
-        id: 8,
-        content: '안녕하세요?',
-        sentAt: '2025-06-05T14:47:38.387169',
-        senderId: 3,
-        senderName: 'qudwnals',
-        chatRoomId: 52,
-      },
-    ]);
+    return HttpResponse.json(messages);
   }),
   http.post('http://113.198.229.158:8880/auth/login', async ({ request }) => {
     const requestJson = await request.json();
@@ -445,4 +373,17 @@ export const handlers = [
       },
     ]);
   }),
+  http.post(
+    'http://113.198.229.158:8880/api/chat/messages',
+    async ({ request }) => {
+      const requestData = await request.json();
+      messages.push({
+        id: messages.length + 1,
+        sentAt: new Date().toISOString(),
+        ...requestData,
+      });
+      console.log(messages);
+      return HttpResponse.json(requestData);
+    }
+  ),
 ];
