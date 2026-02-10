@@ -6,6 +6,9 @@ import Login from './pages/Login';
 import SearchResult from './pages/SearchResult';
 import Registration from './pages/Registration';
 import Chat from './pages/Chat'
+import KakaoCheck from './pages/KakaoCheck'
+import Error from './pages/Error'
+import PasswordFind from './pages/PasswordFind'
 
 const router = createBrowserRouter([
   {
@@ -35,6 +38,18 @@ const router = createBrowserRouter([
   {
     path: '/chat',
     element: <Chat />,
+  },
+  {
+    path: '/kakaocheck',
+    element: <KakaoCheck />,
+  },
+   {
+    path: '/error',
+    element: <Error />,
+  },
+   {
+    path: '/PasswordFind',
+    element: <PasswordFind />,
   },
 ]);
 

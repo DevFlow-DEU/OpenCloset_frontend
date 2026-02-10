@@ -1,0 +1,98 @@
+/* 이메일 입력 래퍼 */
+.email-input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+/* 이메일 아이디 입력 */
+.email-input {
+  flex: 1;
+  height: 40px;
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.email-input:focus, .domain-input:focus {
+  border-color: #00650a;
+  box-shadow: 0 0 0 3px rgba(0, 73, 24, 0.1);
+}
+
+/* @ 기호 */
+.email-a {
+  font-size: 24px;
+  color: #6b7280;
+  margin: 0px 8px;
+}
+
+/* 도메인 입력 영역 */
+.domain-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+
+
+.domain-input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+/* 드롭다운 토글 버튼 */
+.dropdown-toggle-btn {
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+}
+
+/* 드롭다운 화살표 */
+.dropdown-arrow {
+  width: 24px;
+  height: 24px;
+  color: #6b7280;
+  transition: transform 0.2s;
+}
+
+.dropdown-arrow.arrow-open {
+  transform: rotate(180deg);
+}
+
+/* 드롭다운 메뉴 */
+.dropdown-menu {
+  position: absolute;
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #a4a4a4;
+  border-radius: 5px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* 드롭다운 아이템 */
+.dropdown-item {
+  width: 100%;
+  padding: 8px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* 제출 버튼 */
+.submit-btn {
+  width: 100%;
+  margin-top: 16px;
+  background-color: #005621;
+  height: 40px;
+  color: #ffffff;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+}

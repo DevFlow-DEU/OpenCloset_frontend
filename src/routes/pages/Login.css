@@ -5,25 +5,21 @@ span{
 }
 .login-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  flex-direction: column;  /* 좌우 → 상하 */
+  align-items: center;     /* 가로(좌우) 가운데 */
+ /* justify-content: center;/*  세로(상하) 가운데 */
+  height: 100%;
  background: conic-gradient(
   #f1fff6 0deg,
   #fbfdf0 120deg,
   #ccfbf5 240deg,
-  #f1fff6 360deg /* 맨 처음 색과 같게! */
+  #f1fff6 360deg /* 맨 처음 색과 같게 */
 );
 
 }
 
 .login-form {
-  
-  position: fixed;
-  top: 96px;
-  left: 32px;
-  right: 32px;
-
+  margin: 180px 32px 0 32px;
 }
 
 .logo-container {
@@ -49,21 +45,19 @@ span{
   padding: 12px 10px;
   margin-bottom: 16px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 5px;
   font-size: 14px;
 }
 
 .login-form button {
   width: 100%;
-  padding: 12px;
+  height: 42px;
   background-color: rgba(0, 87, 55, 1);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
   font-weight: bold;
   font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .login-form button:hover {
@@ -95,4 +89,35 @@ margin-right: 6px;
   margin-top: 12px;
   color: rgb(255, 128, 0);
   font-size: 14px;
+}
+.kakaobutton{
+  position: fixed;
+  left: 32px;
+  right: 32px;
+  bottom: 50px;
+  height: 42px;
+  border-radius: 5px;
+  border: none;
+  font-weight: bold;
+  background-color: yellow;
+  font-size: 16px;
+   align-items: center;     /* 가로(좌우) 가운데 */
+ justify-content: center;
+ display: flex;
+}
+.kakaologo{
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  
+}
+.comkalo{
+  left: 32px;
+  right: 32px;
+  bottom: 50px;
+  height: 42px;
+  border-radius: 5px;
+  background: none;
+  border: none;
+  position: fixed;
 }
