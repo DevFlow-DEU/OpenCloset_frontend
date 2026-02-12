@@ -21,10 +21,12 @@
     "react-hook-form": "^7.71.1",
     "react-kakao-login": "^2.1.1",
     "react-router-dom": "^7.5.0",
+    "typescript": "^5.9.3",
     "zod": "^4.3.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@tsconfig/vite-react": "^7.0.2",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
