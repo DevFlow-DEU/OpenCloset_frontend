@@ -1,5 +1,5 @@
 import styles from './SignUp.module.css';
-
+import { MdGpsFixed } from 'react-icons/md';
 export default function SignUp() {
   return (
     <div className={styles.signupPage}>
@@ -94,7 +94,7 @@ export default function SignUp() {
               type='button'
               className={`${styles.button} ${styles.primaryButton} ${styles.locationButton}`}
             >
-              <span className={styles.locationIcon} />
+              <MdGpsFixed />
               <span>현재 위치로 찾기</span>
             </button>
           </div>
