@@ -10,6 +10,7 @@ import KakaoCheck from './pages/KakaoCheck';
 import Error from './pages/Error';
 import PasswordFind from './pages/PasswordFind';
 import SignUp from './pages/SignUp/SignUp';
+import GetLocation from './pages/GetLocation';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -53,7 +54,16 @@ const router = createBrowserRouter([
   },
   {
     path: '/sign-up',
-    Component: SignUp,
+    children: [
+      {
+        index: true,
+        Component: SignUp,
+      },
+      {
+        path: 'get-location',
+        Component: GetLocation,
+      },
+    ],
   },
 ]);
 
