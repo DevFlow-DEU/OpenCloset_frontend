@@ -1,0 +1,84 @@
+/* 도메인 입력 영역 */
+.domainWrapper {
+  flex: 1;
+  position: relative;
+  min-width: 0;
+}
+
+.domainInputContainer {
+  position: relative;
+}
+
+.domainInput {
+  width: 100%;
+  height: 41px;
+  border: 1px solid #8d8d8d;
+  border-radius: 5px;
+  padding: 10px 36px 10px 12px;
+  font-size: 16px;
+  color: #000000;
+  box-sizing: border-box;
+  outline-color: #00a066;
+}
+
+.domainInput::placeholder {
+  color: #8d8d8d;
+}
+
+/* 드롭다운 토글 버튼 */
+.dropdownToggleBtn {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* 드롭다운 화살표 */
+.dropdownArrow {
+  width: 24px;
+  height: 24px;
+  color: #6b7280;
+  transition: transform 0.2s;
+}
+
+.arrowOpen {
+  transform: rotate(180deg);
+}
+
+/* 드롭다운 메뉴 */
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 4px);
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #a4a4a4;
+  border-radius: 5px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  z-index: 2;
+}
+
+/* 드롭다운 아이템 */
+.dropdownItem {
+  width: 100%;
+  padding: 8px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
