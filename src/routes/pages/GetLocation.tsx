@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { MdGpsFixed } from 'react-icons/md';
+import { loadKakaoMapSdk, renderKakaoMapWithMarker } from './getLocationMap';
 import styles from './GetLocation.module.css';
 
 type Coordinates = {
@@ -12,6 +13,7 @@ export default function GetLocation() {
     latitude: null,
     longitude: null,
   });
+  const mapRef = useRef<HTMLDivElement | null>(null);
 
   const updateLocation = useCallback(() => {
     if (!navigator.geolocation) {
@@ -39,13 +41,49 @@ export default function GetLocation() {
     updateLocation();
   }, [updateLocation]);
 
+  useEffect(() => {
+    const { latitude, longitude } = coordinates;
+
+    if (latitude === null || longitude === null || !mapRef.current) {
+      return;
+    }
+
+    const lat = latitude;
+    const lng = longitude;
+    let isCancelled = false;
+
+    const renderMap = async () => {
+      try {
+        await loadKakaoMapSdk();
+      } catch (error) {
+        console.error('카카오 지도 SDK를 불러오지 못했습니다.', error);
+        return;
+      }
+
+      if (isCancelled || !mapRef.current) {
+        return;
+      }
+
+      renderKakaoMapWithMarker(mapRef.current, lat, lng);
+    };
+
+    renderMap();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [coordinates]);
+
   return (
     <div className={styles.page}>
       <main className={styles.content}>
         <section className={styles.mapSection}>
-          <div className={styles.mapPlaceholder}>
-            <h1 className={styles.mapTitle}>지도</h1>
-          </div>
+          <div ref={mapRef} className={styles.mapContainer} />
+          {coordinates.latitude === null || coordinates.longitude === null ? (
+            <p className={styles.mapLoadingText}>
+              현재 위치를 불러오는 중입니다.
+            </p>
+          ) : null}
         </section>
 
         <section className={styles.addressSection}>

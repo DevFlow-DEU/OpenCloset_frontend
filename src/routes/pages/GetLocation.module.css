@@ -18,25 +18,22 @@
 }
 
 .mapSection {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.mapPlaceholder {
+.mapContainer {
   width: 100%;
   height: 446px;
   background-color: #d9d9d9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.mapTitle {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 400;
-  color: #000000;
+.mapLoadingText {
+  margin: 12px 0 0;
+  font-size: 14px;
+  color: #4a4a4a;
 }
 
 .confirmButton {
