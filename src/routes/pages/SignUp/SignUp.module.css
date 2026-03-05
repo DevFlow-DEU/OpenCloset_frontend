@@ -108,6 +108,26 @@
   flex: 1;
 }
 
+.emailRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.localpartInput {
+  width: 100%;
+  min-width: 0;
+}
+
+.emailAt {
+  font-size: 16px;
+  color: #383838;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
 .button {
   border: none;
   border-radius: 5px;

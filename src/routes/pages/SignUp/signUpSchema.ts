@@ -7,10 +7,20 @@ export const SignUpSchema = z
       '닉네임 중복확인을 진행해주세요'
     ),
     nickname: z.string().min(1, '닉네임을 입력해주세요'),
-    email: z
+    emailLocalPart: z
       .string()
-      .min(1, '이메일을 입력해주세요.')
-      .email('올바르지 않은 이메일 양식입니다.'),
+      .min(1, '이메일 계정 부분을 입력해주세요.')
+      .regex(
+        /^(?!\.)(?!.*\.\.)([a-z0-9_'+\-\.]*)[a-z0-9_+-]/i,
+        '올바른 이메일을 입력해주세요'
+      ),
+    emailDomain: z
+      .string()
+      .min(1, '이메일 도메인 부분을 입력해주세요')
+      .regex(
+        /([a-z0-9][a-z0-9\-]*\.)+[a-z]{2,}$/i,
+        '올바른 이메일을 입력해주세요.'
+      ),
     password: z
       .string()
       .min(8, '비밀번호는 8자 이상이어야 합니다.')

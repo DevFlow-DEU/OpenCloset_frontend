@@ -1,26 +1,42 @@
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import styles from './EmailDomainInput.module.css';
+import type { UseFormRegisterReturn, UseFormSetValue } from 'react-hook-form';
+import { z } from 'zod';
+import { SignUpSchema } from '../routes/pages/SignUp/signUpSchema';
+type SignUpForm = z.infer<typeof SignUpSchema>;
 interface Props {
   domainOptions: string[];
+  error: boolean;
+  register: () => UseFormRegisterReturn;
+  setValue: UseFormSetValue<SignUpForm>;
 }
 
-export function EmailDomainInput({ domainOptions }: Props) {
-  const [domain, setDomain] = useState('');
+export function EmailDomainInput({
+  domainOptions,
+  register,
+  setValue,
+  error,
+}: Props) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const handleDomainSelect = (selectedDomain: string) => {
-    setDomain(selectedDomain);
+    setValue('emailDomain', selectedDomain, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
     setIsDropdownOpen(false);
   };
   return (
     <div className={styles.domainWrapper}>
       <div className={styles.domainInputContainer}>
         <input
-          className={styles.domainInput}
+          className={`${error ? styles.inputOnError : styles.input} ${
+            styles.domainInput
+          }`}
           type='text'
-          value={domain}
-          onChange={(e) => setDomain(e.target.value)}
           placeholder='도메인'
+          {...register()}
         />
 
         <button
@@ -47,7 +63,6 @@ export function EmailDomainInput({ domainOptions }: Props) {
               key={option}
               type='button'
               onClick={() => {
-                console.log('도메인');
                 handleDomainSelect(option);
               }}
             >

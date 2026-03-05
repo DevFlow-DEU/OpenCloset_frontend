@@ -3,18 +3,38 @@ import { MdGpsFixed } from 'react-icons/md';
 import { SignUpSchema } from './signUpSchema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { EmailDomainInput } from '../../../components/EmailDomainInput';
 import { z } from 'zod';
+
 type SignUpForm = z.infer<typeof SignUpSchema>;
 
 export default function SignUp() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<SignUpForm>({
     resolver: zodResolver(SignUpSchema),
     mode: 'onSubmit',
+    defaultValues: {
+      nicknameDuplicateCheck: false,
+      nickname: '',
+      emailLocalPart: '',
+      emailDomain: '',
+      password: '',
+      passwordConfirm: '',
+    },
   });
+
+  const domainOptions = [
+    'gmail.com',
+    'naver.com',
+    'daum.net',
+    'kakao.com',
+    'hanmail.net',
+    'nate.net',
+  ];
 
   return (
     <div className={styles.signupPage}>
@@ -40,12 +60,6 @@ export default function SignUp() {
                 }`}
                 {...register('nickname')}
               />
-              <button
-                type='button'
-                className={`${styles.button} ${styles.primaryButton} ${styles.nicknameCheckButton}`}
-              >
-                확인
-              </button>
             </div>
             {errors.nickname ? (
               <p className={styles.error}>{errors.nickname.message}</p>
@@ -57,15 +71,31 @@ export default function SignUp() {
             <label className={styles.formLabel} htmlFor='email'>
               이메일
             </label>
-            <input
-              type='email'
-              id='email'
-              {...register('email')}
-              placeholder='이메일'
-              className={errors.email ? styles.inputOnError : styles.input}
-            />
-            {errors.email ? (
-              <p className={styles.error}>{errors.email.message}</p>
+            <div className={styles.emailRow}>
+              <input
+                type='text'
+                id='localpart'
+                {...register('emailLocalPart')}
+                placeholder='이메일'
+                className={`${
+                  errors.emailLocalPart || errors.emailDomain
+                    ? styles.inputOnError
+                    : styles.input
+                } ${styles.localpartInput}`}
+              />
+              <span className={styles.emailAt}>@</span>
+              <EmailDomainInput
+                error={
+                  errors.emailDomain !== undefined ||
+                  errors.emailLocalPart !== undefined
+                }
+                domainOptions={domainOptions}
+                register={() => register('emailDomain')}
+                setValue={setValue}
+              />
+            </div>
+            {errors.emailDomain || errors.emailLocalPart ? (
+              <p className={styles.error}>{'올바른 이메일을 입력해주세요.'}</p>
             ) : (
               ''
             )}
