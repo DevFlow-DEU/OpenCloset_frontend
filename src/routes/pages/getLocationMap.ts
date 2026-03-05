@@ -1,4 +1,6 @@
 const KAKAO_MAP_SCRIPT_ID = 'kakao-map-sdk';
+const KAKAO_COORD2ADDRESS_URL =
+  'https://dapi.kakao.com/v2/local/geo/coord2address.json';
 const mapInstances = new WeakMap<
   HTMLDivElement,
   { map: KakaoMapInstance; marker: KakaoMarkerInstance }
@@ -11,6 +13,23 @@ type KakaoMapInstance = {
 };
 type KakaoMarkerInstance = {
   setPosition: (latLng: KakaoLatLng) => void;
+};
+
+type KakaoCoord2AddressDocument = {
+  address?: {
+    region_1depth_name?: string;
+    region_2depth_name?: string;
+    region_3depth_name?: string;
+  };
+  road_address?: {
+    region_1depth_name?: string;
+    region_2depth_name?: string;
+    region_3depth_name?: string;
+  };
+};
+
+type KakaoCoord2AddressResponse = {
+  documents?: KakaoCoord2AddressDocument[];
 };
 
 export const loadKakaoMapSdk = async () => {
@@ -89,4 +108,51 @@ export const renderKakaoMapWithMarker = (
 
     mapInstances.set(container, { map, marker });
   });
+};
+
+export const fetchKakaoAddressByCoords = async (
+  latitude: number,
+  longitude: number
+) => {
+  const restKey = import.meta.env.VITE_KAKAO_REST_KEY;
+  if (!restKey) {
+    throw new Error('VITE_KAKAO_REST_KEY 환경 변수가 설정되지 않았습니다.');
+  }
+
+  const params = new URLSearchParams({
+    x: String(longitude),
+    y: String(latitude),
+    input_coord: 'WGS84',
+  });
+  const response = await fetch(`${KAKAO_COORD2ADDRESS_URL}?${params.toString()}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `KakaoAK ${restKey}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`카카오 주소 변환 API 호출 실패: ${response.status}`);
+  }
+
+  const data = (await response.json()) as KakaoCoord2AddressResponse;
+  const firstDocument = data.documents?.[0];
+  if (!firstDocument) {
+    return null;
+  }
+
+  const source = firstDocument.address ?? firstDocument.road_address;
+  if (!source) {
+    return null;
+  }
+
+  const depth1 = source.region_1depth_name?.trim();
+  const depth2 = source.region_2depth_name?.trim();
+  const depth3 = source.region_3depth_name?.trim();
+
+  const addressParts = [depth1, depth2, depth3].filter(
+    (part): part is string => Boolean(part)
+  );
+
+  return addressParts.length > 0 ? addressParts.join(' ') : null;
 };

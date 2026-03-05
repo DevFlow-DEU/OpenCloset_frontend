@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { MdGpsFixed } from 'react-icons/md';
-import { loadKakaoMapSdk, renderKakaoMapWithMarker } from './getLocationMap';
+import {
+  fetchKakaoAddressByCoords,
+  loadKakaoMapSdk,
+  renderKakaoMapWithMarker,
+} from './getLocationMap';
 import styles from './GetLocation.module.css';
 
 type Coordinates = {
@@ -13,6 +17,7 @@ export default function GetLocation() {
     latitude: null,
     longitude: null,
   });
+  const [addressText, setAddressText] = useState('현재 위치 기반 주소');
   const mapRef = useRef<HTMLDivElement | null>(null);
 
   const updateLocation = useCallback(() => {
@@ -52,22 +57,35 @@ export default function GetLocation() {
     const lng = longitude;
     let isCancelled = false;
 
-    const renderMap = async () => {
+    setAddressText('주소를 불러오는 중입니다.');
+
+    const renderMapAndFetchAddress = async () => {
       try {
         await loadKakaoMapSdk();
       } catch (error) {
         console.error('카카오 지도 SDK를 불러오지 못했습니다.', error);
-        return;
       }
 
-      if (isCancelled || !mapRef.current) {
-        return;
+      if (!isCancelled && mapRef.current) {
+        renderKakaoMapWithMarker(mapRef.current, lat, lng);
       }
 
-      renderKakaoMapWithMarker(mapRef.current, lat, lng);
+      try {
+        const regionAddress = await fetchKakaoAddressByCoords(lat, lng);
+        if (isCancelled) {
+          return;
+        }
+        setAddressText(regionAddress ?? '주소를 확인할 수 없습니다.');
+      } catch (error) {
+        if (isCancelled) {
+          return;
+        }
+        console.error('좌표 기반 주소를 가져오지 못했습니다.', error);
+        setAddressText('주소를 확인할 수 없습니다.');
+      }
     };
 
-    renderMap();
+    renderMapAndFetchAddress();
 
     return () => {
       isCancelled = true;
@@ -90,7 +108,7 @@ export default function GetLocation() {
           <input
             className={styles.addressInput}
             type='text'
-            value='현재 위치 기반 주소'
+            value={addressText}
             readOnly
             aria-label='현재 위치 주소'
           />
