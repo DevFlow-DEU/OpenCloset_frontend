@@ -4,6 +4,7 @@ import { SignUpSchema } from './signUpSchema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { EmailDomainInput } from '../../../components/EmailDomainInput';
+import PageHeader from '../../../components/PageHeader';
 import { useNavigate } from 'react-router-dom';
 import { useSignUp } from './signUpContext';
 import type { SignUpForm } from './signUpSchema';
@@ -33,11 +34,7 @@ export default function SignUpHome() {
 
   return (
     <div className={styles.signupPage}>
-      <header className={styles.signupHeader}>
-        <h1 className={styles.signupTitle}>회원가입</h1>
-      </header>
-
-      <div className={styles.divider} />
+      <PageHeader title='회원가입' />
 
       <main className={styles.signupContent}>
         <form className={styles.signupForm} onSubmit={handleSubmit(() => {})}>

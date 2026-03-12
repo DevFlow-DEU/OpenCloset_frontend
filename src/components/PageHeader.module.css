@@ -1,0 +1,41 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  z-index: 1000;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.notch {
+  height: 54px;
+}
+
+.content {
+  height: 48px;
+  left: 0;
+  right: 0;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content h2 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 10px;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+}
