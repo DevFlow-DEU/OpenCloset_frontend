@@ -1,26 +1,25 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 export default function KakaoCallback() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const url = new URL(window.location.href);
-    const code = url.searchParams.get("code");
-    const error = url.searchParams.get("error");
-    const errorDesc = url.searchParams.get("error_description");
+    const currentUrl = new URL(window.location.href);
+    const code = currentUrl.searchParams.get("code");
+    const error = currentUrl.searchParams.get("error");
+    const errorDesc = currentUrl.searchParams.get("error_description");
 
     // 1) 카카오에서 error로 돌아온 경우
     if (error) {
       navigate("/error", {
         replace: true,
-        state: { error, errorDesc:"카카오 서버 오류" },
+        state: { error, errorDesc: errorDesc || "카카오 서버 오류" },
       });
       return;
     }
 
-    // code가 없는 경우(이상 케이스)
+    // 2) code가 없는 경우(이상 케이스)
     if (!code) {
       navigate("/error", {
         replace: true,
@@ -29,35 +28,46 @@ export default function KakaoCallback() {
       return;
     }
 
-    //  code를 백엔드로 전달 → 우리 서비스 토큰 받기
     (async () => {
       try {
-        const BackCodeUrl = import.meta.env.VITE_BACK_CODE_URL
+        const backCodeUrl = import.meta.env.VITE_BACK_CODE_URL;
+        if (!backCodeUrl) {
+          throw new Error("환경변수 문제");
+        }
 
-        const res = await fetch(`${BackCodeUrl}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ code }),
+        const backendUrl = new URL(backCodeUrl);
+        backendUrl.searchParams.set("code", code);
+
+        console.log(backendUrl)
+
+        const res = await fetch(backendUrl.toString(), {
+          method: "GET",
+          headers: { Accept: "application/json" },
         });
+        console.log("backendUrl:", backendUrl.toString());
 
-        // 백엔드가 에러를 준 경우
+        const text = await res.text(); // 에러 메시지 확인용으로 먼저 text로 받기
+
         if (!res.ok) {
-          const text = await res.text().catch(() => "");
-          throw new Error(`opencloset 서버 오류 (error message:${res.status} ${text})`);
+          throw new Error(`opencloset 서버 오류: ${res.status} ${text}`);
         }
 
-        const data = await res.json();//값 받아오기
+        // 성공이면 JSON 파싱
+        const data = JSON.parse(text);
 
-        if (!data?.Token) {
-          throw new Error("토큰 에러");
+        const accessToken = data?.accessToken;
+        const refreshToken = data?.refreshToken;
+
+        if (!accessToken) {
+          throw new Error("토큰 에러: accessToken이 응답에 없음");
         }
 
-        localStorage.setItem("token", data.Token);
+        localStorage.setItem("accessToken", accessToken);
+        if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
 
-        // code 제거(오류 예방)
+        // code 제거(재진입/오류 예방)
         window.history.replaceState({}, document.title, "/kakaocheck");
 
-        // 홈으로 이동
         navigate("/", { replace: true });
       } catch (e) {
         navigate("/error", {
