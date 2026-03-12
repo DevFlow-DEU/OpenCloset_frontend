@@ -26,8 +26,11 @@ export const SignUpSchema = z
       .min(8, '비밀번호는 8자 이상이어야 합니다.')
       .regex(/^(?=.*[A-Za-z])(?=.*\d)/, '영문과 숫자를 포함해야 합니다.'),
     passwordConfirm: z.string().min(1, '비밀번호 확인을 입력해주세요.'),
+    address: z.string().min(1, '주소를 등록해주세요.'),
   })
   .refine(({ password, passwordConfirm }) => password === passwordConfirm, {
     message: '비밀번호가 일치하지 않습니다.',
     path: ['passwordConfirm'],
   });
+
+export type SignUpForm = z.infer<typeof SignUpSchema>;
