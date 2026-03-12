@@ -1,8 +1,10 @@
 .header {
   position: fixed;
   top: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
+  max-width: 420px;
   background: #fff;
   z-index: 1000;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
@@ -14,12 +16,13 @@
 
 .content {
   height: 48px;
-  left: 0;
-  right: 0;
+  width: 100%;
   background: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 6px;
+  box-sizing: border-box;
 }
 
 .content h2 {

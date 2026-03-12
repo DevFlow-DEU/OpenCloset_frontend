@@ -14,6 +14,7 @@
   height: 41px;
   border: 1px solid #8d8d8d;
   border-radius: 5px;
+  background-color: #ffffff;
   padding: 10px 36px 10px 12px;
   font-size: 16px;
   color: #000000;
@@ -87,6 +88,7 @@
   height: 41px;
   border-radius: 5px;
   border: 1px solid red;
+  background-color: #ffffff;
   padding: 10px 12px;
   font-size: 16px;
   color: #000000;

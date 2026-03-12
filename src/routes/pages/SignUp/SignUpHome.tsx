@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { EmailDomainInput } from '../../../components/EmailDomainInput';
 import PageHeader from '../../../components/PageHeader';
+import BottomConfirmBar from '../../../components/BottomConfirmBar';
 import { useNavigate } from 'react-router-dom';
 import { useSignUp } from './signUpContext';
 import type { SignUpForm } from './signUpSchema';
@@ -37,7 +38,11 @@ export default function SignUpHome() {
       <PageHeader title='회원가입' />
 
       <main className={styles.signupContent}>
-        <form className={styles.signupForm} onSubmit={handleSubmit(() => {})}>
+        <form
+          id='signup-form'
+          className={styles.signupForm}
+          onSubmit={handleSubmit(() => {})}
+        >
           <div className={`${styles.formGroup} ${styles.nicknameGroup}`}>
             <label className={styles.formLabel} htmlFor='nickname'>
               닉네임
@@ -144,7 +149,7 @@ export default function SignUpHome() {
                 className={`${styles.input} ${styles.addressInput} ${
                   errors.address ? styles.inputOnError : ''
                 }`}
-                readOnly
+                disabled
               />
             </div>
             {errors.address ? (
@@ -164,14 +169,17 @@ export default function SignUpHome() {
               <span>현재 위치로 찾기</span>
             </button>
           </div>
-          <button
-            type='submit'
-            className={`${styles.button} ${styles.primaryButton} ${styles.submitButton}`}
-          >
-            ✓ 가입하기
-          </button>
         </form>
       </main>
+      <BottomConfirmBar>
+        <button
+          form='signup-form'
+          type='submit'
+          className={`${styles.button} ${styles.primaryButton} ${styles.submitButton}`}
+        >
+          ✓ 가입하기
+        </button>
+      </BottomConfirmBar>
     </div>
   );
 }

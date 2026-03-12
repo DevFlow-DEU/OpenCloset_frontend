@@ -8,6 +8,8 @@ import {
 import styles from './GetLocation.module.css';
 import { useSignUp } from './SignUp/signUpContext';
 import { useNavigate } from 'react-router-dom';
+import PageHeader from '../../components/PageHeader';
+import BottomConfirmBar from '../../components/BottomConfirmBar';
 
 type Coordinates = {
   latitude: number | null;
@@ -98,6 +100,7 @@ export default function GetLocation() {
 
   return (
     <div className={styles.page}>
+      <PageHeader title='위치 정보 설정' />
       <main className={styles.content}>
         <section className={styles.mapSection}>
           <div ref={mapRef} className={styles.mapContainer} />
@@ -126,8 +129,7 @@ export default function GetLocation() {
           </button>
         </section>
       </main>
-      <div className={styles.confirmBar}>
-        <div className={styles.confirmDivider} />
+      <BottomConfirmBar>
         <button
           type='button'
           className={styles.confirmButton}
@@ -138,7 +140,7 @@ export default function GetLocation() {
         >
           확인
         </button>
-      </div>
+      </BottomConfirmBar>
     </div>
   );
 }

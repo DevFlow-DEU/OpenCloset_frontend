@@ -1,21 +1,24 @@
 .signupPage {
   min-height: 100vh;
   width: 100%;
-  background-color: #ffffff;
+  background-color: #f3f3f3;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 102px 16px 0; /* 공통 헤더 높이만큼 상단 여백 */
+  padding: 102px 0px 0; /* 공통 헤더 높이만큼 상단 여백 */
   box-sizing: border-box;
 }
 
 .signupContent {
   width: 100%;
-  max-width: 480px;
-  padding: 16px 4px 32px;
+  max-width: 420px;
+  height: calc(100vh - 102px);
+  padding: 32px 16px calc(120px + env(safe-area-inset-bottom));
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: auto;
   box-sizing: border-box;
 }
 
@@ -44,6 +47,7 @@
   height: 41px;
   border-radius: 5px;
   border: 1px solid #8d8d8d;
+  background-color: #ffffff;
   padding: 10px 12px;
   font-size: 16px;
   color: #000000;
@@ -56,6 +60,7 @@
   height: 41px;
   border-radius: 5px;
   border: 1px solid red;
+  background-color: #ffffff;
   padding: 10px 12px;
   font-size: 16px;
   color: #000000;
@@ -131,7 +136,7 @@
 }
 
 .addressInput {
-  background-color: #ebebeb;
+  background-color: #e4e4e4;
 }
 
 .locationButton {
@@ -150,9 +155,9 @@
 }
 
 .submitButton {
-  margin-top: 24px;
+  margin-top: 0;
   width: 100%;
-  height: 38px;
+  height: 41px;
 }
 .helperText {
   margin: 0;
