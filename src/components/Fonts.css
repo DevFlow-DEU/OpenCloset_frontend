@@ -1,0 +1,120 @@
+@font-face {
+    font-family: 'Godo';
+    src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoB.woff2') format('woff2'),
+         url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoB.woff') format('woff');
+    font-weight: 700;
+    font-display: swap;
+}
+.typo-logo{
+   font-family: 'Godo', sans-serif;
+   font-weight: 700;
+}
+
+/* 한글: Noto Sans KR */
+@import url('//fonts.googleapis.com/earlyaccess/notosanskr.css');
+
+/* @font-face {
+  font-family: 'basic_font';
+  src: local('Noto Sans KR');
+  font-weight: 100;
+  font-style: normal;
+  unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF;
+}
+
+@font-face {
+  font-family: 'basic_font';
+  src: local('Noto Sans KR');
+  font-weight: 300;
+  font-style: normal;
+  unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF;
+} */
+
+@font-face {
+  font-family: 'basic_font';
+  src: local('Noto Sans KR');
+  font-weight: 400;
+  font-style: normal;
+  unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF;
+}
+
+@font-face {
+  font-family: 'basic_font';
+  src: local('Noto Sans KR');
+  font-weight: 500;
+  font-style: normal;
+  unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF;
+}
+
+@font-face {
+  font-family: 'basic_font';
+  src: local('Noto Sans KR');
+  font-weight: 600;
+  font-style: normal;
+  unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF;
+}
+@font-face {
+  font-family: 'basic_font';
+  src: local('Noto Sans KR');
+  font-weight: 700;
+  font-style: normal;
+  unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF;
+}
+
+/* 영문/숫자/기호: Pretendard */
+/* @font-face {
+  font-family: 'basic_font';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Thin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF;
+}
+
+@font-face {
+  font-family: 'basic_font';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF;
+} */
+
+@font-face {
+  font-family: 'basic_font';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF;
+}
+
+@font-face {
+  font-family: 'basic_font';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF;
+}
+
+@font-face {
+  font-family: 'basic_font';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Bold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF;
+}
+@font-face {
+  font-family: 'basic_font';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF;
+}
+
+* {
+  font-family: 'basic_font', sans-serif;
+  font-weight: 500;
+}
