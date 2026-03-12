@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { EmailDomainInput } from '../../../components/EmailDomainInput';
 import { z } from 'zod';
+import { useNavigate } from 'react-router-dom';
 
 type SignUpForm = z.infer<typeof SignUpSchema>;
 
@@ -26,7 +27,7 @@ export default function SignUp() {
       passwordConfirm: '',
     },
   });
-
+  const navigate = useNavigate();
   const domainOptions = [
     'gmail.com',
     'naver.com',
@@ -156,6 +157,7 @@ export default function SignUp() {
             <button
               type='button'
               className={`${styles.button} ${styles.primaryButton} ${styles.locationButton}`}
+              onClick={() => navigate('get-location')}
             >
               <MdGpsFixed />
               <span>현재 위치로 찾기</span>
