@@ -6,6 +6,8 @@ import {
   renderKakaoMapWithMarker,
 } from './getLocationMap';
 import styles from './GetLocation.module.css';
+import { useSignUp } from './SignUp/signUpContext';
+import { useNavigate } from 'react-router-dom';
 
 type Coordinates = {
   latitude: number | null;
@@ -13,6 +15,8 @@ type Coordinates = {
 };
 
 export default function GetLocation() {
+  const { setSignUpData, ...signUpData } = useSignUp();
+  const navigate = useNavigate();
   const [coordinates, setCoordinates] = useState<Coordinates>({
     latitude: null,
     longitude: null,
@@ -124,7 +128,14 @@ export default function GetLocation() {
       </main>
       <div className={styles.confirmBar}>
         <div className={styles.confirmDivider} />
-        <button type='button' className={styles.confirmButton}>
+        <button
+          type='button'
+          className={styles.confirmButton}
+          onClick={() => {
+            setSignUpData({ ...signUpData, address: addressText });
+            navigate(-1);
+          }}
+        >
           확인
         </button>
       </div>
