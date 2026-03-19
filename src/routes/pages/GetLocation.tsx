@@ -40,7 +40,6 @@ export default function GetLocation() {
         };
 
         setCoordinates(nextCoordinates);
-        console.log('Current coordinates:', nextCoordinates);
       },
       (error) => {
         console.error('현재 위치를 가져오지 못했습니다:', error);
