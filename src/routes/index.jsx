@@ -5,11 +5,13 @@ import Search from './pages/Search';
 import Login from './pages/Login';
 import SearchResult from './pages/SearchResult';
 import Registration from './pages/Registration';
-import Chat from './pages/Chat'
-import KakaoCheck from './pages/KakaoCheck'
-import Error from './pages/Error'
-import PasswordFind from './pages/PasswordFind'
-
+import Chat from './pages/Chat';
+import KakaoCheck from './pages/KakaoCheck';
+import Error from './pages/Error';
+import PasswordFind from './pages/PasswordFind';
+import SignUp from './pages/SignUp/SignUp';
+import SignUpHome from './pages/SignUp/SignUpHome';
+import GetLocation from './pages/GetLocation';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -43,13 +45,27 @@ const router = createBrowserRouter([
     path: '/kakaocheck',
     element: <KakaoCheck />,
   },
-   {
+  {
     path: '/error',
     element: <Error />,
   },
-   {
+  {
     path: '/PasswordFind',
     element: <PasswordFind />,
+  },
+  {
+    path: '/sign-up',
+    Component: SignUp,
+    children: [
+      {
+        index: true,
+        Component: SignUpHome,
+      },
+      {
+        path: 'get-location',
+        Component: GetLocation,
+      },
+    ],
   },
 ]);
 
