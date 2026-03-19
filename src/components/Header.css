@@ -1,0 +1,47 @@
+.app-notch{
+    height: 24px;
+    justify-items: center;
+    
+
+}
+.camera{
+    width: 40%;
+    background-color:  black;
+    border-radius: 0 0 1100px 1100px;
+    height: 24px;
+}
+.app-bar{
+    height: 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    color: #1e1f1f;
+}
+.app-bar svg{
+    
+  color: #1e1f1f;
+}
+.header-body{
+    background-color: white;
+    position: fixed;
+    width: 100%;
+}
+.header-bar{
+    height: 1px; width: 100%;
+    background-color: #D0CFD4;
+
+}
+.header-space{
+    height: 80px;
+    width: 100%;
+}
+.header-title{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.typo-logo{
+    font-size: 18px;
+}

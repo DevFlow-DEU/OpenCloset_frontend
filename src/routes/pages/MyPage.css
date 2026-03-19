@@ -1,0 +1,55 @@
+
+.user-space{
+height: 120px;
+padding: 0 16px 0 16px  ;
+align-items: center;
+     display: flex;
+     width: 100%;
+}
+
+.user-space img{
+    height: 72px; width: 72px;
+    border-radius: 20px;
+     
+}
+.user-space span:last-child {
+    padding-left: 12px;
+}
+.user-space span p{
+    margin: 0;
+}
+.user-space span p:first-child{
+    font-size: 18px;
+    color: #1e1f1f;
+    margin-bottom: 2px;
+}
+.user-space span p:last-child{
+    font-size: 14px;
+    color: #4D4F50;
+}
+.menu-item{
+    height: 60px;
+    font-size: 18px;
+}
+.menu-item a{
+    align-items: center;
+    padding: 0 16px 0 16px  ;
+    display: flex;
+    justify-content: space-between; 
+    color: #1e1f1f;
+    text-decoration: none; /* 링크의 밑줄 제거 */
+    font-size: 18px;
+    height: 100%;
+    width: 100%;
+}
+
+.article-bar{
+    height: 1px; width: 100%;
+    background-color: #D0CFD4;
+}
+.menu-item a span svg{
+    display: flex;
+    align-items: center;
+    
+    
+}

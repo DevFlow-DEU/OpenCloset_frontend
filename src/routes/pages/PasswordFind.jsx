@@ -18,7 +18,7 @@ return(
           <Link to={'/'} className='back-button'>
             <ChevronLeft size={35} />
           </Link>
-          <h2>상품 등록</h2>
+          <h2>비밀번호 찾기</h2>
         </div>
       </div>
 

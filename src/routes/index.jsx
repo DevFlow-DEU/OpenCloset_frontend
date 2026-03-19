@@ -9,6 +9,14 @@ import Chat from './pages/Chat'
 import KakaoCheck from './pages/KakaoCheck'
 import Error from './pages/Error'
 import PasswordFind from './pages/PasswordFind'
+import MyPage from './pages/MyPage'
+import PasswordChange from './pages/PasswordChange'
+import EmailLogin from './pages/EmailLogin'
+
+
+
+
+
 
 const router = createBrowserRouter([
   {
@@ -50,6 +58,18 @@ const router = createBrowserRouter([
    {
     path: '/PasswordFind',
     element: <PasswordFind />,
+  },
+  {
+    path: '/MyPage',
+    element: <MyPage />,
+  },
+  {
+    path:'/PasswordChange',
+    element:<PasswordChange/>
+  },
+    {
+    path:'/EmailLogin',
+    element:<EmailLogin/>
   },
 ]);
 
