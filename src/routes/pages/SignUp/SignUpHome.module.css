@@ -1,0 +1,170 @@
+.signupPage {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f3f3f3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 102px 0px 0; /* 공통 헤더 높이만큼 상단 여백 */
+  box-sizing: border-box;
+}
+
+.signupContent {
+  width: 100%;
+  max-width: 420px;
+  height: calc(100vh - 102px);
+  padding: 32px 16px calc(120px + env(safe-area-inset-bottom));
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.signupForm {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formLabel {
+  font-size: 16px;
+  font-weight: 400;
+  color: #383838;
+}
+
+.input {
+  width: 100%;
+  height: 41px;
+  border-radius: 5px;
+  border: 1px solid #8d8d8d;
+  background-color: #ffffff;
+  padding: 10px 12px;
+  font-size: 16px;
+  color: #000000;
+  box-sizing: border-box;
+  outline-color: #00a066;
+}
+
+.inputOnError {
+  width: 100%;
+  height: 41px;
+  border-radius: 5px;
+  border: 1px solid red;
+  background-color: #ffffff;
+  padding: 10px 12px;
+  font-size: 16px;
+  color: #000000;
+  box-sizing: border-box;
+}
+.input::placeholder {
+  color: #8d8d8d;
+}
+
+.inputOnError:focus {
+  outline-color: red;
+}
+.nicknameGroup {
+  margin-top: 4px;
+}
+
+.nicknameRow {
+  display: flex;
+  gap: 8px;
+}
+
+.nicknameInput {
+  flex: 1;
+}
+
+.emailRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.localpartInput {
+  width: 100%;
+  min-width: 0;
+}
+
+.emailAt {
+  font-size: 16px;
+  color: #383838;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.button {
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  height: 41px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.primaryButton {
+  background-color: #00a066;
+  color: #ffffff;
+}
+
+.nicknameCheckButton {
+  width: 65px;
+}
+
+.addressGroup {
+  margin-top: 4px;
+}
+
+.addressBox {
+  width: 100%;
+}
+
+.addressInput {
+  background-color: #e4e4e4;
+}
+
+.locationButton {
+  margin-top: 8px;
+  width: 100%;
+  display: flex;
+  gap: 6px;
+}
+
+.locationIcon {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-sizing: border-box;
+}
+
+.submitButton {
+  margin-top: 0;
+  width: 100%;
+  height: 41px;
+}
+.helperText {
+  margin: 0;
+  color: #6e6e6e;
+  font-size: 13px;
+}
+.error {
+  color: red;
+  margin: 0;
+}

@@ -12,12 +12,9 @@ import PasswordFind from './pages/PasswordFind'
 import MyPage from './pages/MyPage'
 import PasswordChange from './pages/PasswordChange'
 import EmailLogin from './pages/EmailLogin'
-
-
-
-
-
-
+import SignUp from './pages/SignUp/SignUp';
+import SignUpHome from './pages/SignUp/SignUpHome';
+import GetLocation from './pages/GetLocation';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -51,11 +48,11 @@ const router = createBrowserRouter([
     path: '/kakaocheck',
     element: <KakaoCheck />,
   },
-   {
+  {
     path: '/error',
     element: <Error />,
   },
-   {
+  {
     path: '/PasswordFind',
     element: <PasswordFind />,
   },
@@ -70,6 +67,19 @@ const router = createBrowserRouter([
     {
     path:'/EmailLogin',
     element:<EmailLogin/>
+    },{
+    path: '/sign-up',
+    Component: SignUp,
+    children: [
+      {
+        index: true,
+        Component: SignUpHome,
+      },
+      {
+        path: 'get-location',
+        Component: GetLocation,
+      },
+    ],
   },
 ]);
 

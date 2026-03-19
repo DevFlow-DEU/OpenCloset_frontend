@@ -1,0 +1,98 @@
+.page {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f3f3f3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 102px;
+  box-sizing: border-box;
+}
+
+.content {
+  width: 100%;
+  max-width: 420px;
+  height: calc(100vh - 102px);
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: calc(120px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.mapSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mapContainer {
+  width: 100%;
+  height: 446px;
+  background-color: #d9d9d9;
+}
+
+.mapLoadingText {
+  margin: 12px 0 0;
+  font-size: 14px;
+  color: #4a4a4a;
+}
+
+.confirmButton {
+  width: 100%;
+  height: 41px;
+  border: none;
+  border-radius: 5px;
+  background-color: #00a066;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.addressSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.addressInput {
+  width: 100%;
+  height: 41px;
+  border: 1px solid #8d8d8d;
+  border-radius: 5px;
+  background-color: #e4e4e4;
+  padding: 0 12px;
+  box-sizing: border-box;
+  font-size: 16px;
+  color: #000000;
+}
+
+.resetButton {
+  width: 100%;
+  height: 41px;
+  border: none;
+  border-radius: 5px;
+  background-color: #00a066;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.resetIcon {
+  width: 16px;
+  height: 16px;
+}
