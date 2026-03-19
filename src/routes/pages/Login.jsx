@@ -3,8 +3,7 @@ import './Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo_main from '../../assets/logo_main.svg?react';
 import KakaoLogin from '../../components/KakaoLogin';
-import KakaoLogo from "../../assets/kakaologo.png";
-
+import KakaoLogo from '../../assets/kakaologo.png';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -39,7 +38,7 @@ const LoginPage = () => {
       }
       //기본양식식
       const res = await fetch('http://113.198.229.158:8880/auth/login', {
-        //await 비동기 처리 
+        //await 비동기 처리
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -112,7 +111,7 @@ const LoginPage = () => {
             비밀번호 찾기
           </Link>
           <div></div>
-          <Link to={'/Sign_up'} className='login-link'>
+          <Link to={'/sign-up'} className='login-link'>
             회원 가입
           </Link>
           {/* 찾기 버튼튼 */}
@@ -120,14 +119,12 @@ const LoginPage = () => {
 
         {message && <p className='login-buttons'>{message}</p>}
         {/* 오류 상태 표시시 */}
-
-             
-          
       </form>
-      <div className="kakaobutton">
-        <img src={KakaoLogo} alt="kakao" className='kakaologo'/>
-       <KakaoLogin/><span>카카오 로그인</span>
-      </div>    
+      <div className='kakaobutton'>
+        <img src={KakaoLogo} alt='kakao' className='kakaologo' />
+        <KakaoLogin />
+        <span>카카오 로그인</span>
+      </div>
     </div>
   );
 };
