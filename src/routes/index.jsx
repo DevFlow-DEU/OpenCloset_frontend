@@ -5,10 +5,13 @@ import Search from './pages/Search';
 import Login from './pages/Login';
 import SearchResult from './pages/SearchResult';
 import Registration from './pages/Registration';
-import Chat from './pages/Chat';
-import KakaoCheck from './pages/KakaoCheck';
-import Error from './pages/Error';
-import PasswordFind from './pages/PasswordFind';
+import Chat from './pages/Chat'
+import KakaoCheck from './pages/KakaoCheck'
+import Error from './pages/Error'
+import PasswordFind from './pages/PasswordFind'
+import MyPage from './pages/MyPage'
+import PasswordChange from './pages/PasswordChange'
+import EmailLogin from './pages/EmailLogin'
 import SignUp from './pages/SignUp/SignUp';
 import SignUpHome from './pages/SignUp/SignUpHome';
 import GetLocation from './pages/GetLocation';
@@ -59,6 +62,17 @@ const router = createBrowserRouter([
     element: <DeleteAccount />,
   },
   {
+    path: '/MyPage',
+    element: <MyPage />,
+  },
+  {
+    path:'/PasswordChange',
+    element:<PasswordChange/>
+  },
+    {
+    path:'/EmailLogin',
+    element:<EmailLogin/>
+    },{
     path: '/sign-up',
     Component: SignUp,
     children: [

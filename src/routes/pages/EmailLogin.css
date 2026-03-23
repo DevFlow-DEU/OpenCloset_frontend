@@ -1,0 +1,73 @@
+.emlogin-container{
+    height: auto;
+    width: calc(100%-32px);
+    margin: 0 16px;
+}
+
+.logininput-bar{
+    height: 2px;
+    width: 100%;
+    background-color: #000000;
+}
+.logininput-bar.red{
+    background-color:red;
+}
+.login-error{
+    color: red;
+    font-size: 12px;
+    margin: 0;
+}
+.logininput{
+    background-color: none;
+    border-width: 0;
+    height: 56px;
+    width: 100%;
+    background-color: #ffffff;
+    outline: none;
+    font-size: 18px;
+}
+.logininput-container{
+    margin: 0 16px 0 16px;
+}
+.space-80px{
+    height: 120px;
+}
+.space-60px{
+    height: 60px;
+}
+.space-28px{
+    height: 28px;
+}
+.logininput-tittle{
+    margin: 0;
+    font-weight: 700;
+}
+.LG-BTN{
+    height: 48px;
+    background-color: #D0CFD4;
+    color: #EDF2F4;
+    border-radius: 5px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    border: 0;
+     width: 100%;
+}
+.LG-BTN.check{
+background-color: #00A066;
+/* background-color: #004643; */
+}
+.errorMSG{
+    text-align: center;
+    margin-top: 32px;
+}
+.emlogin-container span{
+    font-size: 26px;
+    font-weight: 500;
+    
+}
+input::placeholder {
+  color: #D0CFD4;
+  font-size: 14px;
+}
