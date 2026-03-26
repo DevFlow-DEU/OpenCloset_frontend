@@ -62,7 +62,7 @@ export default function SignUpHome() {
           className={styles.signupForm}
           onSubmit={handleSubmit(() => {
             const { password, emailDomain, emailLocalPart, nickname } =
-              signUpData;
+              getValues();
             mutation.mutate({
               email: `${emailLocalPart}@${emailDomain}`,
               password,
