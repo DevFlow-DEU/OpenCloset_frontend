@@ -15,6 +15,7 @@ import EmailLogin from './pages/EmailLogin'
 import SignUp from './pages/SignUp/SignUp';
 import SignUpHome from './pages/SignUp/SignUpHome';
 import GetLocation from './pages/GetLocation';
+import DeleteAccount from './pages/DeleteAccount/DeleteAccount';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
   {
     path: '/PasswordFind',
     element: <PasswordFind />,
+  },
+  {
+    path: '/delete-account',
+    element: <DeleteAccount />,
   },
   {
     path: '/MyPage',
