@@ -72,7 +72,8 @@ const router = createBrowserRouter([
     {
     path:'/EmailLogin',
     element:<EmailLogin/>
-    },{
+    },
+    {
     path: '/sign-up',
     Component: SignUp,
     children: [

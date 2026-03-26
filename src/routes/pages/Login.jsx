@@ -28,9 +28,7 @@ export default function LoginPage() {
             비밀번호 찾기
           </Link>
           <span>|</span>
-          <Link to='/sign-up' className='login-link'>
-            회원 가입
-          </Link>
+          <Link to="/Sign-Up" className="login-link">회원 가입</Link>
         </div>
       </div>
     </div>

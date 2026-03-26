@@ -44,7 +44,7 @@ export default function KakaoCallback() {
           method: "GET",
           headers: { Accept: "application/json" },
         });
-        console.log("backendUrl:", backendUrl.toString());
+        // console.log("backendUrl:", backendUrl.toString());
 
         const text = await res.text(); // 에러 메시지 확인용으로 먼저 text로 받기
 
@@ -55,14 +55,14 @@ export default function KakaoCallback() {
         // 성공이면 JSON 파싱
         const data = JSON.parse(text);
 
-        const accessToken = data?.accessToken;
+        const Token = data?.accessToken;
         const refreshToken = data?.refreshToken;
 
         if (!accessToken) {
           throw new Error("토큰 에러: accessToken이 응답에 없음");
         }
 
-        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("token", Token);
         if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
 
         // code 제거(재진입/오류 예방)

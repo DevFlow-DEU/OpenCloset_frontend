@@ -1,66 +1,104 @@
-.share-container {
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-  padding-top: 102px; /* 헤더 높이 고려 */
-  padding-bottom: 80px; /* 하단 버튼 안 가리게 */
-  background-color: #fff;
-  border-radius: 8px;
-  min-height: 100vh;
+.SHinput-bar{
+    height: 2px;
+    width: 100%;
+    background-color: #4D4F50;
 }
-
-
-.share-header{
-   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-
-
-  background: #fff;
-  z-index: 1000;
-
-  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+.SHinput-bar.red{
+    background-color:red;
 }
-.share-nochi{
-  height: 54px;
+.SHinput-error{
+    color: red;
+    font-size: 12px;
+    margin: 0;
 }
-.share-text {
- 
+.SHinput{
+    background-color: none;
+    border-width: 0;
+    height: 56px;
+    width: 100%;
+    background-color: #ffffff;
+    outline: none;
+    font-size: 18px;
+     appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+.SHinput-container{
+    margin: 0;
+}
+.SHinput-200px{
+    height: 200px;
+    background-color: none;
+    border-width: 0;
+    width: 100%;
+    background-color: #ffffff;
+    outline: none;
+    font-size: 18px;
+}
+.space-120px{
+    height: 120px;
+}
+.space-80px{
+    height: 80px;
+}
+.space-60px{
+    height: 60px;
+}
+.space-40px{
+    height: 40px;
+}
+.space-28px{
+    height: 28px;
+}
+.space-12px{
+    height: 12px;
+}
+.SHinput-tittle{
+    margin: 0;
+    font-size: 16px;
+    color: #4D4F50;
+    font-weight: 700;
+}
+.SHsubmit{
     height: 48px;
-  left: 0;
-  right: 0;
-  background: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  
-  
+    background-color: #D0CFD4;
+    color: #EDF2F4;
+    border-radius: 5px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    margin: 0 ;
+    border: 0;
+    width:100%;
 }
-.share-text h2{
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  margin: 0;
+.SHsubmit.check{
+background-color: #00A066;
+/* background-color: #004643; */
 }
-.share-form{
-  margin: 36px 16px ;
-  top: 0;
+.errorMSG{
+    text-align: center;
+    margin-top: 32px;
 }
-.share-input{
-width: 100%;
-  display: flex;
-  justify-content: center; /* 가로 중앙 */
-  align-items: center;
-  overflow: hidden;
- outline: none;
+input::placeholder {
+  color: #D0CFD4;
+  font-size: 14px;
 }
-.share-input input{
-  border: 1px solid #aaa;
-  background-color: #fff;
-  width: auto;
-  height: 40px;
+textarea::placeholder {
+  color: #D0CFD4;
+  font-size: 14px;
 }
-.share-input span{
-  padding: 0 16px;
+
+.ELspan{
+  font-size: 26px;
+  font-size: 500;
 }
+
+.SHcontainer{
+width: calc(100%-32px); 
+height: auto;
+margin: 0 16px;
+}
+
+
+
