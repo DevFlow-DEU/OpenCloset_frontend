@@ -9,7 +9,9 @@ import BottomConfirmBar from '../../../components/BottomConfirmBar';
 import { useNavigate } from 'react-router-dom';
 import { useSignUp } from './signUpContext';
 import type { SignUpForm } from './signUpSchema';
-
+import { client } from '../../../api/client';
+import { useMutation } from '@tanstack/react-query';
+import type { components } from '../../../api/api';
 export default function SignUpHome() {
   const { setSignUpData, address, ...signUpData } = useSignUp();
   const {
@@ -32,7 +34,24 @@ export default function SignUpHome() {
     'hanmail.net',
     'nate.net',
   ];
-
+  const mutation = useMutation({
+    mutationFn: (newUserInfo: components['schemas']['UserCreateRequestDto']) =>
+      client.POST('/auth/register', { body: newUserInfo }),
+    onError: (error) => {
+      alert(`에러 발생\n\n${error}`);
+    },
+    onSuccess: async (data) => {
+      if (data.response.status === 200) {
+        alert('회원가입에 성공했습니다. 로그인 페이지로 이동합니다');
+        navigate('/EmailLogin');
+      } else if (data.response.status === 400) {
+        const errorBody = data.error as { message?: string };
+        alert(errorBody?.message ?? '요청이 올바르지 않습니다.');
+      } else {
+        alert('현재 회원가입을 이용할 수 없습니다. 잠시후 이용해주세요.');
+      }
+    },
+  });
   return (
     <div className={styles.signupPage}>
       <PageHeader title='회원가입' />
@@ -41,7 +60,17 @@ export default function SignUpHome() {
         <form
           id='signup-form'
           className={styles.signupForm}
-          onSubmit={handleSubmit(() => {})}
+          onSubmit={handleSubmit(() => {
+            const { password, emailDomain, emailLocalPart, nickname } =
+              getValues();
+            mutation.mutate({
+              email: `${emailLocalPart}@${emailDomain}`,
+              password,
+              nickname,
+              address,
+              age: '',
+            });
+          })}
         >
           <div className={`${styles.formGroup} ${styles.nicknameGroup}`}>
             <label className={styles.formLabel} htmlFor='nickname'>
