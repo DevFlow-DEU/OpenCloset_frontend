@@ -113,7 +113,7 @@ export default function MyPage() {
         <div className='article-bar'></div>
 
         <article className='menu-item'>
-          <Link to={'/delete-accounts'}>
+          <Link to={'/delete-account'}>
             <span>회원탈퇴</span>{' '}
             <span>
               {' '}
