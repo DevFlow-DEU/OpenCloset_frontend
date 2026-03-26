@@ -3,7 +3,7 @@ import { FaCamera } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { productRegistrationSchema } from "./RegistrationSchema";
+import {RegistrationSchema } from "./RegistrationSchema";
 import { SlArrowDown } from "react-icons/sl";
 import Header from '../../components/Header'
 import NavBar from '../../components/NavBar'
@@ -16,8 +16,6 @@ export default function ProductRegistrationForm() {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
-  const [priceDisplay, setPriceDisplay] = useState("");
-  const [dateDisplay, setDateDisplay] = useState("");
 
   const {
     register,
@@ -26,7 +24,7 @@ export default function ProductRegistrationForm() {
     watch,
     formState: { errors, isDirty, isValid },
   } = useForm({
-    resolver: zodResolver(productRegistrationSchema),
+    resolver: zodResolver(RegistrationSchema),
     defaultValues: {
       title: "",
       description: "",
@@ -67,7 +65,10 @@ export default function ProductRegistrationForm() {
     try {
       const res = await fetch(`${backUrl}/board/create`, {
         method: "POST",
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+            ...values,
+            price: values.price.replace(/,/g, ""),
+          }),
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -141,16 +142,25 @@ export default function ProductRegistrationForm() {
 
           <div>
             <p className="SHinput-tittle">가격</p>
+            <div className="select-wrapper">
             <input
               className="SHinput"
               placeholder="상품 가격"
-              value={priceDisplay}
+              type="text"
+              value={watch("price")}
               onChange={(e) => {
-                const onlyNumber = e.target.value.replace(/[^0-9]/g, "");
-                setPriceDisplay(onlyNumber ? `${formatNumber(onlyNumber)}원` : "");
-                setValue("price", onlyNumber, { shouldValidate: true });
+                const formatted = e.target.value
+                  .replace(/[^0-9]/g, "")
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                setValue("price", formatted, {
+                  shouldDirty: true,
+                  shouldValidate: true,
+                });
               }}
             />
+            <span className="select-icon">원</span>
+            </div>
             <div className={`SHinput-bar ${errors.price ? "red" : ""}`}></div>
             <div className="SHinput-space space-28px">
               {errors.price && (
@@ -161,16 +171,15 @@ export default function ProductRegistrationForm() {
 
           <div>
             <p className="SHinput-tittle">판매 기간</p>
+            <div className="select-wrapper">
             <input
               className="SHinput"
+              type="number"
               placeholder="판매 기간"
-              value={dateDisplay}
-              onChange={(e) => {
-                const onlyNumber = e.target.value.replace(/[^0-9]/g, "");
-                setDateDisplay(onlyNumber ? `${onlyNumber}일` : "");
-                setValue("date", onlyNumber, { shouldValidate: true });
-              }}
+              {...register("date")}
             />
+            <span className="select-icon">일</span>
+            </div>
             <div className={`SHinput-bar ${errors.date ? "red" : ""}`}></div>
             <div className="SHinput-space space-28px">
               {errors.date && (

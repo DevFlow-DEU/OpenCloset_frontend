@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const productRegistrationSchema = z.object({
+export const RegistrationSchema = z.object({
   title: z.string().trim().min(1, "제목을 입력해주세요."),
   description: z.string().trim().min(1, "상세 정보를 입력해주세요."),
   price: z.string().trim().min(1, "가격을 입력해주세요."),
@@ -19,7 +19,7 @@ export const productRegistrationSchema = z.object({
 });
 
 export function validateProductRegistration(values: unknown) {
-  const result = productRegistrationSchema.safeParse(values);
+  const result = RegistrationSchema.safeParse(values);
   return result.success
     ? { ok: true as const, data: result.data }
     : { ok: false as const, fieldErrors: result.error.flatten().fieldErrors };
