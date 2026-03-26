@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import Router from './routes';
+import App from './routes/App';
 async function enableMocking() {
   if (import.meta.env.VITE_MOCK !== 'true') {
     return;
@@ -25,7 +26,7 @@ const kakaoInit = (tries = 50) => {
   }
 
   if (tries <= 0) {
-    console.warn("Kakao SDK 오류");
+    console.warn('Kakao SDK 오류');
     return;
   }
 
@@ -34,12 +35,12 @@ const kakaoInit = (tries = 50) => {
 
 kakaoInit();
 
-
-
 enableMocking().then(() => {
   createRoot(document.getElementById('root')).render(
     <StrictMode>
-      <Router />
+      <App>
+        <Router />
+      </App>
     </StrictMode>
   );
 });
