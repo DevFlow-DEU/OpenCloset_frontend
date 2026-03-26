@@ -16,7 +16,7 @@ type Coordinates = {
   longitude: number | null;
 };
 
-export default function ChangeAdress() {
+export default function ChangeAddress() {
   const token = localStorage.getItem('token');
   const mutation = useMutation({
     mutationFn: () =>
