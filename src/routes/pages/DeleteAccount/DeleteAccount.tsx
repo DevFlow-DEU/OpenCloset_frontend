@@ -27,7 +27,7 @@ export default function DeleteAccount() {
         alert('회원탈퇴가 완료되었습니다. 로그인 페이지로 이동합니다');
         navigate('/login');
       } else if (data.response.status === 401) {
-        alert('탈퇴 권한이 없습니다.');
+        alert('비밀번호가 일치하지 않거나 탈퇴 권한이 없습니다.');
       } else {
         alert('현재 회원탈퇴를 이용할 수 없습니다. 잠시후 이용해주세요.');
       }
