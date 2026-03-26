@@ -1,163 +1,103 @@
-import React, { useState } from 'react';
-import { ChevronLeft, CirclePlus } from 'lucide-react';
-import DatePicker from 'react-datepicker';
+import { useState } from 'react';
+import { FaCamera } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
-// import 'react-datepicker/dist/react-datepicker.css';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { RegistrationSchema } from './RegistrationSchema';
+import { SlArrowDown } from 'react-icons/sl';
+import Header from '../../components/Header';
+import NavBar from '../../components/NavBar';
 import './Registration.css';
-// import Area from '../../components/area';
-import'./share.css'
+import './share.css';
 
-
-
-
-
-
-
-const ProductRegistrationForm = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [image, setImage] = useState([]);
-  const [price, setPrice] = useState('');
-  const [size, setSize] = useState('사이즈 선택');
-  const [sex,setSex] = useState('')
-  const [place, setPlace] = useState('');
-  const [date, setDate] = useState('');
-  const [category, setCategory] = useState('카테고리 선택')
-  // const [startDate, setStartDate] = useState(null);
-  // const [endDate, setEndDate] = useState(null);  -----------달력력
- 
-  // const [tagInput, setTagInput] = useState(''); ----------태그
-  // const [tags, setTags] = useState([]);
- 
-  
-  const token = localStorage.getItem('token');// 토큰큰
-  // console.log(token);
+export default function ProductRegistrationForm() {
+  const backUrl = import.meta.env.VITE_BACK_URL;
+  const token = localStorage.getItem('token');
   const navigate = useNavigate();
-  //-------------------------------------------------------------------------사진 추가, 제거
+  const [message, setMessage] = useState('');
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors, isDirty, isValid },
+  } = useForm({
+    resolver: zodResolver(RegistrationSchema),
+    defaultValues: {
+      title: '',
+      description: '',
+      price: '',
+      size: '사이즈 선택',
+      sex: '',
+      place: '',
+      date: '',
+      category: '카테고리 선택',
+      image: [],
+    },
+    mode: 'onChange',
+  });
+
+  const image = watch('image');
+
   const handleImageUpload = (e) => {
-    if (e.target.files) {
-      const newImages = Array.from(e.target.files).map((file) => ({
-        id: Date.now() + Math.random(), //아이디 생성
-        url: URL.createObjectURL(file), //미리보기
-        file: file,
-      }));
-      setImage((prev) => [...prev, ...newImages]); //새 이미지 기존 배열에 추가
+    if (!e.target.files) return;
+
+    const newImages = Array.from(e.target.files).map((file) => ({
+      id: Date.now() + Math.random(),
+      url: URL.createObjectURL(file),
+      file,
+    }));
+
+    setValue('image', [...image, ...newImages], { shouldValidate: true });
+  };
+
+  const removeImage = (id) => {
+    setValue(
+      'image',
+      image.filter((item) => item.id !== id),
+      { shouldValidate: true }
+    );
+  };
+
+  const onSubmit = async (values) => {
+    try {
+      const res = await fetch(`${backUrl}/board/create`, {
+        method: 'POST',
+        body: JSON.stringify({
+          ...values,
+          price: values.price.replace(/,/g, ''),
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.ok) {
+        navigate('/home');
+        return;
+      }
+
+      setMessage('등록에 실패했습니다.');
+    } catch (err) {
+      console.log(err);
+      setMessage('서버에 연결할 수 없습니다.');
     }
   };
-  const removeImage = (id) => {
-    setImage(image.filter((imagee) => imagee.id !== id));
-  }; // 이미지 제거
-
-  //--------------------------------------테그 설정
-
-  // const addTag = () => {
-  //   if (tagInput.trim() !== '' && !tags.includes(tagInput.trim())) {
-  //     setTags([...tags, tagInput.trim()]);
-  //     setTagInput('');
-  //   }
-  // };
-
-  // const removeTag = (tag) => {
-  //   setTags(tags.filter((t) => t !== tag));
-  // };
-
-
-
-
-
-
-
-
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  // 유효성 검사
-  if (
-    !title.trim() ||
-    !description.trim() ||
-    !price.trim() ||
-    !date.trim() ||
-    !place.trim() ||
-    category === '카테고리 선택' ||
-    size === '사이즈 선택' ||
-    sex === '선택하기' ||
-    image.length === 0
-  ) {
-    alert('모든 항목을 입력해 주세요.');
-    return;
-  }
-
-  // const formData = new FormData();
-  // formData.append('title', title);
-  // formData.append('description', description);
-  // formData.append('price', price);
-  // formData.append('size', size);
-  // formData.append('sex', sex);
-  // formData.append('place', place);
-  // formData.append('category', category);
-  // formData.append('date', date);
-
-  // image.forEach((imgObj) => {
-  //   formData.append('images', imgObj.file);
-  // });
-
-  try {
-    const res = await fetch('http://113.198.229.158:8880/board/create', {
-      method: 'POST',
-      body: JSON.stringify({
-          title,
-          description,
-          price,
-          size,
-          sex,
-          place,
-          category,
-          date,
-          image : "https://www.venturesquare.net/wp-content/uploads/2022/03/이미지-조연-무신사-CTO.jpg"//수정해야함함
-        }),
-      headers: {
-         "Content-Type": "application/json",
-     Authorization: `Bearer ${token}`, 
-  },
-    });
-
-    if (res.ok) {
-      console.log("등록됨");
-      navigate('/home');
-
-    } else {
-       console.log("에러")
-    }
-  } catch (err) {
-    console.log(err)
-  }
-};
-
 
   return (
-    <div className='share-container'>
-      {/* 헤더------------------------------------------------------------ */}
-      <div className='share-header'>
-        <div className='share-nochi'></div>
-      <div className='share-text'>
-        <Link to={'/'} className='back-button'>
-          <ChevronLeft size={35} />
-        </Link>
-        <h2>상품 등록</h2>
-      </div>
-      </div>
-
-      <form className='registration-form' onSubmit={handleSubmit}>
-        {/*  폼 시작 */}
-
-        {/* 이미지 -------------------------------------------------*/}
-        <section className='form-section image-section'>
-          <h3>사진 추가</h3>
+    <>
+      <Header />
+      <div className='SHcontainer'>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className='space-40px'></div>
+          <p className='SHinput-tittle'>사진 추가</p>
+          <div className='space-12px'></div>
           <div className='image-container'>
             <label className='image-upload-button'>
               <div className='plus-icon'>
-                <CirclePlus size={35} />
+                <FaCamera size={40} />
               </div>
               <input
                 type='file'
@@ -168,183 +108,193 @@ const handleSubmit = async (e) => {
               />
             </label>
 
-            {image.map((image) => (
-              <div className='thumbnail' key={image.id}>
-                <img src={image.url} alt='상품 이미지' />
-                <button
-                  type='button'
-                  className='remove-image'
-                  onClick={() => removeImage(image.id)}
-                >
-                  ×
-                </button>
+            {image.map((item) => (
+              <div className='thumbnail' key={item.id}>
+                <img
+                  src={item.url}
+                  alt='상품 이미지'
+                  onClick={() => removeImage(item.id)}
+                />
               </div>
             ))}
           </div>
-        </section>
+          <div className='SHinput-space space-28px'>
+            {errors.image && (
+              <p className='SHinput-error'>{errors.image.message}</p>
+            )}
+          </div>
 
-        {/* 상품 정보------------------------------------------------------------ */}
-        <section className='form-section info-section'>
-          <div className='form-group'>
-            <label>제목</label>
+          <div>
+            <p className='SHinput-tittle'>제목</p>
             <input
-              type='text'
+              className='SHinput'
               placeholder='상품명'
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              {...register('title')}
             />
-          </div>
-
-          <div className='form-group'>
-            <label>가격</label>
-            <input
-              type='text'
-              placeholder='상품 가격'
-              value={
-                price
-                  ? Number(price).toLocaleString('ko-KR')
-                  : ''
-              }
-              onChange={(e) => {
-                const onlyNumber = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 추출
-                setPrice(onlyNumber);
-              }}
-            />
-          </div>
-
-          <div className='form-group'>
-            <label>판매 기간</label>
-            <input
-              type='number' 
-              placeholder='판매 기간'
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-            />
-
+            <div className={`SHinput-bar ${errors.title ? 'red' : ''}`}></div>
+            <div className='SHinput-space space-28px'>
+              {errors.title && (
+                <p className='SHinput-error'>{errors.title.message}</p>
+              )}
             </div>
-            
-            
-
-
-            {/* <div className='calendar-picker'>
-              <DatePicker className='startday'
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-                selectsStart
-                startDate={startDate}
-                endDate={endDate}
-                placeholderText='시작일'
-                
-              />
-              <DatePicker
-                selected={endDate}
-                onChange={(date) => setEndDate(date)}
-                selectsEnd
-                startDate={startDate}
-                endDate={endDate}
-                minDate={startDate}
-                placeholderText='종료일'
-                
-              />
-            </div> */}
-          
-
-          <div className='form-group'>
-            <label>상세 정보</label>
-            <textarea
-              placeholder='상세 내용'
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            ></textarea>
           </div>
-        </section>
 
-        {/* 카테고리 및 옵션 */}
-        <section className='form-section category-section'>
-          {/* <div className='form-group'>
-            <label>태그</label>
-            <div className='tag-input-wrapper'>
+          <div>
+            <p className='SHinput-tittle'>가격</p>
+            <div className='select-wrapper'>
               <input
+                className='SHinput'
+                placeholder='상품 가격'
                 type='text'
-                placeholder='태그 입력 후 Enter'
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                onKeyDown={(e) =>
-                  e.key === 'Enter' && (e.preventDefault(), addTag())
-                }
+                value={watch('price')}
+                onChange={(e) => {
+                  const formatted = e.target.value
+                    .replace(/[^0-9]/g, '')
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+                  setValue('price', formatted, {
+                    shouldDirty: true,
+                    shouldValidate: true,
+                  });
+                }}
               />
-              <div className='tag-list'>
-                {tags.map((tag) => (
-                  <span key={tag} className='tag-item'>
-                    {tag}
-                    <button
-                      onClick={() => removeTag(tag)}
-                      className='remove-tag'
-                    >
-                      ×
-                    </button>
-                  </span>
-                ))}
-              </div>
+              <span className='select-icon'>원</span>
             </div>
-          </div> */}
-          <div className='form-group'>
-            <label>대여 장소</label>
-            <input
-              type='text'
-              placeholder='동으로 입력'
-              value={place}
-              onChange={(e) => setPlace(e.target.value)}
+            <div className={`SHinput-bar ${errors.price ? 'red' : ''}`}></div>
+            <div className='SHinput-space space-28px'>
+              {errors.price && (
+                <p className='SHinput-error'>{errors.price.message}</p>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <p className='SHinput-tittle'>판매 기간</p>
+            <div className='select-wrapper'>
+              <input
+                className='SHinput'
+                type='number'
+                placeholder='판매 기간'
+                {...register('date')}
+              />
+              <span className='select-icon'>일</span>
+            </div>
+            <div className={`SHinput-bar ${errors.date ? 'red' : ''}`}></div>
+            <div className='SHinput-space space-28px'>
+              {errors.date && (
+                <p className='SHinput-error'>{errors.date.message}</p>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <p className='SHinput-tittle'>상세 정보</p>
+            <textarea
+              className='SHinput-200px'
+              placeholder='상세 내용'
+              {...register('description')}
             />
-
+            <div
+              className={`SHinput-bar ${errors.description ? 'red' : ''}`}
+            ></div>
+            <div className='SHinput-space space-28px'>
+              {errors.description && (
+                <p className='SHinput-error'>{errors.description.message}</p>
+              )}
+            </div>
           </div>
 
-          <div className='form-group'>
-            <label>사이즈</label>
-            <select value={size} onChange={(e) => setSize(e.target.value)}>
-              <option value='카테고리 설정'>사이즈 선택</option>
-              <option value='S'>S</option>
-              <option value='M'>M</option>
-              <option value='L'>L</option>
-              <option value='XL'>XL</option>
-            </select>
+          <div>
+            <p className='SHinput-tittle'>대여 장소</p>
+            <input
+              className='SHinput'
+              placeholder='동으로 입력'
+              {...register('place')}
+            />
+            <div className={`SHinput-bar ${errors.place ? 'red' : ''}`}></div>
+            <div className='SHinput-space space-28px'>
+              {errors.place && (
+                <p className='SHinput-error'>{errors.place.message}</p>
+              )}
+            </div>
           </div>
 
-          <div className='form-group'>
-            <label>성별</label>
-            <select
-              value={sex}
-              onChange={(e) => setSex(e.target.value)}
-            >
-              <option value='선택하기'>선택하기</option>
-              <option value='님성'>남성</option>
-              <option value='여성'>여성</option>
-            </select>
+          <div>
+            <p className='SHinput-tittle'>사이즈</p>
+            <div className='select-wrapper'>
+              <select className='SHinput' {...register('size')}>
+                <option value='사이즈 선택'>사이즈 선택</option>
+                <option value='S'>S</option>
+                <option value='M'>M</option>
+                <option value='L'>L</option>
+                <option value='XL'>XL</option>
+              </select>
+              <SlArrowDown size={24} className='select-icon' />
+            </div>
+            <div className={`SHinput-bar ${errors.size ? 'red' : ''}`}></div>
+            <div className='SHinput-space space-28px'>
+              {errors.size && (
+                <p className='SHinput-error'>{errors.size.message}</p>
+              )}
+            </div>
           </div>
-          <div className='form-group'>
-            <label>카테고리</label>
-            <select value={category} onChange={(e) => setCategory(e.target.value)}>
-              <option value='카테고리 설택'>카테고리 선택</option>
-              <option value='outer'>아우터</option>
-              <option value='top'>상의</option>
-              <option value='bottom'>하의</option>
-              <option value='dress'>원피스</option>
-              <option value='shoes'>신발</option>
-              <option value='jewelryL'>주얼리</option>
-              <option value='bag'>가방</option>
-              <option value='accessory'>악세사리</option>
-            </select>
-          </div>
-        </section>
 
-        <div className='footer'>
-          <button type='submit' className='submit-button'>
+          <div>
+            <p className='SHinput-tittle'>성별</p>
+            <div className='select-wrapper'>
+              <select className='SHinput' {...register('sex')}>
+                <option value=''>선택하기</option>
+                <option value='남성'>남성</option>
+                <option value='여성'>여성</option>
+              </select>
+              <SlArrowDown size={24} className='select-icon' />
+            </div>
+            <div className={`SHinput-bar ${errors.sex ? 'red' : ''}`}></div>
+            <div className='SHinput-space space-28px'>
+              {errors.sex && (
+                <p className='SHinput-error'>{errors.sex.message}</p>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <p className='SHinput-tittle'>카테고리</p>
+            <div className='select-wrapper'>
+              <select className='SHinput' {...register('category')}>
+                <option value='카테고리 선택'>카테고리 선택</option>
+                <option value='outer'>아우터</option>
+                <option value='top'>상의</option>
+                <option value='bottom'>하의</option>
+                <option value='dress'>원피스</option>
+                <option value='shoes'>신발</option>
+                <option value='jewelry'>주얼리</option>
+                <option value='bag'>가방</option>
+                <option value='accessory'>악세사리</option>
+              </select>
+              <SlArrowDown size={24} className='select-icon' />
+            </div>
+            <div
+              className={`SHinput-bar ${errors.category ? 'red' : ''}`}
+            ></div>
+            <div className='SHinput-space space-28px'>
+              {errors.category && (
+                <p className='SHinput-error'>{errors.category.message}</p>
+              )}
+            </div>
+          </div>
+
+          <button
+            className={`SHsubmit ${isDirty && isValid ? 'check' : ''}`}
+            type='submit'
+            disabled={!(isDirty && isValid)}
+          >
             등록하기
           </button>
-        </div>
-      </form>
-    </div>
-  );
-};
 
-export default ProductRegistrationForm;
+          {message && <p className='SHinput-error errorMSG'>{message}</p>}
+        </form>
+      </div>
+      <NavBar />
+    </>
+  );
+}

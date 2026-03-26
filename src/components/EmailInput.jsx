@@ -50,11 +50,11 @@ const emailsubmit = async (e) => {
         return;
       }
       //기본양식
-      const res = await fetch('백엔드 주소', {
+      const res = await fetch('http://opencloset.jihongeek.com/auth/password-reset', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          fullEmail
+          email: fullEmail
         }),
       });
 
@@ -64,12 +64,15 @@ const emailsubmit = async (e) => {
       } else {
         //토큰 못 받았을 때
         alert(`비밀번호 변경에 실패했습니다.`);
+        console.log(fullEmail)
       }
     } catch (error) {
        navigate("/error", {
         replace: true,
         state: { error: "비밀번호 변경 오류", errorDesc: " 비밀번호를 변경할 수 없습니다." },
+        
       });
+      console.log(fullEmail)
     }
 }
 

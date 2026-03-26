@@ -34,14 +34,15 @@
 
 }
 .header-space{
-    height: 80px;
+    height: 81px;
     width: 100%;
+    flex-shrink: 0;
 }
 .header-title{
     font-size: 18px;
     font-weight: 600;
 }
 
-.typo-logo{
+.F18px{
     font-size: 18px;
 }
