@@ -58,7 +58,7 @@ export default function KakaoCallback() {
         const Token = data?.accessToken;
         const refreshToken = data?.refreshToken;
 
-        if (!accessToken) {
+        if (!Token) {
           throw new Error("토큰 에러: accessToken이 응답에 없음");
         }
 
