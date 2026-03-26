@@ -1,0 +1,56 @@
+.page {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f3f3f3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 102px 0 0;
+  box-sizing: border-box;
+}
+
+.content {
+  width: 100%;
+  max-width: 420px;
+  height: calc(100vh - 102px);
+  padding: 32px 16px calc(120px + env(safe-area-inset-bottom));
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
+}
+
+.passwordField {
+  width: 100%;
+  border-bottom: 2px solid rgb(77, 79, 80);
+}
+
+.passwordInput {
+  width: 100%;
+  height: 56px;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  font-weight: 500;
+  color: #000000;
+  background-color: #ffffff;
+  padding: 0;
+}
+
+.passwordInput::placeholder {
+  color: rgb(208, 207, 212);
+}
+
+.submitButton {
+  margin-top: 0;
+}
