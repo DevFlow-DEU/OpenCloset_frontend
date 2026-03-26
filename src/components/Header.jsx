@@ -18,6 +18,8 @@ export default function Header(){
         setTitle('비밀번호 찾기');
     }else if(lastURL == 'EmailLogin'){
         setTitle('이메일 로그인');
+    }else if(lastURL == 'add_product'){
+        setTitle('상품 등록');
     }else{
         setTitle('');
         }
@@ -30,7 +32,7 @@ export default function Header(){
         
             <div className='app-bar'>
                 <span > <Link to={-1}> <SlArrowLeft size={24} /></Link></span>
-                <span className ={title? 'header-title' : 'typo-logo'}> {title ? `${title}`:'OPENCLOSET' } </span>
+                <span className ={title? 'header-title' : 'typo-logo F18px'}> {title ? `${title}`:'OPENCLOSET' } </span>
                 <span  > <Link to={'/Search'}> <TfiSearch size={24}/></Link></span>
                 
             </div>

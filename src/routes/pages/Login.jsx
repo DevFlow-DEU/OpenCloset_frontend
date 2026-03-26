@@ -30,7 +30,7 @@ export default function LoginPage() {
     <div className="login-links">
           <Link to="/PasswordFind" className="login-link">비밀번호 찾기</Link>
           <span>|</span>
-          <Link to="/Sign_up" className="login-link">회원 가입</Link>
+          <Link to="/Sign-Up" className="login-link">회원 가입</Link>
         </div>
     </div>
     </div>

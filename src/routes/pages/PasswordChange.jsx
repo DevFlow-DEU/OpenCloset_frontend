@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react';
 import Header from '../../components/Header'
 import NavBar from '../../components/NavBar'
-import './PasswordChange.css'
+import './share.css'
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { pwChangeSchema } from './PWChangeSchema.ts'
-
+import { useNavigate } from "react-router-dom";
 export default function PasswordChange(){
 
-
+  const navigate = useNavigate();
     // const [currentPassword,setcurrentPassword] = useState('')
     // const [newPassword,setNewPassword] = useState('')
     // const [checkPassword,setCheckPassword] = useState('')
+    const backUrl = import.meta.env.VITE_BACK_URL;
   const [errorMSG,setErrorMSG] = useState('')
-    const {
+  const {
         register,
         handleSubmit,
         formState: { errors, isValid, isDirty},
@@ -25,18 +26,14 @@ export default function PasswordChange(){
     });
 
 
-
-
-
-
     const onSubmit = async (values) => {
       const { currentPassword, newPassword } = values;
       const token = localStorage.getItem("token");
    
 
     try {
-      const res = await fetch("http://opencloset.jihongeek.com/auth/password-change", {
-        method: "POST",
+      const res = await fetch(`${backUrl}/auth/password-change`, {
+        method: "PUT",
         headers: { "content-type": "application/json",
                    Authorization: `Bearer ${token}`,
                   },
@@ -52,7 +49,7 @@ export default function PasswordChange(){
       setErrorMSG("비밀번호 변경 실패", data);
     }
   } catch (error) {
-    setErrorMSG(error);
+    setErrorMSG(error.message || "요청 중 오류가 발생했습니다.");
   }
 };
 
@@ -64,47 +61,48 @@ export default function PasswordChange(){
         <>
         
         <Header></Header>
+        <div className='SHcontainer'>
         <form action="" onSubmit={handleSubmit(onSubmit)}>
             <div className=' space-40px'></div>
 
             
-            <div className='PWinput-container'>
-            <p className='PWinput-tittle'>현재 비밀번호</p>
-            <input {...register("currentPassword")} className='PWinput' type="password" placeholder='현재 비밀번호 입력'/>
-            <div className={`PWinput-bar ${errors.currentPassword ? "red" : ""}  `}></div>
-            <div className='PWinput-space space-40px'>
-               {errors.currentPassword  && <p className="PWinput-error">{errors.currentPassword.message}</p>}
+            <div>
+            <p className='SHinput-tittle'>현재 비밀번호</p>
+            <input {...register("currentPassword")} className='SHinput' type="password" placeholder='현재 비밀번호 입력'/>
+            <div className={`SHinput-bar ${errors.currentPassword ? "red" : ""}  `}></div>
+            <div className='SHinput-space space-40px'>
+               {errors.currentPassword  && <p className="SHinput-error">{errors.currentPassword.message}</p>}
                
             </div>
             </div>
 
-          <div className='PWinput-container'>
-            <p className='PWinput-tittle'>새 비밀번호</p>
-            <input  {...register("newPassword")} className='PWinput' type="password" placeholder='새 비밀번호 입력'/>
-            <div className={`PWinput-bar  ${errors.newPassword ? "red" : ""}`} ></div>
-            <div className='PWinput-space space-28px'>
-               {errors.newPassword  && <p className="PWinput-error">{errors.newPassword.message}</p>}
+          <div>
+            <p className='SHinput-tittle'>새 비밀번호</p>
+            <input  {...register("newPassword")} className='SHinput' type="password" placeholder='새 비밀번호 입력'/>
+            <div className={`SHinput-bar  ${errors.newPassword ? "red" : ""}`} ></div>
+            <div className='SHinput-space space-28px'>
+               {errors.newPassword  && <p className="SHinput-error">{errors.newPassword.message}</p>}
             </div>
             </div>
 
 
-            <div className='PWinput-container'>
-            <p className='PWinput-tittle'>새 비밀번호 확인</p>
-            <input  {...register("checkPassword")} className='PWinput' type="password" placeholder='새 비밀번호 한번 더 입력'/>
-            <div className={`PWinput-bar ${errors.checkPassword ? "red" : ""}`} ></div>
-            <div className='PWinput-space space-28px'>
-               {errors.checkPassword  && <p className="PWinput-error">{errors.checkPassword.message}</p>}
+            <div>
+            <p className='SHinput-tittle'>새 비밀번호 확인</p>
+            <input  {...register("checkPassword")} className='SHinput' type="password" placeholder='새 비밀번호 한번 더 입력'/>
+            <div className={`SHinput-bar ${errors.checkPassword ? "red" : ""}`} ></div>
+            <div className='SHinput-space space-28px'>
+               {errors.checkPassword  && <p className="SHinput-error">{errors.checkPassword.message}</p>}
             </div>
             </div>
             
-             <button className={`PWsubmit ${isDirty && isValid ? "check" : ""}`} 
+             <button className={`SHsubmit ${isDirty && isValid ? "check" : ""}`} 
                 type='submit' 
                 disabled={!(isDirty && isValid)}> 제출하기 
              </button>
-             <p className='PWinput-error errorMSG'>{errorMSG}</p>
+             <p className='SHinput-error errorMSG'>{errorMSG}</p>
           
         </form>
-        
+        </div>
         <NavBar></NavBar>
         </>
     )
