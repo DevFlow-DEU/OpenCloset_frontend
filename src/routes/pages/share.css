@@ -1,104 +1,101 @@
-.SHinput-bar{
-    height: 2px;
-    width: 100%;
-    background-color: #4D4F50;
+.SHinput-bar {
+  height: 2px;
+  width: 100%;
+  background-color: #4d4f50;
 }
-.SHinput-bar.red{
-    background-color:red;
+.SHinput-bar.red {
+  background-color: red;
 }
-.SHinput-error{
-    color: red;
-    font-size: 12px;
-    margin: 0;
+.SHinput-error {
+  color: red;
+  font-size: 12px;
+  margin: 0;
 }
-.SHinput{
-    background-color: none;
-    border-width: 0;
-    height: 56px;
-    width: 100%;
-    background-color: #ffffff;
-    outline: none;
-    font-size: 18px;
-     appearance: none;
+.SHinput {
+  background-color: none;
+  border-width: 0;
+  height: 56px;
+  width: 100%;
+  background-color: #ffffff;
+  outline: none;
+  font-size: 18px;
+  appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
 }
-.SHinput-container{
-    margin: 0;
+.SHinput-container {
+  margin: 0;
 }
-.SHinput-200px{
-    height: 200px;
-    background-color: none;
-    border-width: 0;
-    width: 100%;
-    background-color: #ffffff;
-    outline: none;
-    font-size: 18px;
+.SHinput-200px {
+  height: 200px;
+  background-color: none;
+  border-width: 0;
+  width: 100%;
+  background-color: #ffffff;
+  outline: none;
+  font-size: 18px;
 }
-.space-120px{
-    height: 120px;
+.space-120px {
+  height: 120px;
 }
-.space-80px{
-    height: 80px;
+.space-80px {
+  height: 80px;
 }
-.space-60px{
-    height: 60px;
+.space-60px {
+  height: 60px;
 }
-.space-40px{
-    height: 40px;
+.space-40px {
+  height: 40px;
 }
-.space-28px{
-    height: 28px;
+.space-28px {
+  height: 28px;
 }
-.space-12px{
-    height: 12px;
+.space-12px {
+  height: 12px;
 }
-.SHinput-tittle{
-    margin: 0;
-    font-size: 16px;
-    color: #4D4F50;
-    font-weight: 700;
+.SHinput-tittle {
+  margin: 0;
+  font-size: 16px;
+  color: #4d4f50;
+  font-weight: 700;
 }
-.SHsubmit{
-    height: 48px;
-    background-color: #D0CFD4;
-    color: #EDF2F4;
-    border-radius: 5px;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    font-size: 18px;
-    margin: 0 ;
-    border: 0;
-    width:100%;
+.SHsubmit {
+  height: 48px;
+  background-color: #d0cfd4;
+  color: #edf2f4;
+  border-radius: 5px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+  margin: 0;
+  border: 0;
+  width: 100%;
 }
-.SHsubmit.check{
-background-color: #00A066;
-/* background-color: #004643; */
+.SHsubmit.check {
+  background-color: #00a066;
+  /* background-color: #004643; */
 }
-.errorMSG{
-    text-align: center;
-    margin-top: 32px;
+.errorMSG {
+  text-align: center;
+  margin-top: 32px;
 }
 input::placeholder {
-  color: #D0CFD4;
+  color: #d0cfd4;
   font-size: 14px;
 }
 textarea::placeholder {
-  color: #D0CFD4;
+  color: #d0cfd4;
   font-size: 14px;
 }
 
-.ELspan{
+.ELspan {
   font-size: 26px;
   font-size: 500;
 }
 
-.SHcontainer{
-width: calc(100%-32px); 
-height: auto;
-margin: 0 16px;
+.SHcontainer {
+  width: calc(100%-32px);
+  height: auto;
+  margin: 0 16px;
 }
-
-
-
