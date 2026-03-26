@@ -35,7 +35,7 @@ export default function DeleteAccount() {
   });
   useEffect(() => {
     if (!token) navigate('/login');
-  });
+  }, [token, navigate]);
   return (
     <div className={styles.page}>
       <PageHeader title='회원탈퇴' />
