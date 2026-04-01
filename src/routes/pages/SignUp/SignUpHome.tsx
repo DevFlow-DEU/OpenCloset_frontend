@@ -1,10 +1,10 @@
+import '../share.css';
 import styles from './SignUpHome.module.css';
 import { MdGpsFixed } from 'react-icons/md';
 import { SignUpSchema } from './signUpSchema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { EmailDomainInput } from '../../../components/EmailDomainInput';
-import PageHeader from '../../../components/PageHeader';
+import Header from '../../../components/Header.tsx';
 import BottomConfirmBar from '../../../components/BottomConfirmBar';
 import { useNavigate } from 'react-router-dom';
 import { useSignUp } from './signUpContext';
@@ -17,7 +17,6 @@ export default function SignUpHome() {
   const {
     register,
     handleSubmit,
-    setValue,
     getValues,
     formState: { errors },
   } = useForm<SignUpForm>({
@@ -26,14 +25,6 @@ export default function SignUpHome() {
     defaultValues: signUpData,
   });
   const navigate = useNavigate();
-  const domainOptions = [
-    'gmail.com',
-    'naver.com',
-    'daum.net',
-    'kakao.com',
-    'hanmail.net',
-    'nate.net',
-  ];
   const mutation = useMutation({
     mutationFn: (newUserInfo: components['schemas']['UserCreateRequestDto']) =>
       client.POST('/auth/register', { body: newUserInfo }),
@@ -52,19 +43,19 @@ export default function SignUpHome() {
       }
     },
   });
-  return (
-    <div className={styles.signupPage}>
-      <PageHeader title='회원가입' />
 
-      <main className={styles.signupContent}>
+  return (
+    <div className={styles.pageLayout}>
+      <Header title='회원가입' />
+      <main className={styles.contentLayout}>
         <form
+          noValidate
           id='signup-form'
-          className={styles.signupForm}
+          className='SHinput-container'
           onSubmit={handleSubmit(() => {
-            const { password, emailDomain, emailLocalPart, nickname } =
-              getValues();
+            const { password, email, nickname } = getValues();
             mutation.mutate({
-              email: `${emailLocalPart}@${emailDomain}`,
+              email,
               password,
               nickname,
               address,
@@ -72,123 +63,112 @@ export default function SignUpHome() {
             });
           })}
         >
-          <div className={`${styles.formGroup} ${styles.nicknameGroup}`}>
-            <label className={styles.formLabel} htmlFor='nickname'>
-              닉네임
-            </label>
-            <div className={styles.nicknameRow}>
-              <input
-                type='text'
-                id='nickname'
-                placeholder='닉네임 입력'
-                className={`${styles.input} ${styles.nicknameInput}${
-                  errors.nickname ? ' ' + styles.inputOnError : ''
-                }`}
-                {...register('nickname')}
-              />
+          <div>
+            <p className='SHinput-tittle'>닉네임</p>
+            <input
+              type='text'
+              id='nickname'
+              placeholder='닉네임 입력'
+              className='SHinput'
+              {...register('nickname')}
+            />
+            <div
+              className={`SHinput-bar ${errors.nickname ? 'red' : ''}`}
+            ></div>
+            <div className='SHinput-space space-28px'>
+              {errors.nickname ? (
+                <p className='SHinput-error'>{errors.nickname.message}</p>
+              ) : (
+                ''
+              )}
             </div>
-            {errors.nickname ? (
-              <p className={styles.error}>{errors.nickname.message}</p>
-            ) : (
-              ''
-            )}
           </div>
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel} htmlFor='email'>
-              이메일
-            </label>
-            <div className={styles.emailRow}>
-              <input
-                type='text'
-                id='localpart'
-                {...register('emailLocalPart')}
-                placeholder='이메일'
-                className={`${
-                  errors.emailLocalPart || errors.emailDomain
-                    ? styles.inputOnError
-                    : styles.input
-                } ${styles.localpartInput}`}
-              />
-              <span className={styles.emailAt}>@</span>
-              <EmailDomainInput
-                error={
-                  errors.emailDomain !== undefined ||
-                  errors.emailLocalPart !== undefined
-                }
-                domainOptions={domainOptions}
-                register={() => register('emailDomain')}
-                setValue={setValue}
-              />
+          <div>
+            <p className='SHinput-tittle'>이메일</p>
+            <input
+              type='email'
+              id='email'
+              {...register('email')}
+              placeholder='이메일'
+              className='SHinput'
+            />
+            <div className={`SHinput-bar ${errors.email ? 'red' : ''}`}></div>
+            <div className='SHinput-space space-28px'>
+              {errors.email ? (
+                <p className='SHinput-error'>
+                  {'올바른 이메일을 입력해주세요.'}
+                </p>
+              ) : (
+                ''
+              )}
             </div>
-            {errors.emailDomain || errors.emailLocalPart ? (
-              <p className={styles.error}>{'올바른 이메일을 입력해주세요.'}</p>
-            ) : (
-              ''
-            )}
           </div>
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel} htmlFor='password'>
-              비밀번호
-            </label>
+          <div>
+            <p className='SHinput-tittle'>비밀번호</p>
             <input
               type='password'
               id='password'
               placeholder='비밀번호 입력'
               {...register('password')}
-              className={errors.password ? styles.inputOnError : styles.input}
+              className='SHinput'
             />
-            <p className={styles.helperText}>
+            <div
+              className={`SHinput-bar ${errors.password ? 'red' : ''}`}
+            ></div>
+            <p style={{ margin: 0, color: '#6e6e6e', fontSize: '13px' }}>
               비밀번호는 8자 이상, 영문과 숫자를 포함해야 합니다.
             </p>
-            {errors.password ? (
-              <p className={styles.error}>{errors.password.message}</p>
-            ) : (
-              ''
-            )}
+            <div className='SHinput-space space-28px'>
+              {errors.password ? (
+                <p className='SHinput-error'>{errors.password.message}</p>
+              ) : (
+                ''
+              )}
+            </div>
           </div>
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel} htmlFor='passwordConfirm'>
-              비밀번호 확인
-            </label>
+          <div>
+            <p className='SHinput-tittle'>비밀번호 확인</p>
             <input
               type='password'
               id='passwordConfirm'
               placeholder='비밀번호 입력'
               {...register('passwordConfirm')}
-              className={
-                errors.passwordConfirm ? styles.inputOnError : styles.input
-              }
+              className='SHinput'
             />
-            {errors.passwordConfirm ? (
-              <p className={styles.error}>{errors.passwordConfirm.message}</p>
-            ) : (
-              ''
-            )}
-          </div>
-          <div className={`${styles.formGroup} ${styles.addressGroup}`}>
-            <label className={styles.formLabel} htmlFor='address'>
-              주소
-            </label>
-            <div className={styles.addressBox}>
-              <input
-                type='text'
-                {...register('address')}
-                value={address}
-                placeholder='현재 위치 찾기 버튼을 눌러주세요.'
-                className={`${styles.input} ${styles.addressInput} ${
-                  errors.address ? styles.inputOnError : ''
-                }`}
-                disabled
-              />
+            <div
+              className={`SHinput-bar ${errors.passwordConfirm ? 'red' : ''}`}
+            ></div>
+            <div className='SHinput-space space-28px'>
+              {errors.passwordConfirm ? (
+                <p className='SHinput-error'>
+                  {errors.passwordConfirm.message}
+                </p>
+              ) : (
+                ''
+              )}
             </div>
-            {errors.address ? (
-              <p className={styles.error}>{errors.address.message}</p>
-            ) : (
-              ''
-            )}
+          </div>
+          <div>
+            <p className='SHinput-tittle'>주소</p>
+            <input
+              type='text'
+              {...register('address')}
+              value={address}
+              placeholder='현재 위치 찾기 버튼을 눌러주세요.'
+              className='SHinput'
+              disabled
+            />
+            <div className={`SHinput-bar ${errors.address ? 'red' : ''}`}></div>
+            <div className='SHinput-space space-28px'>
+              {errors.address ? (
+                <p className='SHinput-error'>{errors.address.message}</p>
+              ) : (
+                ''
+              )}
+            </div>
             <button
               type='button'
-              className={`${styles.button} ${styles.primaryButton} ${styles.locationButton}`}
+              className='SHsubmit check'
               onClick={() => {
                 setSignUpData({ ...getValues(), address });
                 navigate('get-location');
@@ -204,7 +184,7 @@ export default function SignUpHome() {
         <button
           form='signup-form'
           type='submit'
-          className={`${styles.button} ${styles.primaryButton} ${styles.submitButton}`}
+          className={`${styles.submitButton} SHsubmit check`}
         >
           ✓ 가입하기
         </button>

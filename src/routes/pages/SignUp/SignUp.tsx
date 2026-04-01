@@ -3,10 +3,8 @@ import { useState } from 'react';
 import type { ContextType } from './signUpContext';
 export default function SignUp() {
   const [signUpData, setSignUpData] = useState({
-    nicknameDuplicateCheck: false,
     nickname: '',
-    emailLocalPart: '',
-    emailDomain: '',
+    email: '',
     password: '',
     passwordConfirm: '',
     address: '',
