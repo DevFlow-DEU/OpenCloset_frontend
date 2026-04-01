@@ -1,0 +1,50 @@
+.my-img {
+  width: 100%;
+  border: 0;
+  text-align: center;
+}
+
+.profile-img-container {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profile-img {
+  width: 120px;
+  height: 120px;
+  background-color: white;
+  border-radius: 36px;
+  border: 2px solid  #00a066;
+  object-fit: cover;
+  display: block;
+}
+
+input[type='file'] {
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}
+
+.profile-pen {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  width: 28px;
+  height: 28px;
+  background-color: #00a066;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 999px;
+}
+
+.profile-pen svg {
+  width: 18px;
+  height: 18px;
+}

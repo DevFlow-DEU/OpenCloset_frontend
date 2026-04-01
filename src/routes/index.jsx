@@ -15,8 +15,11 @@ import EmailLogin from './pages/EmailLogin';
 import SignUp from './pages/SignUp/SignUp';
 import SignUpHome from './pages/SignUp/SignUpHome';
 import GetLocation from './pages/GetLocation';
+import GetLocation1 from './pages/GetLocation1';
 import DeleteAccount from './pages/DeleteAccount/DeleteAccount';
 import ChangeAddress from './pages/ChangeAddress/ChangeAddress';
+import AccountSettings from './pages/AccountSettings';
+import InformationEdit from './pages/InformationEdit';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -75,6 +78,18 @@ const router = createBrowserRouter([
     element: <EmailLogin />,
   },
   {
+    path: '/accountSettings',
+    element: <AccountSettings />,
+  },
+  {
+    path: '/informationEdit',
+    element: <InformationEdit />,
+  },
+  {
+   path: 'get-location1',
+   element: <GetLocation1 />,
+  },
+  {
     path: '/sign-up',
     Component: SignUp,
     children: [
@@ -92,6 +107,7 @@ const router = createBrowserRouter([
     path: '/change-address',
     Component: ChangeAddress,
   },
+  
 ]);
 
 export default function Router() {

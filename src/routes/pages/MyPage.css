@@ -30,6 +30,7 @@ align-items: center;
 .menu-item{
     height: 60px;
     font-size: 18px;
+    width: 100%;
 }
 .menu-item a{
     align-items: center;
@@ -40,7 +41,7 @@ align-items: center;
     text-decoration: none; /* 링크의 밑줄 제거 */
     font-size: 18px;
     height: 100%;
-    width: 100%;
+    
 }
 
 .article-bar{
