@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MdGpsFixed } from 'react-icons/md';
 import {
   fetchKakaoAddressByCoords,
@@ -12,25 +13,20 @@ type Coordinates = {
   longitude: number | null;
 };
 
-type GetLocationProps = {
-  onSelectAddress: (address: string) => void;
-  onClose?: () => void;
-};
+export default function GetLocation() {
+  const navigate = useNavigate();
+  const mapRef = useRef<HTMLDivElement | null>(null);
 
-export default function GetLocation({
-  onSelectAddress,
-  onClose,
-}: GetLocationProps) {
   const [coordinates, setCoordinates] = useState<Coordinates>({
     latitude: null,
     longitude: null,
   });
   const [addressText, setAddressText] = useState('현재 위치 기반 주소');
-  const mapRef = useRef<HTMLDivElement | null>(null);
 
   const updateLocation = useCallback(() => {
     if (!navigator.geolocation) {
       console.error('이 브라우저에서는 위치 정보를 지원하지 않습니다.');
+      setAddressText('이 브라우저에서는 위치 정보를 지원하지 않습니다.');
       return;
     }
 
@@ -43,6 +39,7 @@ export default function GetLocation({
       },
       (error) => {
         console.error('현재 위치를 가져오지 못했습니다:', error);
+        setAddressText('현재 위치를 가져오지 못했습니다.');
       }
     );
   }, []);
@@ -91,6 +88,21 @@ export default function GetLocation({
     };
   }, [coordinates]);
 
+  const isInvalidAddress =
+    !addressText ||
+    addressText === '현재 위치 기반 주소' ||
+    addressText === '주소를 불러오는 중입니다.' ||
+    addressText === '주소를 확인할 수 없습니다.' ||
+    addressText === '현재 위치를 가져오지 못했습니다.' ||
+    addressText === '이 브라우저에서는 위치 정보를 지원하지 않습니다.';
+
+  const handleConfirm = () => {
+    if (isInvalidAddress) return;
+
+    sessionStorage.setItem('selectedAddress', addressText);
+    navigate(-1);
+  };
+
   return (
     <div className={styles.page}>
       <main className={styles.content}>
@@ -124,10 +136,7 @@ export default function GetLocation({
           <button
             type="button"
             className={styles.confirmButton}
-            onClick={() => {
-              onSelectAddress(addressText);
-              onClose?.();
-            }}
+            onClick={handleConfirm}
           >
             확인
           </button>

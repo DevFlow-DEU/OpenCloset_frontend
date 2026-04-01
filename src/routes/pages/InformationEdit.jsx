@@ -12,7 +12,10 @@ export default function InformationEdit() {
   const navigate = useNavigate();
   const location = useLocation();
   const token = localStorage.getItem('token');
-  const [images, setImages] = useState('https://opencloset.jihongeek.workers.dev/src/assets/Default_Profile.png');
+
+  const [images, setImages] = useState(
+    'https://opencloset.jihongeek.workers.dev/src/assets/Default_Profile.png'
+  );
   const [imageFile, setImageFile] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -22,7 +25,6 @@ export default function InformationEdit() {
     handleSubmit,
     reset,
     setValue,
-    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -30,8 +32,6 @@ export default function InformationEdit() {
       address: '',
     },
   });
-
-  const watchedAddress = watch('address');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,10 +71,13 @@ export default function InformationEdit() {
   }, [navigate, reset, token]);
 
   useEffect(() => {
-    if (location.state?.address) {
-      setValue('address', location.state.address);
+    const savedAddress = sessionStorage.getItem('selectedAddress');
+
+    if (savedAddress) {
+      setValue('address', savedAddress, { shouldValidate: true });
+      sessionStorage.removeItem('selectedAddress');
     }
-  }, [location.state, setValue]);
+  }, [location.key, setValue]);
 
   const onSubmit = async (data) => {
     try {
@@ -114,7 +117,7 @@ export default function InformationEdit() {
                 id="profile-file"
                 accept="image/*"
                 onChange={(e) => {
-                  const file = e.target.files[0];
+                  const file = e.target.files?.[0];
                   if (!file) return;
 
                   setImageFile(file);
@@ -165,7 +168,7 @@ export default function InformationEdit() {
                 type="text"
                 id="address"
                 placeholder="현재 위치 찾기 버튼을 눌러주세요."
-                disabled
+                readOnly
                 {...register('address', {
                   required: '주소를 입력해주세요.',
                 })}
