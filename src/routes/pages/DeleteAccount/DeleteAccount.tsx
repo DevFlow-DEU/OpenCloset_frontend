@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ActionButton from '../../../components/ActionButton';
 import BottomConfirmBar from '../../../components/BottomConfirmBar';
-import PageHeader from '../../../components/PageHeader';
+import Header from '../../../components/Header';
 import styles from './DeleteAccount.module.css';
 
 export default function DeleteAccount() {
@@ -10,7 +10,7 @@ export default function DeleteAccount() {
 
   return (
     <div className={styles.page}>
-      <PageHeader title='회원탈퇴' />
+      <Header title='회원탈퇴' />
       <main className={styles.content}>
         <section className={styles.formSection}>
           <label htmlFor='delete-account-password' className={styles.label}>
