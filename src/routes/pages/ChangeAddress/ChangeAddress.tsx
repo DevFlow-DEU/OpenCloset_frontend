@@ -5,9 +5,10 @@ import {
   loadKakaoMapSdk,
   renderKakaoMapWithMarker,
 } from '../getLocationMap';
+import '../share.css';
 import styles from './ChangeAddress.module.css';
 import { useNavigate } from 'react-router-dom';
-import PageHeader from '../../../components/PageHeader';
+import Header from '../../../components/Header';
 import BottomConfirmBar from '../../../components/BottomConfirmBar';
 import { client } from '../../../api/client';
 import { useMutation } from '@tanstack/react-query';
@@ -129,7 +130,7 @@ export default function ChangeAddress() {
 
   return (
     <div className={styles.page}>
-      <PageHeader title='주소 변경' />
+      <Header title='주소 변경' />
       <main className={styles.content}>
         <section className={styles.mapSection}>
           <div ref={mapRef} className={styles.mapContainer} />
@@ -141,16 +142,18 @@ export default function ChangeAddress() {
         </section>
 
         <section className={styles.addressSection}>
+          <p className='SHinput-tittle'>현재 위치 주소</p>
           <input
-            className={styles.addressInput}
+            className='SHinput'
             type='text'
             value={addressText}
             readOnly
             aria-label='현재 위치 주소'
           />
+          <div className='SHinput-bar'></div>
           <button
             type='button'
-            className={styles.resetButton}
+            className={`SHsubmit check ${styles.resetButton}`}
             onClick={updateLocation}
           >
             <MdGpsFixed className={styles.resetIcon} />
@@ -161,7 +164,7 @@ export default function ChangeAddress() {
       <BottomConfirmBar>
         <button
           type='button'
-          className={styles.confirmButton}
+          className='SHsubmit check'
           onClick={() => {
             mutation.mutate();
           }}
