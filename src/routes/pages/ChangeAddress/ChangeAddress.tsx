@@ -8,7 +8,7 @@ import {
 import '../share.css';
 import styles from './ChangeAddress.module.css';
 import { useNavigate } from 'react-router-dom';
-import Header from '../../../components/Header';
+import Header from '../../../components/Header.tsx';
 import BottomConfirmBar from '../../../components/BottomConfirmBar';
 import { client } from '../../../api/client';
 import { useMutation } from '@tanstack/react-query';
