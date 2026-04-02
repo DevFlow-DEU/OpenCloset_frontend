@@ -1,3 +1,7 @@
+:root {
+  --app-header-height: 81px;
+}
+
 #root {
   flex-direction: column;
 }

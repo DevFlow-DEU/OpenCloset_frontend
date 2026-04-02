@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ActionButton from '../../../components/ActionButton';
 import BottomConfirmBar from '../../../components/BottomConfirmBar';
-import PageHeader from '../../../components/PageHeader';
+import Header from '../../../components/Header.tsx';
 import styles from './DeleteAccount.module.css';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -41,7 +41,7 @@ export default function DeleteAccount() {
   }, [token, navigate]);
   return (
     <div className={styles.page}>
-      <PageHeader title='회원탈퇴' />
+      <Header title='회원 탈퇴' />
       <main className={styles.content}>
         <section className={styles.formSection}>
           <label htmlFor='delete-account-password' className={styles.label}>
