@@ -95,9 +95,7 @@ export default function SignUpHome() {
             <div className={`SHinput-bar ${errors.email ? 'red' : ''}`}></div>
             <div className='SHinput-space space-28px'>
               {errors.email ? (
-                <p className='SHinput-error'>
-                  {'올바른 이메일을 입력해주세요.'}
-                </p>
+                <p className='SHinput-error'>{errors.email.message}</p>
               ) : (
                 ''
               )}
