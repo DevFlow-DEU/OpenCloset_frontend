@@ -4,26 +4,6 @@
  */
 
 export interface paths {
-    "/mypage/address": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /**
-         * 주소 변경
-         * @description 현재 로그인된 사용자의 주소를 변경합니다. JWT 토큰이 필요합니다.
-         */
-        put: operations["changeAddress"];
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/auth/password-change": {
         parameters: {
             query?: never;
@@ -60,26 +40,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/mypage/profile/image": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * 프로필 이미지 업로드
-         * @description 현재 로그인된 사용자의 프로필 이미지를 업로드합니다. JWT 토큰이 필요합니다.
-         */
-        post: operations["uploadProfileImage"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/mypage/logout": {
         parameters: {
             query?: never;
@@ -100,6 +60,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/mypage/edit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 프로필 통합 수정
+         * @description 기존에 분리되어 있던 이미지, 닉네임, 주소 변경을 한 번에 처리하는 API입니다. 변경을 원하는 필드 값(FormData 형식)만 채워서 보내면 됩니다. 변경하지 않을 값은 빈 값으로 두거나 안 보내도 됩니다. JWT 토큰이 필수입니다.
+         */
+        post: operations["editProfile"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/board/create": {
         parameters: {
             query?: never;
@@ -109,6 +89,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * 새 게시물 생성
+         * @description 새로운 옷 대여 게시물을 작성. (토큰 인증 필수)
+         */
         post: operations["createBoard"];
         delete?: never;
         options?: never;
@@ -127,7 +111,7 @@ export interface paths {
         put?: never;
         /**
          * 회원가입
-         * @description 신규 사용자를 등록. 이메일, 닉네임, 비밀번호, 주소, 나이 정보가 필요.
+         * @description 신규 사용자를 등록. 이메일, 닉네임, 비밀번호, 주소 정보가 필요.
          */
         post: operations["registerUser"];
         delete?: never;
@@ -217,7 +201,9 @@ export interface paths {
         };
         /**
          * 내 상품 목록 조회
-         * @description 현재 로그인된 사용자가 등록한 상품 목록을 조회합니다. JWT 토큰이 필요합니다.
+         * @description 현재 로그인된 유저가 업로드(등록)한 모든 상품(옷) 목록을 불러옴.
+         *
+         *      이메일(JWT 토큰)을 기반으로 본인이 올린 게시물만 출력하며, 상태(판매중 등)와 사진 정보가 포함.
          */
         get: operations["getMyProducts"];
         put?: never;
@@ -424,7 +410,7 @@ export interface paths {
         post?: never;
         /**
          * 회원 탈퇴
-         * @description 현재 로그인된 사용자의 계정을 삭제합니다. 관련된 게시글 및 데이터도 함께 삭제됩니다. JWT 토큰이 필요합니다.
+         * @description 현재 로그인된 사용자의 계정을 삭제합니다. JSON 바디로 'password'를 보내서 비밀번호가 일치해야 탈퇴됩니다. 관련된 게시글 및 데이터도 함께 삭제됩니다.
          */
         delete: operations["deleteUser"];
         options?: never;
@@ -436,14 +422,6 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        /** @description 주소 변경 요청 DTO */
-        AddressChangeRequestDto: {
-            /**
-             * @description 변경할 새 주소
-             * @example 서울시 강남구 역삼동
-             */
-            newAddress: string;
-        };
         /** @description 비밀번호 변경 요청 DTO */
         PasswordChangeRequestDto: {
             /**
@@ -477,17 +455,54 @@ export interface components {
             /** Format: date-time */
             createdAt?: string;
         };
+        /** @description 게시물 생성 요청 DTO */
         BoardCreateRequestDto: {
+            /**
+             * @description 게시물 제목
+             * @example 나이키 바람막이 L사이즈 빌려드려요!
+             */
             title?: string;
+            /**
+             * @description 게시물 상세 설명
+             * @example 1회 실착 완전 새상품급입니다. 비 오는 날 입기 좋아요.
+             */
             description?: string;
+            /**
+             * Format: binary
+             * @description 게시물 이미지 파일 (첨부 안 할 시 기본 이미지 등록됨)
+             */
             image?: string;
+            /**
+             * @description 옷 사이즈 (예: S, M, L, XL, Free)
+             * @example L
+             */
             size?: string;
+            /**
+             * @description 성별 (예: M, W, 공용)
+             * @example 공용
+             */
             sex?: string;
+            /**
+             * @description 거래 희망 장소 (직거래 시)
+             * @example 강남역 2번 출구 앞
+             */
             place?: string;
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @description 대여 가격 (원 단위)
+             * @example 15000
+             */
             price?: number;
-            /** Format: int32 */
+            /**
+             * Format: int32
+             * @description 대여 기간 (일 수)
+             * @example 3
+             */
             date?: number;
+            /**
+             * @description 옷 카테고리 (tops, bottom, outher, onepiece, jewelry, shoes 중 택 1)
+             * @example outher
+             */
             category?: string;
         };
         BoardCreateResponsetDto: {
@@ -529,11 +544,6 @@ export interface components {
              * @example 부산시 부산진구
              */
             address?: string;
-            /**
-             * @description 사용자 나이
-             * @example 26
-             */
-            age?: string;
         };
         /** @description 회원가입 응답 DTO */
         UserResponeDto: {
@@ -553,10 +563,10 @@ export interface components {
              */
             address?: string;
             /**
-             * @description 등록된 사용자 나이
-             * @example 26
+             * @description 등록된 사용자 프로필 이미지 경로
+             * @example https://opencloset.jihongeek.workers.dev/images/default_profile.png
              */
-            age?: string;
+            profileImage?: string;
         };
         RefreshTokenRequestDto: {
             refreshToken?: string;
@@ -577,6 +587,7 @@ export interface components {
             message?: string;
             accessToken?: string;
             refreshToken?: string;
+            profileImage?: string;
         };
         /** @description 마이페이지 프로필 조회 응답 DTO */
         MyPageProfileResponseDto: {
@@ -747,65 +758,6 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    changeAddress: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["AddressChangeRequestDto"];
-            };
-        };
-        responses: {
-            /** @description 주소 변경 성공 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "주소가 성공적으로 변경되었습니다."
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
-            /** @description 잘못된 요청 (주소 값 누락) */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "status": 400,
-                     *       "error": "Bad Request",
-                     *       "message": "변경할 주소를 입력해주세요."
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
-            /** @description 인증되지 않은 사용자 (토큰 없음 또는 만료) */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "Unauthorized"
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
     changePassword: {
         parameters: {
             query?: never;
@@ -889,71 +841,6 @@ export interface operations {
             };
         };
     };
-    uploadProfileImage: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "multipart/form-data": {
-                    /**
-                     * Format: binary
-                     * @description 업로드할 사진 파일 (10MB 이하)
-                     */
-                    profileImage: string;
-                };
-            };
-        };
-        responses: {
-            /** @description 프로필 이미지 업로드 성공 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "프로필 이미지가 성공적으로 업로드되었습니다."
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
-            /** @description 잘못된 요청 (파일 누락 등) */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "status": 400,
-                     *       "error": "Bad Request",
-                     *       "message": "업로드할 파일이 비어 있습니다."
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
-            /** @description 인증되지 않은 사용자 (토큰 없음 또는 만료) */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "Unauthorized"
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
     logout: {
         parameters: {
             query?: never;
@@ -993,6 +880,69 @@ export interface operations {
             };
         };
     };
+    editProfile: {
+        parameters: {
+            query?: {
+                nickname?: string;
+                address?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "multipart/form-data": {
+                    /** Format: binary */
+                    profileImage?: string;
+                };
+            };
+        };
+        responses: {
+            /** @description 프로필 수정 성공 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "프로필 정보가 성공적으로 수정되었습니다."
+                     *     }
+                     */
+                    "application/json": unknown;
+                };
+            };
+            /** @description 잘못된 요청 또는 닉네임 중복 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "이미 사용 중인 닉네임입니다."
+                     *     }
+                     */
+                    "application/json": unknown;
+                };
+            };
+            /** @description 인증되지 않은 사용자 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Unauthorized"
+                     *     }
+                     */
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
     createBoard: {
         parameters: {
             query?: never;
@@ -1000,13 +950,13 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody: {
+        requestBody?: {
             content: {
-                "application/json": components["schemas"]["BoardCreateRequestDto"];
+                "multipart/form-data": components["schemas"]["BoardCreateRequestDto"];
             };
         };
         responses: {
-            /** @description OK */
+            /** @description 게시물 생성 성공 */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1039,7 +989,7 @@ export interface operations {
                     "application/json": components["schemas"]["UserResponeDto"];
                 };
             };
-            /** @description 잘못된 요청 (필수 필드 누락 또는 유효하지 않은 데이터) */
+            /** @description 이미 존재하는 이메일 또는 닉네임 */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1186,16 +1136,36 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description 상품 목록 조회 성공 */
+            /** @description 내 상품 목록 조회 완벽히 성공! */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example [
+                     *       {
+                     *         "productId": 25,
+                     *         "title": "나이키 바람막이 L사이즈 빌려드려요!",
+                     *         "price": 15000,
+                     *         "status": "판매중",
+                     *         "imageUrl": "https://opencloset.jihongeek.com/uploads/boards/17150123984_nike_windbreaker.jpg",
+                     *         "createdAt": "2026-03-24T18:30:11.123"
+                     *       },
+                     *       {
+                     *         "productId": 11,
+                     *         "title": "아디다스 츄리닝 바지",
+                     *         "price": 8000,
+                     *         "status": "예약중",
+                     *         "imageUrl": "https://opencloset.jihongeek.com/images/default_board.png",
+                     *         "createdAt": "2026-03-10T12:00:00.000"
+                     *       }
+                     *     ]
+                     */
                     "application/json": components["schemas"]["MyProductResponseDto"][];
                 };
             };
-            /** @description 인증되지 않은 사용자 (토큰 없음 또는 만료) */
+            /** @description 로그인하지 않았거나 토큰이 만료됨 */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1203,7 +1173,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "Unauthorized"
+                     *       "message": "Unauthorized - 유효하지 않은 토큰입니다."
                      *     }
                      */
                     "application/json": unknown;
@@ -1452,7 +1422,19 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody?: never;
+        /** @description 탈퇴를 위한 비밀번호 입력 */
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "password": "mySecret123!"
+                 *     }
+                 */
+                "application/json": {
+                    [key: string]: string;
+                };
+            };
+        };
         responses: {
             /** @description 회원 탈퇴 성공 */
             200: {
@@ -1468,7 +1450,21 @@ export interface operations {
                     "application/json": unknown;
                 };
             };
-            /** @description 인증되지 않은 사용자 (토큰 없음 또는 만료) */
+            /** @description 비밀번호 불일치 또는 누락 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "비밀번호가 일치하지 않습니다."
+                     *     }
+                     */
+                    "application/json": unknown;
+                };
+            };
+            /** @description 인증되지 않은 사용자 */
             401: {
                 headers: {
                     [name: string]: unknown;
