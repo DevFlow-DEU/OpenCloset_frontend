@@ -59,7 +59,6 @@ export default function SignUpHome() {
               password,
               nickname,
               address,
-              age: '',
             });
           })}
         >
