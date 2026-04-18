@@ -21,9 +21,9 @@ export default function ChangeAddress() {
   const token = localStorage.getItem('token');
   const mutation = useMutation({
     mutationFn: () =>
-      client.PUT('/mypage/address', {
-        body: {
-          newAddress: addressText,
+      client.POST('/mypage/edit', {
+        query: {
+          address: addressText,
         },
         headers: {
           Authorization: `Bearer ${token}`,
