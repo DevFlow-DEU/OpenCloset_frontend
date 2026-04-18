@@ -22,7 +22,7 @@ export default function ChangeAddress() {
   const mutation = useMutation({
     mutationFn: () =>
       client.POST('/mypage/edit', {
-        body: {
+        query: {
           address: addressText,
         },
         headers: {
