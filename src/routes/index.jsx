@@ -20,6 +20,7 @@ import DeleteAccount from './pages/DeleteAccount/DeleteAccount';
 import ChangeAddress from './pages/ChangeAddress/ChangeAddress';
 import AccountSettings from './pages/AccountSettings';
 import InformationEdit from './pages/InformationEdit';
+import Test from './pages/test';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -86,8 +87,12 @@ const router = createBrowserRouter([
     element: <InformationEdit />,
   },
   {
-   path: 'get-location1',
-   element: <GetLocation1 />,
+    path: 'get-location1',
+    element: <GetLocation1 />,
+  },
+  {
+    path: 'test',
+    element: <Test />,
   },
   {
     path: '/sign-up',
@@ -107,7 +112,7 @@ const router = createBrowserRouter([
     path: '/change-address',
     Component: ChangeAddress,
   },
-  
+
 ]);
 
 export default function Router() {

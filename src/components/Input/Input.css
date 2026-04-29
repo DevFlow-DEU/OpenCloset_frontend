@@ -1,0 +1,194 @@
+/* label */
+:root {
+    /* 색상 */
+    --color-gray1: #F3F4F6;
+    --color-gray2: #D1D4DB;
+    --color-gray3: #4C5564;
+    --color-gray4: #111828;
+    --color-warning: #ff0000;
+    --color-brand: #00A066;
+
+    /* 텍스트 크기 */
+    --text-sm: 12px;
+    --text-m: 14px;
+    --text-lg: 18px;
+    --text-xl: 24px;
+
+    /* 기타 */
+    --border-radius: 10px;
+}
+
+.inp-label {
+    font-size: var(--text-m);
+    color: var(--color-gray4);
+    font-weight: 700;
+    margin: 0;
+}
+
+/* 공통 input */
+.inp-input {
+    border: 0;
+    height: 56px;
+    width: calc(100%-32px);
+    outline: none;
+    background-color: #ffffff;
+    font-size: var(--text-lg);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    color: var(--color-gray3);
+}
+
+.inp-input::placeholder {
+    font-size: var(--text-lg);
+    color: var(--color-gray2);
+
+
+}
+
+/* 하단 바 */
+.inp-error-bar {
+    height: 2px;
+    width: 100%;
+    background-color: var(--color-gray3);
+}
+
+.inp-error-bar.error {
+    background-color: var(--color-warning);
+}
+
+/* 에러 메시지 */
+.inp-error-msg {
+    color: var(--color-warning);
+    font-size: var(--text-sm);
+    margin: 0;
+}
+
+.inp-nick-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.inp-nick-row .inp-input {
+    flex: 1;
+}
+
+.inp-nick-btn {
+    padding: 0 12px;
+    height: 40px;
+    border: 0px;
+    color: var(--color-gray1);
+    border-radius: 6px;
+    background: var(--color-gray2);
+    font-size: 14px;
+    cursor: not-allowed;
+    white-space: nowrap;
+}
+
+.inp-nick-btn.active {
+    background: var(--color-brand);
+    cursor: pointer;
+}
+
+
+/* ── 3. location ── */
+.inp-location {
+    display: flex;
+    flex-direction: column;
+}
+
+.inp-location-btn {
+    width: 100%;
+    margin-top: 8px;
+}
+
+.inp-location-icon {
+    margin-right: 6px;
+}
+
+/* ── 4. radio ── */
+.inp-radio-group {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.inp-radio-btn {
+    flex: 1;
+    height: 48px;
+    border: 2px solid var(--color-gray2);
+    border-radius: 10px;
+    background: #ffffff;
+    font-size: var(--text-lg);
+    color: var(--color-gray3);
+    transition: border-color 0.15s, color 0.15s;
+}
+
+.inp-radio-btn.active {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+    font-weight: 500;
+}
+
+.inp-radio-btn.error {
+    border-color: var(--color-warning);
+}
+
+
+.inp-select-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 56px;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #4D4F50;
+    background: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+}
+
+.inp-select-value {
+    color: var(--color-gray2);
+    font-size: var(--text-lg);
+}
+
+.inp-select-value.selected {
+    color: var(--color-gray3);
+}
+
+.inp-select-btn.error {
+    border-bottom-color: red;
+}
+
+.inp-select-arrow {
+    font-size: 20px;
+    color: var(--color-gray3);
+}
+
+/* ── 6. textarea ── */
+.inp-textarea {
+    display: flex;
+    flex-direction: column;
+}
+
+.inp-textarea-input {
+    height: 200px;
+    width: calc(100%-32px);
+    background-color: #ffffff;
+    border-width: 0;
+    outline: none;
+    font-size: var(--text-lg);
+    resize: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    color: var(--color-gray3);
+}
+
+.inp-textarea-input::placeholder {
+    font-size: var(--color-gray2);
+}
