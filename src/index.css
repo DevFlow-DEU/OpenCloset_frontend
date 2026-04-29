@@ -1,11 +1,25 @@
 :root {
   --app-header-height: 81px;
+  --green-1: #eafde7;
+  --green-2: #00a066;
+  --green-3: #004643;
+  --gray-1: #f3f4f6;
+  --gray-2: #d1d4db;
+  --gray-3: #4c5564;
+  --gray-4: #111828;
+
+  --text-xs: 12px;
+  --text-s: 14px;
+  --text-m: 18px;
+  --text-l: 24px;
 }
 
 #root {
   flex-direction: column;
 }
-body,html,#root {
+body,
+html,
+#root {
   background-color: #ffffff;
   margin: 0;
   height: 100%;
@@ -14,4 +28,3 @@ body,html,#root {
 div {
   padding: 0px;
 }
-
