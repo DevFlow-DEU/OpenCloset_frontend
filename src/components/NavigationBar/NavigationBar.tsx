@@ -19,19 +19,13 @@ const ICON_SIZE = {
 };
 
 interface Props {
-  hasBottomBar?: boolean;
   className?: string;
 }
 
-export default function NavigationBar({
-  hasBottomBar = false,
-  className,
-}: Props) {
+export default function NavigationBar({ className }: Props) {
   const pathname = useLocation().pathname;
   return (
-    <div
-      className={`${styles.navigationBar} ${hasBottomBar ? styles.bottomBarArea : ""} ${className ?? ""}`}
-    >
+    <div className={`${styles.navigationBar} ${className ?? ""}`}>
       <Link to={"/"}>
         {pathname === "/" ? (
           <GoHomeFill {...ICON_SIZE} />
