@@ -1,0 +1,57 @@
+.appNotch {
+  height: 44px;
+  justify-items: center;
+}
+.camera {
+  width: 40%;
+  background-color: black;
+  border-radius: 0 0 1100px 1100px;
+  height: 24px;
+}
+.appBar {
+  height: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 16px;
+  color: #1e1f1f;
+}
+.appBar > span {
+  flex: 1;
+}
+.appBar > span:last-child {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24px;
+}
+.appBarCenter {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+.appBar svg {
+  color: #1e1f1f;
+}
+.headerBody {
+  background-color: white;
+  position: fixed;
+  width: 100%;
+}
+.headerBar {
+  height: 1px;
+  width: 100%;
+  background-color: #d0cfd4;
+}
+.headerSpace {
+  height: 81px;
+  width: 100%;
+  flex-shrink: 0;
+}
+.headerTitle {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.f18px {
+  font-size: 18px;
+}
