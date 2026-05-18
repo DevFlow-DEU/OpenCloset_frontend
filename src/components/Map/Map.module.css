@@ -1,0 +1,18 @@
+.addressLabel {
+    font-size: var(--text-m);
+    font-weight: 600;
+    color: var(--color-gray4);
+    margin: 0;
+}
+
+.addressInput {
+    border: none;
+    border-bottom: 2px solid var(--color-gray3);
+    outline: none;
+    font-size: var(--text-lg);
+    color: var(--color-gray3);
+    height: 56px;
+    background: none;
+    width: 100%;
+    margin-bottom: 28px;
+}
