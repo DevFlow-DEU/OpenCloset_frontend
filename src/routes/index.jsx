@@ -20,7 +20,7 @@ import DeleteAccount from './pages/DeleteAccount/DeleteAccount';
 import ChangeAddress from './pages/ChangeAddress/ChangeAddress';
 import AccountSettings from './pages/AccountSettings';
 import InformationEdit from './pages/InformationEdit';
-import Test from './pages/test';
+import Test from './pages/Test';
 const router = createBrowserRouter([
   {
     path: '/',

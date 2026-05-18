@@ -2,11 +2,17 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import Input from '../../components/Input/Input'
+import Nickname from '../../components/Input/Nickname'
+import Location from '../../components/Input/Location'
+import Radio from '../../components/Input/Radio'
+import Select from '../../components/Input/Select'
+import Textarea from '../../components/Input/Textarea'
 
 const schema = z.object({
     name: z.string().min(1, "빈칸을 채워 주세요"),
     nickname: z.string().min(1, "빈칸을 채워 주세요"),
     location: z.string().min(1, "빈칸을 채워 주세요"),
+    coord: z.string().optional(),
     gender: z.string().min(1, "빈칸을 채워 주세요"),
     size: z.string().min(1, "빈칸을 채워 주세요"),
     description: z.string().min(1, "빈칸을 채워 주세요"),
@@ -19,67 +25,61 @@ export default function Test() {
         resolver: zodResolver(schema),
     })
 
-    const onSubmit = (data: FormData) => console.log(data)
+    const onSubmit = (data: FormData) => {
+        const message = [
+            `이름: ${data.name}`,
+            `닉네임: ${data.nickname}`,
+            `거래 장소: ${data.location}`,
+            `좌표: ${data.coord ?? '없음'}`,
+            `성별: ${data.gender}`,
+            `사이즈: ${data.size}`,
+            `상세 설명: ${data.description}`,
+        ].join('\n')
+        alert(message)
+    }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: '24px', padding: '24px' }}>
 
-            {/* 1. default */}
             <Input
-                variant="default"
                 label="이름"
                 placeholder="이름을 입력하세요"
                 register={register("name")}
                 error={errors.name}
             />
 
-            {/* 2. nick */}
-            <Input
-                variant="nick"
+            <Nickname
                 label="닉네임"
                 placeholder="닉네임을 입력하세요"
                 register={register("nickname")}
                 error={errors.nickname}
             />
 
-            {/* 3. location */}
-            <Input
-                variant="location"
+            <Location
                 label="거래 장소"
                 placeholder="위치를 선택하세요"
                 register={register("location")}
+                coordRegister={register("coord")}
                 error={errors.location}
-                modalContent={({ onSelect, onClose }) => (
-                    <div style={{ border: '1px solid #ccc', padding: '16px' }}>
-                        <p>위치 모달</p>
-                        <button onClick={() => onSelect("서울시 강남구")}>강남구 선택</button>
-                        <button onClick={onClose}>닫기</button>
-                    </div>
-                )}
+                map="detailedMap"
             />
 
-            {/* 4. radio */}
-            <Input
-                variant="radio"
+            <Radio
                 label="성별"
                 options={["남성", "여성", "공용"]}
                 register={register("gender")}
                 error={errors.gender}
             />
 
-            {/* 5. select */}
-            <Input
-                variant="select"
+            <Select
                 label="사이즈"
                 placeholder="사이즈를 선택하세요"
                 register={register("size")}
                 error={errors.size}
-                drawerType="size"
+                drawer="size"
             />
 
-            {/* 6. textarea */}
-            <Input
-                variant="textarea"
+            <Textarea
                 label="상세 설명"
                 placeholder="상세 설명을 입력하세요"
                 rows={4}
@@ -87,7 +87,7 @@ export default function Test() {
                 error={errors.description}
             />
 
-            <button type="submit">전송</button>
+            <button type="submit">전송하기</button>
         </form>
     )
 }

@@ -1,5 +1,19 @@
 :root {
   --app-header-height: 81px;
+
+  --color-gray1: #F3F4F6;
+  --color-gray2: #D1D4DB;
+  --color-gray3: #4C5564;
+  --color-gray4: #111828;
+  --color-warning: #ff0000;
+  --color-brand: #00A066;
+
+  --text-sm: 12px;
+  --text-m: 14px;
+  --text-lg: 18px;
+  --text-xl: 24px;
+
+  --border-radius: 10px;
 }
 
 #root {

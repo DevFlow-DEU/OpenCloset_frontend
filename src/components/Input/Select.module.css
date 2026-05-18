@@ -1,0 +1,36 @@
+.inputSelect {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputSelectButton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 56px;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid var(--color-gray3);
+    background: #ffffff;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+}
+
+.inputSelectButton.error {
+    border-bottom-color: var(--color-warning);
+}
+
+.inputSelectValue {
+    font-size: var(--text-lg);
+    color: var(--color-gray2);
+}
+
+.inputSelectValue.selected {
+    color: var(--color-gray3);
+}
+
+.inputSelectArrow {
+    font-size: 20px;
+    color: var(--color-gray3);
+}

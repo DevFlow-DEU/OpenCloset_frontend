@@ -1,27 +1,23 @@
 import type { UseFormRegisterReturn, FieldError } from "react-hook-form"
 import commonStyles from "./common.module.css"
-import styles from "./Input.module.css"
+import styles from "./Textarea.module.css"
 
 type Props = {
     label?: string
     placeholder?: string
-    type?: React.HTMLInputTypeAttribute
-    register?: UseFormRegisterReturn
-    value?: string
-    onChange?: React.ChangeEventHandler<HTMLInputElement>
+    register: UseFormRegisterReturn
+    rows?: number
     error?: FieldError
 }
 
-export default function Input({ label, placeholder, type, register, value, onChange, error }: Props) {
+export default function Textarea({ label, placeholder, register, rows, error }: Props) {
     return (
-        <div className={styles.inputWrapper}>
+        <div className={styles.inputTextarea}>
             {label && <p className={commonStyles.inputLabel}>{label}</p>}
-            <input
-                className={commonStyles.inputField}
-                type={type}
+            <textarea
+                className={styles.inputTextareaField}
                 placeholder={placeholder}
-                value={value}
-                onChange={onChange}
+                rows={rows}
                 {...register}
             />
             <div className={`${commonStyles.inputErrorBar}${error ? ` ${commonStyles.error}` : ""}`} />
