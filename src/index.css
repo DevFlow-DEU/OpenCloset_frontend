@@ -1,13 +1,13 @@
 :root {
   --app-header-height: 81px;
-
   --color-gray1: #F3F4F6;
   --color-gray2: #D1D4DB;
   --color-gray3: #4C5564;
   --color-gray4: #111828;
   --color-warning: #ff0000;
-  --color-brand: #00A066;
-
+  --color-brand1: #eafde7;
+  --color-brand2: #00a066;
+  --color-brand3: #004643;
   --text-sm: 12px;
   --text-m: 14px;
   --text-lg: 18px;
@@ -19,7 +19,9 @@
 #root {
   flex-direction: column;
 }
-body,html,#root {
+body,
+html,
+#root {
   background-color: #ffffff;
   margin: 0;
   height: 100%;
@@ -28,4 +30,3 @@ body,html,#root {
 div {
   padding: 0px;
 }
-
