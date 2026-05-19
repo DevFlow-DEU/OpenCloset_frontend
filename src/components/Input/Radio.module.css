@@ -1,0 +1,32 @@
+.inputRadio {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputRadioGroup {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.inputRadioButton {
+    flex: 1;
+    height: 48px;
+    border: 2px solid var(--color-gray2);
+    border-radius: var(--border-radius);
+    background: #ffffff;
+    font-size: var(--text-lg);
+    color: var(--color-gray3);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+}
+
+.inputRadioButton.active {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+    font-weight: 500;
+}
+
+.inputRadioButton.error {
+    border-color: var(--color-warning);
+}
