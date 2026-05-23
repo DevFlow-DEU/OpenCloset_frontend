@@ -12,25 +12,20 @@
   height: 56px;
   display: flex;
   justify-content: space-between;
+  gap: 24px;
   align-items: center;
   padding-inline: 16px;
   color: #1e1f1f;
-}
-.appBar > span {
-  flex: 1;
-}
-.appBar > span:last-child {
-  display: flex;
-  justify-content: flex-end;
-  gap: 24px;
+  position: relative;
 }
 .appBarCenter {
-  flex: 1;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
-}
-.appBar svg {
-  color: #1e1f1f;
+  max-width: calc(100% - 96px);
+  overflow: hidden;
 }
 .headerBody {
   background-color: white;
@@ -52,6 +47,7 @@
   font-weight: 600;
 }
 
-.f18px {
-  font-size: 18px;
+.linkGroup {
+  display: flex;
+  column-gap: 24px;
 }
