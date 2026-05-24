@@ -20,16 +20,16 @@
     color: var(--color-gray1);
     border-radius: 6px;
     background: var(--color-gray2);
-    font-size: var(--text-m);
+    font-size: var(--font-size-m);
     cursor: not-allowed;
     white-space: nowrap;
 }
 
 .inputNicknameButton.active {
-    background: var(--color-brand);
+    background: var(--color-brand2);
     cursor: pointer;
 }
 
 .inputNicknameButton.active:active {
-    background: var(--color-brand);
+    background: var(--color-brand2);
 }
