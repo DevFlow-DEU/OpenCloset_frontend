@@ -60,19 +60,17 @@ export default function Map({ onSelect, onClose }: DrawerProps) {
 
     return (
         <div className={common.container}>
-            <div className={common.header}>
-                <button className={common.backButton} type="button" onClick={onClose}>
-                    <SlArrowLeft size={24} />
-                </button>
-                <span className={common.title}>거래 장소 선택</span>
-                <div className={common.headerSpacer} />
-            </div>
+
+            <button className={common.backButton} type="button" onClick={onClose}>
+                <SlArrowLeft size={24} />
+            </button>
+
             <div className={styles.headerbar} />
             <div className={common.mapSection}>
                 <div ref={mapRef} className={common.map} />
                 {isMapLoading && <div className={common.skeleton} />}
             </div>
-            <div className={styles.footer}>
+            <div className={common.footer}>
                 <p className={styles.addressLabel}>현재 위치 주소</p>
                 <input className={styles.addressInput} value={addressText} readOnly />
                 <Button variant="secondary" type="button" onClick={updateLocation}>
