@@ -7,23 +7,31 @@ import SearchIcon from "../../assets/header_search.svg?react";
 import BackIcon from "../../assets/header_back.svg?react";
 import Logo from "../Logo/Logo";
 
-/*
-  버튼, 로고 분리요망
-*/
-
 interface RootProps {
   children?: ReactNode;
   hasNotch?: boolean;
+  hasCamera?: boolean;
 }
 
 function LinkGroup({ children }: { children: ReactNode }) {
   return <span className={styles.linkGroup}>{children}</span>;
 }
 
-function Title({ title }: { title: string }) {
+function MainTitle({ title }: { title: string }) {
+  return <span className={styles.mainTitle}>{title}</span>;
+}
+function CenterTitle({ title }: { title: string }) {
   return (
-    <span className={styles.appBarCenter}>
-      <span className={styles.headerTitle}>{title}</span>
+    <span className={styles.headerContentCenter}>
+      <span className={styles.centerTitle}>{title}</span>
+    </span>
+  );
+}
+
+function CenterLogo() {
+  return (
+    <span className={styles.headerContentCenter}>
+      <Logo />
     </span>
   );
 }
@@ -58,18 +66,18 @@ function MyPageLink() {
   );
 }
 
-function Root({ hasNotch, children }: RootProps) {
+function Root({ hasNotch, hasCamera, children }: RootProps) {
   return (
     <>
       <div className={styles.headerBody}>
         {hasNotch ? (
-          <div className={styles.appNotch}>
-            <div className={styles.camera}></div>
+          <div className={styles.notchArea}>
+            {hasCamera ? <div className={styles.cameraArea} /> : null}
           </div>
         ) : null}
         {/* 노치 부분은 앱으로 만들면 없애야 함 */}
-        <div className={styles.appBar}>{children}</div>
-        <div className={styles.headerBar} />
+        <div className={styles.headerContent}>{children}</div>
+        <div className={styles.headerDivider} />
       </div>
     </>
   );
@@ -79,7 +87,9 @@ export default function Header({ children }: { children: ReactNode }) {
 }
 
 Header.Root = Root;
-Header.Title = Title;
+Header.CenterTitle = CenterTitle;
+Header.CenterLogo = CenterLogo;
+Header.MainTitle = MainTitle;
 Header.MyPageLink = MyPageLink;
 Header.SearchLink = SearchLink;
 Header.BackButton = BackButton;
