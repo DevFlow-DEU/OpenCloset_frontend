@@ -1,35 +1,30 @@
 .overlay {
-    position: fixed;
-    inset: 0;
+    composes: overlay from './common.module.css';
     background: rgba(0, 0, 0, 0.4);
-    z-index: 100;
-    display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .container {
-    background: #fff;
+    composes: container from './common.module.css';
     border-radius: 16px;
     padding: 8px 0;
     min-width: 160px;
-    display: flex;
-    flex-direction: column;
 }
 
 .item {
     padding: 16px 40px;
     border: none;
     background: none;
-    font-size: var(--text-lg);
+    font-size: var(--font-size-lg);
     color: var(--color-gray4);
     cursor: pointer;
     text-align: center;
 }
 
 .item.active {
-    color: var(--color-brand);
-    font-weight: 600;
+    color: var(--color-brand2);
+    font-weight: var(--font-weight-bold);
 }
 
 .item:hover {
