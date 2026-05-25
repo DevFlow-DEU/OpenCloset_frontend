@@ -46,13 +46,12 @@ interface Props {
 }
 
 export default function CategoryLink({ to, clothType }: Props) {
-  const icon = clothTypeIconMap[clothType]({
-    width: "41.5px",
-    height: "41.5px",
-  });
+  const Icon = clothTypeIconMap[clothType];
   return (
     <Link to={to} className={styles.link}>
-      <div className={styles.iconContainer}>{icon as ReactNode}</div>
+      <div className={styles.iconContainer}>
+        <Icon width={"41.5px"} height={"41.5px"} />
+      </div>
       {clothTypeLabelMap[clothType]}
     </Link>
   );
