@@ -15,7 +15,7 @@ const clothTypeIconMap = {
   pants: PantsIcon,
   outer: OuterIcon,
   bag: BagIcon,
-  jewerly: JewelryIcon,
+  jewelry: JewelryIcon,
   onepiece: OnePieceIcon,
   shoes: ShoesIcon,
   accessory: AccessoryIcon,
@@ -26,7 +26,7 @@ const clothTypeLabelMap = {
   pants: "하의",
   outer: "아우터",
   bag: "가방",
-  jewerly: "쥬얼리",
+  jewelry: "쥬얼리",
   onepiece: "원피스",
   shoes: "신발",
   accessory: "액세서리",
@@ -39,7 +39,7 @@ interface Props {
     | "pants"
     | "outer"
     | "bag"
-    | "jewerly"
+    | "jewelry"
     | "onepiece"
     | "shoes"
     | "accessory";
