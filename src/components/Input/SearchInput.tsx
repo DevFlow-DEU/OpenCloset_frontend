@@ -13,7 +13,6 @@ export default function SearchInput({ text, setText }: Props) {
         type="search"
         inputMode="search"
         className={styles.input}
-        defaultValue={text}
         value={text}
         onChange={(e) => setText(e.currentTarget.value)}
         placeholder="검색어를 입력해주세요"
