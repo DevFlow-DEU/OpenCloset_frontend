@@ -1,6 +1,5 @@
 import styles from "./CategoryLink.module.css";
 import { Link } from "react-router-dom";
-import { type ReactNode } from "react";
 import TopsIcon from "../../assets/icon/Category/Tops.svg?react";
 import PantsIcon from "../../assets/icon/Category/Pants.svg?react";
 import OuterIcon from "../../assets/icon/Category/Outer.svg?react";
