@@ -8,10 +8,17 @@
   --color-brand1: #eafde7;
   --color-brand2: #00a066;
   --color-brand3: #004643;
-  --text-sm: 12px;
-  --text-m: 14px;
-  --text-lg: 18px;
-  --text-xl: 24px;
+  --color-red: #FB6E52;
+  --color-green: #9FD269;
+  --color-blue: #5E9BEB;
+  --color-yellow: #FFB85C;
+  --font-size-sm: 12px;
+  --font-size-m: 14px;
+  --font-size-lg: 18px;
+  --font-size-xl: 24px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 600;
 
   --border-radius: 10px;
 }
@@ -19,6 +26,7 @@
 #root {
   flex-direction: column;
 }
+
 body,
 html,
 #root {
@@ -27,6 +35,14 @@ html,
   height: 100%;
   width: 100%;
 }
+
 div {
   padding: 0px;
 }
+
+/* 두께 400 500 600 사용할듯 기본이 500으로
+레귤러 400
+미디움 500
+볼드 600 */
+
+.cursor-pointer { cursor: pointer; }

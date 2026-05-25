@@ -1,7 +1,7 @@
 .inputLabel {
-    font-size: var(--text-m);
+    font-size: var(--font-size-m);
     color: var(--color-gray4);
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
     margin: 0;
 }
 
@@ -11,7 +11,7 @@
     width: 100%;
     outline: none;
     background-color: #ffffff;
-    font-size: var(--text-lg);
+    font-size: var(--font-size-lg);
     color: var(--color-gray3);
     appearance: none;
     -webkit-appearance: none;
@@ -19,7 +19,7 @@
 }
 
 .inputField::placeholder {
-    font-size: var(--text-lg);
+    font-size: var(--font-size-lg);
     color: var(--color-gray2);
 }
 
@@ -35,6 +35,6 @@
 
 .inputErrorMessage {
     color: var(--color-warning);
-    font-size: var(--text-sm);
+    font-size: var(--font-size-sm);
     margin: 0;
 }

@@ -15,16 +15,16 @@
     border: 2px solid var(--color-gray2);
     border-radius: var(--border-radius);
     background: #ffffff;
-    font-size: var(--text-lg);
+    font-size: var(--font-size-lg);
     color: var(--color-gray3);
     cursor: pointer;
     transition: border-color 0.15s, color 0.15s;
 }
 
 .inputRadioButton.active {
-    border-color: var(--color-brand);
-    color: var(--color-brand);
-    font-weight: 500;
+    border-color: var(--color-brand2);
+    color: var(--color-brand2);
+    font-weight: var(--font-weight-medium);
 }
 
 .inputRadioButton.error {
