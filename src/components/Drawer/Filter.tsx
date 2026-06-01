@@ -6,7 +6,7 @@ import FilterDatePicker from "./FilterDatePicker"
 import styles from "./Filter.module.css"
 
 const formatComma = (v: string) => v ? Number(v).toLocaleString() : ""
-const stripComma = (v: string) => v.replaceAll(",", "")
+const stripComma = (v: string) => v.replace(/[^0-9]/g, "")
 
 type Tab = "성별" | "가격" | "카테고리" | "사이즈" | "기간"
 
