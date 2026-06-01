@@ -1,0 +1,56 @@
+.overlay {
+    composes: overlay from './common.module.css';
+    background: rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+}
+
+.container {
+    composes: container from './common.module.css';
+    margin-top: 100px;
+    border-radius: 20px 20px 0 0;
+    flex: 1;
+    overflow: hidden;
+}
+
+.body {
+    composes: body from './common.module.css';
+    padding: 40px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.sectionLabel {
+    font-size: var(--font-size-m);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-gray4);
+    margin: 0 0 16px 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.optionButton {
+    padding: 12px 0;
+    border: 1px solid var(--color-gray2);
+    border-radius: var(--border-radius);
+    background: #fff;
+    font-size: var(--font-size-m);
+    color: var(--color-gray3);
+    cursor: pointer;
+}
+
+.optionButton.active {
+    border-color: var(--color-brand2);
+    color: var(--color-brand2);
+    font-weight: var(--font-weight-bold);
+}
+
+.footer {
+    composes: footer from './common.module.css';
+    padding: 12px 16px 0px 16px;
+    height: 88px;
+}

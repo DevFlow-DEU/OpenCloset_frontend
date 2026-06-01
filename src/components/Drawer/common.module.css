@@ -1,0 +1,27 @@
+@keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+}
+
+.container {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.3s ease;
+}
+
+.body {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.footer {
+    flex-shrink: 0;
+}
