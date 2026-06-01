@@ -43,7 +43,7 @@ export default function ProductItem({
   status,
   onSaveButtonClick,
 }: ProductItemProps) {
-  const image = imageUrls[0];
+  const image = imageUrls?.[0];
   const parsedStartDate = startDate ? parseDate(startDate) : null;
   const parsedEndDate = endDate ? parseDate(endDate) : null;
 
