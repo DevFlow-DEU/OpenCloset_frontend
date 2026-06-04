@@ -1,0 +1,15 @@
+.badge {
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 6px;
+    border-radius: 4px;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: #ffffff;
+    white-space: nowrap;
+}
+
+.reserved { background: var(--color-yellow); }
+.renting  { background: var(--color-blue); }
+.returned { background: var(--color-green); }

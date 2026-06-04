@@ -1,22 +1,32 @@
 :root {
   --app-header-height: 81px;
-  --green-1: #eafde7;
-  --green-2: #00a066;
-  --green-3: #004643;
-  --gray-1: #f3f4f6;
-  --gray-2: #d1d4db;
-  --gray-3: #4c5564;
-  --gray-4: #111828;
+  --color-gray1: #F3F4F6;
+  --color-gray2: #D1D4DB;
+  --color-gray3: #4C5564;
+  --color-gray4: #111828;
+  --color-warning: #ff0000;
+  --color-brand1: #eafde7;
+  --color-brand2: #00a066;
+  --color-brand3: #004643;
+  --color-red: #FB6E52;
+  --color-green: #9FD269;
+  --color-blue: #5E9BEB;
+  --color-yellow: #FFB85C;
+  --font-size-sm: 12px;
+  --font-size-m: 14px;
+  --font-size-lg: 18px;
+  --font-size-xl: 24px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 600;
 
-  --text-xs: 12px;
-  --text-s: 14px;
-  --text-m: 18px;
-  --text-l: 24px;
+  --border-radius: 10px;
 }
 
 #root {
   flex-direction: column;
 }
+
 body,
 html,
 #root {
@@ -25,6 +35,14 @@ html,
   height: 100%;
   width: 100%;
 }
+
 div {
   padding: 0px;
 }
+
+/* 두께 400 500 600 사용할듯 기본이 500으로
+레귤러 400
+미디움 500
+볼드 600 */
+
+.cursor-pointer { cursor: pointer; }
