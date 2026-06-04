@@ -27,15 +27,12 @@
 .itemPeriod {
   font-size: 12px;
 }
-.itemLocation {
-  font-size: 12px;
-  color: #575757;
-}
 .itemDescriptionContainer {
   background-color: white;
   border-bottom-right-radius: 24px;
   border-bottom-left-radius: 24px;
   padding: 8px 4px 12px 8px;
+  color: var(--color-gray4);
 }
 
 .saveButton {
@@ -65,7 +62,7 @@
 
 .itemDate {
   font-size: 12px;
-  color: #4c5564;
+  color: var(--color-gray3);
 }
 
 .costGroup {
