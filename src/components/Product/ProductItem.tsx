@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
-import styles from "./ProductItem.module.css";
-import LikeGrayHeartIcon from "../../assets/icon/Like_gray_heart.svg?react";
-import LikeRedHeartIcon from "../../assets/icon/Like_red_heart.svg?react";
-import ItemNoImage from "../../assets/item_no_image.svg";
+import { Link } from 'react-router-dom';
+import styles from './ProductItem.module.css';
+import LikeGrayHeartIcon from '../../assets/icon/Like_gray_heart.svg?react';
+import LikeRedHeartIcon from '../../assets/icon/Like_red_heart.svg?react';
+import ItemNoImage from '../../assets/item_no_image.svg';
 export interface ProductItemProps {
   id: number;
   imageUrls: string[];
@@ -13,12 +13,12 @@ export interface ProductItemProps {
   address?: string;
   startDate?: string;
   endDate?: string;
-  status: "대여가능" | "예약중" | "대여중" | "반납가능";
+  status: '대여가능' | '예약중' | '대여중' | '반납가능';
   onSaveButtonClick?: () => void;
 }
 
 const getKoreanDay = (dateString: string) => {
-  const koreanDays = ["일", "월", "화", "수", "목", "금", "토"];
+  const koreanDays = ['일', '월', '화', '수', '목', '금', '토'];
   return koreanDays[new Date(dateString).getDay()];
 };
 
@@ -53,9 +53,9 @@ export default function ProductItem({
         <div className={styles.itemThumbnail}>
           <button className={styles.saveButton} onClick={onSaveButtonClick}>
             {wished ? (
-              <LikeRedHeartIcon width={"16"} height={"14px"} />
+              <LikeRedHeartIcon width={'16'} height={'14px'} />
             ) : (
-              <LikeGrayHeartIcon width={"16px"} height={"14px"} />
+              <LikeGrayHeartIcon width={'16px'} height={'14px'} />
             )}
           </button>
           <Link to={`/product/${id}`}>
@@ -67,7 +67,7 @@ export default function ProductItem({
                 error.currentTarget.src = ItemNoImage;
               }}
             />
-            {status === "예약중" || status === "대여중" ? (
+            {status === '예약중' || status === '대여중' ? (
               <div className={styles.statusLabel}>{status}</div>
             ) : null}
           </Link>
@@ -78,7 +78,7 @@ export default function ProductItem({
             <div className={styles.itemName}>{name}</div>
             <div className={styles.costGroup}>
               <span className={styles.itemCost}>
-                {rentalCost.toLocaleString("ko-kr", {
+                {rentalCost.toLocaleString('ko-kr', {
                   maximumFractionDigits: 4,
                 })}
                 원
