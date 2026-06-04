@@ -1,0 +1,58 @@
+.notchArea {
+  height: 44px;
+  justify-items: center;
+}
+.cameraArea {
+  width: 40%;
+  background-color: black;
+  border-radius: 0 0 1100px 1100px;
+  height: 24px;
+}
+.headerContent {
+  height: 56px;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  padding-inline: 16px;
+  color: #1e1f1f;
+  position: relative;
+}
+.headerContentCenter {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  max-width: calc(100% - 96px);
+  overflow: hidden;
+}
+.headerBody {
+  background-color: white;
+  position: fixed;
+  width: 100%;
+}
+.headerDivider {
+  height: 1px;
+  width: 100%;
+  background-color: #d0cfd4;
+}
+.headerSpace {
+  height: 81px;
+  width: 100%;
+  flex-shrink: 0;
+}
+.centerTitle {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.mainTitle {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.linkGroup {
+  display: flex;
+  column-gap: 24px;
+}
