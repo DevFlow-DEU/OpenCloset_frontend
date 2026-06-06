@@ -1,6 +1,6 @@
-import type { SetStateAction } from "react";
-import styles from "./SearchInput.module.css";
-import DeleteIcon from "../../assets/search_delete.svg?react";
+import type { SetStateAction } from 'react';
+import styles from './SearchInput.module.css';
+import DeleteIcon from '../../assets/search_delete.svg?react';
 interface Props {
   text: string;
   setText: React.Dispatch<SetStateAction<string>>;
@@ -19,8 +19,8 @@ export default function SearchInput({ text, setText }: Props) {
       />
       <button type="submit" className={styles.submit}></button>
 
-      {text !== "" ? (
-        <button className={styles.button} onClick={() => setText("")}>
+      {text !== '' ? (
+        <button className={styles.button} onClick={() => setText('')}>
           <DeleteIcon />
         </button>
       ) : null}

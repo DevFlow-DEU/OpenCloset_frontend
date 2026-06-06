@@ -1,11 +1,11 @@
-import styles from "./Header.module.css";
-import { Link } from "react-router-dom";
+import styles from './Header.module.css';
+import { Link } from 'react-router-dom';
 
-import { type ReactNode } from "react";
-import ProfileIcon from "../../assets/header_profile.svg?react";
-import SearchIcon from "../../assets/header_search.svg?react";
-import BackIcon from "../../assets/header_back.svg?react";
-import Logo from "../Logo/Logo";
+import { type ReactNode } from 'react';
+import ProfileIcon from '../../assets/header_profile.svg?react';
+import SearchIcon from '../../assets/header_search.svg?react';
+import BackIcon from '../../assets/header_back.svg?react';
+import Logo from '../Logo/Logo';
 
 interface RootProps {
   children?: ReactNode;
@@ -39,7 +39,7 @@ function CenterLogo() {
 function BackButton() {
   return (
     <span>
-      <Link to={".."}>
+      <Link to={'..'}>
         <BackIcon />
       </Link>
     </span>
@@ -49,7 +49,7 @@ function BackButton() {
 function SearchLink() {
   return (
     <span>
-      <Link to={"/Search"}>
+      <Link to={'/Search'}>
         <SearchIcon width={24} />
       </Link>
     </span>
@@ -59,7 +59,7 @@ function SearchLink() {
 function MyPageLink() {
   return (
     <span>
-      <Link to={"/MyPage"}>
+      <Link to={'/MyPage'}>
         <ProfileIcon width={24} />
       </Link>
     </span>

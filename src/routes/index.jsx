@@ -112,7 +112,6 @@ const router = createBrowserRouter([
     path: '/change-address',
     Component: ChangeAddress,
   },
-
 ]);
 
 export default function Router() {

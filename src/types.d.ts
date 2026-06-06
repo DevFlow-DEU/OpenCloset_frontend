@@ -22,9 +22,12 @@ interface Window {
         setPosition: (latLng: unknown) => void;
       };
       event: {
-        addListener: (target: unknown, type: string, handler: () => void) => void;
+        addListener: (
+          target: unknown,
+          type: string,
+          handler: () => void
+        ) => void;
       };
     };
   };
 }
-
