@@ -19,6 +19,12 @@
 }
 .itemName {
   font-size: 14px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
 }
 .itemCost {
   font-size: 14px;
