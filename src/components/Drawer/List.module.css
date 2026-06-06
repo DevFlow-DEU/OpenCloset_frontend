@@ -1,15 +1,12 @@
 .overlay {
     composes: overlay from './common.module.css';
     background: rgba(0, 0, 0, 0.4);
-    align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
 }
 
 .container {
     composes: container from './common.module.css';
-    border-radius: 16px;
-    padding: 8px 0;
-    min-width: 160px;
+    padding: 8px 0 40px;
 }
 
 .item {

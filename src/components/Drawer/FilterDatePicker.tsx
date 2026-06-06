@@ -3,7 +3,6 @@ import { format } from "date-fns"
 import { ko } from "date-fns/locale"
 import { CalendarIcon } from "lucide-react"
 import { DayPicker, type DateRange } from "react-day-picker"
-import "react-day-picker/style.css"
 import styles from "./FilterDatePicker.module.css"
 
 type Props = {
