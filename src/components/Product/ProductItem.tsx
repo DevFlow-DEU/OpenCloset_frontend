@@ -25,7 +25,7 @@ const getKoreanDay = (dateString: string) => {
 const parseDate = (dateString: string) => {
   const date = new Date(dateString);
   return {
-    year: date.getDate(),
+    year: date.getFullYear(),
     month: date.getMonth() + 1,
     date: date.getDate(),
   };
