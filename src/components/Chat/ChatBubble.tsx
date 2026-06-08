@@ -12,10 +12,9 @@ export default function ChatBubble({
   variant = 'them',
 }: ChatBubbleProps) {
   const variantStyle = variant === 'me' ? styles.fromMe : styles.fromThem;
-
   return (
     <>
-      <div className={`${variantStyle}` + (className ?? '')}>
+      <div className={`${variantStyle} ${className || ''}`.trim()}>
         {typeof children === 'string' ? <p>{children}</p> : children}
       </div>
       <div className={styles.clear} />
