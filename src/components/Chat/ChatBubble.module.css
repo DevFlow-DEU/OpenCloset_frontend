@@ -1,7 +1,4 @@
 .wrapper {
-  min-width: 91px;
-  min-height: 40px;
-  max-width: 255px;
   word-wrap: break-word;
   margin-bottom: 20px;
   line-height: 24px;
@@ -16,6 +13,7 @@
   display: inline-block;
   margin: 15px;
   padding: 12px 16px;
+  max-width: 255px;
   background: var(--color-brand2);
   border-radius: 20px;
   color: white;
@@ -23,9 +21,9 @@
 }
 
 .fromMe:after {
-  content: "";
+  content: '';
   position: absolute;
-  top: 20px;
+  top: 12px;
   right: -10px;
   border-top: 15px solid var(--color-brand2);
   border-left: 0 solid transparent;
@@ -35,13 +33,17 @@
 
 .fromMe p {
   margin: 0;
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
 }
 
 .fromThem {
+  line-height: 24px;
   position: relative;
   display: inline-block;
   margin: 15px;
   padding: 12px 16px;
+  max-width: 255px;
   background: var(--color-gray2);
   border-radius: 20px;
   color: black;
@@ -49,9 +51,9 @@
 }
 
 .fromThem:after {
-  content: "";
+  content: '';
   position: absolute;
-  top: 20px;
+  top: 12px;
   left: -10px;
   border-top: 15px solid var(--color-gray2);
   border-left: 15px solid transparent;
@@ -61,4 +63,6 @@
 
 .fromThem p {
   margin: 0;
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
 }
