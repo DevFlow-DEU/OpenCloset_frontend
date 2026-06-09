@@ -1,4 +1,4 @@
-import ProductItem from './ProductItem';
+import ProductItem from './Product/ProductItem';
 import styles from './ProductList.module.css';
 export default function ProductList({ products }) {
   return (
