@@ -1,0 +1,41 @@
+.item a {
+  text-decoration: none;
+  color: black;
+}
+.item {
+  position: relative;
+}
+.item-thumbnail img {
+  border-top-right-radius: 24px;
+  border-top-left-radius: 24px;
+}
+.item-name {
+  font-size: 13px;
+}
+.item-cost {
+  font-size: 16px;
+}
+.item-period {
+  font-size: 13px;
+}
+.item-location {
+  font-size: 11px;
+  color: #575757;
+}
+.item-description-container {
+  background-color: white;
+  border-bottom-right-radius: 24px;
+  border-bottom-left-radius: 24px;
+  padding-inline: 11px;
+  padding-top: 5px;
+  padding-bottom: 13.68px;
+}
+
+.save-button {
+  position: absolute;
+  top: 8.61px;
+  left: 142.86px;
+  border: 0;
+  background-color: transparent;
+  padding: 0px 0px 0px 0px;
+}

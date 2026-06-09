@@ -16,18 +16,11 @@ interface Window {
       ) => {
         setCenter: (latLng: unknown) => void;
         relayout: () => void;
-        getCenter: () => { getLat: () => number; getLng: () => number };
       };
       Marker: new (options: { map: unknown; position: unknown }) => {
         setPosition: (latLng: unknown) => void;
       };
-      event: {
-        addListener: (
-          target: unknown,
-          type: string,
-          handler: () => void
-        ) => void;
-      };
     };
   };
 }
+
