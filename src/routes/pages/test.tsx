@@ -1,21 +1,24 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import Input from '../../components/Input/Input';
-import Nickname from '../../components/Input/Nickname';
-import Location from '../../components/Input/Location';
-import Radio from '../../components/Input/Radio';
-import Select from '../../components/Input/Select';
-import Textarea from '../../components/Input/Textarea';
-import { type FilterValue } from '../../components/Drawer/Filter';
-import SearchFilter from '../../components/Filter/SearchFilter';
-import RadioFilter from '../../components/Filter/RadioFilter';
-import ChatItem from '../../components/Chat/ChatItem';
-import ManageItem from '../../components/Product/ManageItem';
-import { type StateType } from '../../components/State/State';
-import Alert from '../../components/Alert/Alert';
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import Input from '../../components/Input/Input'
+import Nickname from '../../components/Input/Nickname'
+import Location from '../../components/Input/Location'
+import Radio from '../../components/Input/Radio'
+import Select from '../../components/Input/Select'
+import Textarea from '../../components/Input/Textarea'
+import { type FilterValue } from '../../components/Drawer/Filter'
+import SearchFilter from '../../components/Filter/SearchFilter'
+import RadioFilter from '../../components/Filter/RadioFilter'
+import ChatItem from '../../components/Chat/ChatItem'
+import ChatState from '../../components/Chat/ChatState'
+import ManageItem from '../../components/Product/ManageItem'
+import { type StateType } from '../../components/State/State'
+import Alert from '../../components/Alert/Alert'
+import DateRange from '../../components/Input/DateRange'
+import { type DateRange as DateRangeType } from 'react-day-picker'
 
 const MANAGE_ITEMS: {
   id: number;
@@ -126,20 +129,78 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export default function Test() {
-  const navigate = useNavigate();
-  const [alertType, setAlertType] = useState<'check' | 'warning' | null>(null);
-  const [filter, setFilter] = useState<FilterValue>(EMPTY_FILTER);
-  const [chatStatus, setChatStatus] = useState('전체');
-  const [ownerStatus, setOwnerStatus] = useState('전체');
-  const [renterStatus, setRenterStatus] = useState('대여중');
-  const [category, setCategory] = useState('전체');
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(schema),
-  });
+    const navigate = useNavigate()
+    const [alertType, setAlertType] = useState<'check' | 'warning' | null>(null)
+    const [dateRange, setDateRange] = useState<DateRangeType | undefined>(undefined)
+    const [filter, setFilter] = useState<FilterValue>(EMPTY_FILTER)
+    const [chatStatus, setChatStatus] = useState("전체")
+    const [ownerStatus, setOwnerStatus] = useState("전체")
+    const [renterStatus, setRenterStatus] = useState("대여중")
+    const [category, setCategory] = useState("전체")
+    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+        resolver: zodResolver(schema),
+    })
+
+    const onSubmit = (data: FormData) => {
+        const message = [
+            `이름: ${data.name}`,
+            `닉네임: ${data.nickname}`,
+            `거래 장소: ${data.location}`,
+            `좌표: ${data.coord ?? '없음'}`,
+            `성별: ${data.gender}`,
+            `사이즈: ${data.size}`,
+            `상세 설명: ${data.description}`,
+        ].join('\n')
+        alert(message)
+    }
+
+    return (
+        <>
+            {alertType && (
+                <Alert
+                    icon={alertType}
+                    title={alertType === 'check' ? '완료되었습니다' : '정말 탈퇴하시겠어요?'}
+                    description={alertType === 'check' ? '정상적으로 처리되었습니다.' : '탈퇴 시 모든 정보가 삭제됩니다.'}
+                    buttons={alertType === 'check' ? 'confirm' : 'delete'}
+                    onConfirm={() => setAlertType(null)}
+                    onCancel={() => setAlertType(null)}
+                />
+            )}
+            <div style={{ display: 'flex', gap: '8px', padding: '16px' }}>
+                <button type="button" onClick={() => setAlertType('check')}>체크 얼랏</button>
+                <button type="button" onClick={() => setAlertType('warning')}>경고 얼랏</button>
+            </div>
+            <ChatState
+                image="https://picsum.photos/seed/cs1/48"
+                name="프린트 링거 티셔츠"
+                price={3200}
+                status="대여중"
+                onClick={() => navigate('/product/1')}
+                onStatusChange={s => alert(`상태 변경: ${s}`)}
+            />
+            <ChatState
+                image="https://picsum.photos/seed/cs2/48"
+                name="나이키 에어맥스 270"
+                price={5000}
+                onClick={() => navigate('/product/2')}
+                onStatusChange={s => alert(`상태 변경: ${s}`)}
+            />
+            <div>
+                {MANAGE_ITEMS.map(item => (
+                    <ManageItem key={item.id} {...item} onClick={() => navigate(`/product/${item.id}`)} onEdit={() => alert('수정')} />
+                ))}
+            </div>
+            <div>
+                {CHAT_ITEMS.map(item => (
+                    <ChatItem key={item.id} {...item} onClick={() => navigate('/')} className="cursor-pointer" />
+                ))}
+            </div>
+            <SearchFilter value={filter} onChange={setFilter} />
+            <RadioFilter type="chat" value={chatStatus} onChange={setChatStatus} />
+            <RadioFilter type="owner" value={ownerStatus} onChange={setOwnerStatus} />
+            <RadioFilter type="renter" value={renterStatus} onChange={setRenterStatus} />
+            <RadioFilter type="category" value={category} onChange={setCategory} />
+            <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: '24px', padding: '24px' }}>
 
   const onSubmit = (data: FormData) => {
     const message = [
@@ -265,13 +326,19 @@ export default function Test() {
           drawer="size"
         />
 
-        <Textarea
-          label="상세 설명"
-          placeholder="상세 설명을 입력하세요"
-          rows={4}
-          register={register('description')}
-          error={errors.description}
-        />
+                <DateRange
+                    label="대여 기간"
+                    value={dateRange}
+                    onChange={setDateRange}
+                />
+
+                <Textarea
+                    label="상세 설명"
+                    placeholder="상세 설명을 입력하세요"
+                    rows={4}
+                    register={register("description")}
+                    error={errors.description}
+                />
 
         <button type="submit">전송하기</button>
       </form>
