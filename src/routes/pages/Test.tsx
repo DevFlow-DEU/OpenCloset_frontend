@@ -13,12 +13,9 @@ import { type FilterValue } from '../../components/Drawer/Filter';
 import SearchFilter from '../../components/Filter/SearchFilter';
 import RadioFilter from '../../components/Filter/RadioFilter';
 import ChatItem from '../../components/Chat/ChatItem';
-import ChatState from '../../components/Chat/ChatState';
 import ManageItem from '../../components/Product/ManageItem';
 import { type StateType } from '../../components/State/State';
 import Alert from '../../components/Alert/Alert';
-import DateRange from '../../components/Input/DateRange';
-import { type DateRange as DateRangeType } from 'react-day-picker';
 
 const MANAGE_ITEMS: {
   id: number;
@@ -131,9 +128,6 @@ type FormData = z.infer<typeof schema>;
 export default function Test() {
   const navigate = useNavigate();
   const [alertType, setAlertType] = useState<'check' | 'warning' | null>(null);
-  const [dateRange, setDateRange] = useState<DateRangeType | undefined>(
-    undefined
-  );
   const [filter, setFilter] = useState<FilterValue>(EMPTY_FILTER);
   const [chatStatus, setChatStatus] = useState('전체');
   const [ownerStatus, setOwnerStatus] = useState('전체');
@@ -186,21 +180,6 @@ export default function Test() {
           경고 얼랏
         </button>
       </div>
-      <ChatState
-        image="https://picsum.photos/seed/cs1/48"
-        name="프린트 링거 티셔츠"
-        price={3200}
-        status="대여중"
-        onClick={() => navigate('/product/1')}
-        onStatusChange={(s) => alert(`상태 변경: ${s}`)}
-      />
-      <ChatState
-        image="https://picsum.photos/seed/cs2/48"
-        name="나이키 에어맥스 270"
-        price={5000}
-        onClick={() => navigate('/product/2')}
-        onStatusChange={(s) => alert(`상태 변경: ${s}`)}
-      />
       <div>
         {MANAGE_ITEMS.map((item) => (
           <ManageItem
@@ -284,12 +263,6 @@ export default function Test() {
           register={register('size')}
           error={errors.size}
           drawer="size"
-        />
-
-        <DateRange
-          label="대여 기간"
-          value={dateRange}
-          onChange={setDateRange}
         />
 
         <Textarea
