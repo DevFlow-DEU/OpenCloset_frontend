@@ -1,6 +1,6 @@
 .item a {
   text-decoration: none;
-  color: black;
+  color: var(--color-gray4);
 }
 .item {
   width: 175px;
@@ -59,8 +59,8 @@
   height: 40px;
   justify-content: center;
   align-items: center;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.3);
+  color: var(--color-gray1);
+  background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;

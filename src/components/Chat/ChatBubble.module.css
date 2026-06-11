@@ -16,7 +16,7 @@
   max-width: 255px;
   background: var(--color-brand2);
   border-radius: 20px;
-  color: white;
+  color: var(--color-gray1);
   float: right;
 }
 
@@ -46,7 +46,7 @@
   max-width: 255px;
   background: var(--color-gray2);
   border-radius: 20px;
-  color: black;
+  color: var(--color-gray4);
   float: left;
 }
 

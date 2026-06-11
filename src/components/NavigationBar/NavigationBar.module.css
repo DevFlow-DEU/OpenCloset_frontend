@@ -13,7 +13,7 @@
 }
 .navigationBar a {
   text-decoration: none;
-  color: black;
+  color: var(--color-gray4);
   display: flex;
   row-gap: 6px;
   flex-direction: column;
