@@ -18,7 +18,7 @@
   object-fit: cover;
 }
 .itemName {
-  font-size: 14px;
+  font-size: var(--font-size-m);
   text-overflow: ellipsis;
   overflow: hidden;
   -webkit-line-clamp: 2;
@@ -27,11 +27,11 @@
   -webkit-box-orient: vertical;
 }
 .itemCost {
-  font-size: 14px;
+  font-size: var(--font-size-m);
   font-weight: var(--font-weight-bold);
 }
 .itemPeriod {
-  font-size: 12px;
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
 }
 .itemDescriptionContainer {
@@ -54,7 +54,7 @@
 .statusLabel {
   bottom: 0px;
   display: flex;
-  font-size: 24px;
+  font-size: var(--font-size-xl);
   width: 100%;
   height: 40px;
   justify-content: center;
@@ -68,7 +68,7 @@
 }
 
 .itemDate {
-  font-size: 12px;
+  font-size: var(--font-size-sm);
   color: var(--color-gray3);
   font-weight: var(--font-weight-medium);
 }
