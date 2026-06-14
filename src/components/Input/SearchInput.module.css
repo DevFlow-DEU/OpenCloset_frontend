@@ -3,7 +3,7 @@
   background-color: transparent;
   padding-inline: 8px;
   width: 95%;
-  font-size: 18px;
+  font-size: var(--font-size-lg);
   outline: none;
 }
 
@@ -12,7 +12,7 @@
 }
 
 .input::placeholder {
-  font-size: 18px;
+  font-size: var(--font-size-lg);
 }
 
 .button {
@@ -23,12 +23,12 @@
   padding: 0;
 }
 .container {
-  background-color: #f3f4f6;
+  background-color: var(--color-gray1);
   width: 324px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 10px;
+  border-radius: var(--border-radius);
   padding-inline: 8px;
 }
