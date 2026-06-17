@@ -24,10 +24,12 @@ button {
 }
 .photoPreview {
   position: relative;
+  height: 60px;
+  width: 60px;
 }
 .photoPreview img {
-  width: 60px;
-  height: 60px;
+  width: 100%;
+  height: 100%;
   border-radius: var(--border-radius);
   object-fit: cover;
 }
