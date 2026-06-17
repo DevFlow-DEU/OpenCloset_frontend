@@ -9,17 +9,7 @@ import PhotoDeleteIcon from '../../assets/icon/chat_bar_delete.svg?react';
 import PhotoAddIcon from '../../assets/icon/chat_bar_add.svg?react';
 import SendIcon from '../../assets/icon/chat_bar_send.svg?react';
 import SendIconDisabled from '../../assets/icon/chat_bar_send_disabled.svg?react';
-
-interface Photo {
-  uuid: string;
-  file: File;
-  src: string;
-}
-
-interface Message {
-  photos: Photo[];
-  text: string;
-}
+import { type Message, type Photo } from '../../types/chat';
 
 interface Props {
   message: Message;
