@@ -1,6 +1,5 @@
 .container {
-  padding-inline: 16px;
-  width: calc(100vw - 32px);
+  width: 100vw;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -15,6 +14,7 @@ button {
 }
 
 .photoBar {
+  padding-inline: 16px;
   display: flex;
   column-gap: 8px;
   overflow: scroll;
@@ -49,9 +49,11 @@ button {
   height: 40px;
 }
 .inputBar {
+  padding-inline: 16px;
   display: flex;
   justify-content: center;
   column-gap: 8px;
+  padding-top: 6px;
 }
 .textInput {
   border-style: none;
@@ -63,7 +65,17 @@ button {
   border-radius: 1213px;
   padding-inline: 16px;
   padding-block: 10px;
+  color: var(--color-gray4);
 }
+
+.textInput::placeholder {
+  color: var(--color-gray2);
+}
+
 .divider {
+  border-width: 0px;
+  border-top-width: 1px;
   margin: 0;
+  color: var(--color-gray2);
+  border-style: solid;
 }

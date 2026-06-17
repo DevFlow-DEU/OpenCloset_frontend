@@ -91,9 +91,9 @@ export default function ChatBar({
               <img src={photo.src} alt={`uploaded photo ${index}`} />
             </div>
           ))}
-          <hr className={styles.divider} />
         </div>
       ) : null}
+      {message.photos.length > 0 ? <hr className={styles.divider} /> : null}
       <div className={styles.inputBar}>
         <div>
           <label htmlFor="photo-upload">
