@@ -44,9 +44,8 @@ export default function ChatBar({
   };
   const fileToPhoto = (file: File) => {
     const src = URL.createObjectURL(file);
-    const srcURL = URL.parse(src)?.pathname;
-    const uuid = URL.parse(srcURL ?? '')?.pathname.split('/')[1];
-    if (!src || !uuid) {
+    const uuid = new URL(src).pathname.split('/').pop();
+    if (!uuid) {
       throw new Error('파일 사진 객체 변환 실패');
     }
     return { src, uuid, file };
