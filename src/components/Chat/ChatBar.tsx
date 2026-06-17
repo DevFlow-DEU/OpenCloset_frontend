@@ -97,6 +97,7 @@ export default function ChatBar({
             name="photo-upload"
             id="photo-upload"
             onChange={handleFileUpload}
+            accept="image/*"
             multiple
           />
         </div>
