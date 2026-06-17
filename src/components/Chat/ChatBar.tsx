@@ -26,6 +26,9 @@ export default function ChatBar({
 }: Props) {
   const deletePhoto = (uuid: string) => {
     setMessage((message) => {
+      message.photos
+        .filter((photo) => photo.uuid === uuid)
+        .forEach(({ src }) => URL.revokeObjectURL(src));
       const PhotosToUpdate = message.photos.filter(
         (photo) => photo.uuid !== uuid
       );
