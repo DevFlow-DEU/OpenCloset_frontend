@@ -59,6 +59,7 @@ export default function ChatBar({
     }
     const fileArray = Array.from(event.currentTarget.files);
     const newPhotos = fileArray.map(fileToPhoto);
+    event.currentTarget.value = '';
     addPhotos(newPhotos);
   };
   const handleTextChange = (event: ChangeEvent<HTMLInputElement>) => {
