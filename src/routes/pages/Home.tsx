@@ -3,7 +3,9 @@ import NavigationBar from '../../components/NavigationBar/NavigationBar';
 import Header from '../../components/Header/Header';
 import CategoryLink from '../../components/CategoryLink/CategoryLink';
 import ProductItem from '../../components/Product/ProductItem';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
+import 'swiper/css';
 type clothType =
   | 'top'
   | 'pants'
@@ -23,6 +25,12 @@ const categories: clothType[] = [
   'onepiece',
   'shoes',
   'accessory',
+];
+
+const bannerImages = [
+  'https://picsum.photos/seed/banner1/600/300',
+  'https://picsum.photos/seed/banner2/600/300',
+  'https://picsum.photos/seed/banner3/600/300',
 ];
 
 const mockProducts = [
@@ -102,9 +110,17 @@ export default function Home() {
         <Header.SearchLink />
       </Header.Root>
       <div className={styles.container}>
-        <div className="slider">
-          <img src="/광고창.png" alt="광고창" width="100%" />
-        </div>
+        <Swiper>
+          {bannerImages.map((url, index) => (
+            <SwiperSlide key={index}>
+              <img
+                src={url}
+                alt={`배너 ${index + 1}`}
+                className={styles.bannerImage}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
         <div className="category-list">
           <div className={styles.categoryHeader}>카테고리</div>
           <div className={styles.categoryContainer}>
