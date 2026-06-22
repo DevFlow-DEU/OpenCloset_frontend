@@ -125,7 +125,7 @@ export default function Home() {
           <div className={styles.categoryHeader}>카테고리</div>
           <div className={styles.categoryContainer}>
             {categories.map((category) => (
-              <CategoryLink to={category} clothType={category} />
+              <CategoryLink to={category} key={category} clothType={category} />
             ))}
           </div>
         </div>
