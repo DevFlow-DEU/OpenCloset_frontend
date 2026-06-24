@@ -39,9 +39,9 @@ function CenterLogo() {
 
 function BackButton() {
   return (
-    <span>
+    <span className={styles.backButton}>
       <Link to={'..'}>
-        <BackIcon />
+        <BackIcon width={'12px'} height={'24px'} />
       </Link>
     </span>
   );
