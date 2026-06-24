@@ -11,6 +11,7 @@ interface RootProps {
   children?: ReactNode;
   hasNotch?: boolean;
   hasCamera?: boolean;
+  hasDivider?: boolean;
 }
 
 function LinkGroup({ children }: { children: ReactNode }) {
@@ -66,7 +67,7 @@ function MyPageLink() {
   );
 }
 
-function Root({ hasNotch, hasCamera, children }: RootProps) {
+function Root({ hasNotch, hasCamera, children, hasDivider = true }: RootProps) {
   return (
     <>
       <div className={styles.headerBody}>
@@ -77,7 +78,8 @@ function Root({ hasNotch, hasCamera, children }: RootProps) {
         ) : null}
         {/* 노치 부분은 앱으로 만들면 없애야 함 */}
         <div className={styles.headerContent}>{children}</div>
-        <div className={styles.headerDivider} />
+
+        {hasDivider ? <div className={styles.headerDivider} /> : null}
       </div>
     </>
   );
