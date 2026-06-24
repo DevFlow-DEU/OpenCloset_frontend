@@ -1,17 +1,20 @@
-.SHinput-bar{
+.SHinput-bar {
     height: 2px;
     width: 100%;
     background-color: #4D4F50;
 }
-.SHinput-bar.red{
-    background-color:red;
+
+.SHinput-bar.red {
+    background-color: red;
 }
-.SHinput-error{
+
+.SHinput-error {
     color: red;
     font-size: 12px;
     margin: 0;
 }
-.SHinput{
+
+.SHinput {
     background-color: none;
     border-width: 0;
     height: 56px;
@@ -19,14 +22,16 @@
     background-color: #ffffff;
     outline: none;
     font-size: 18px;
-     appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
-.SHinput-container{
+
+.SHinput-container {
     margin: 0;
 }
-.SHinput-200px{
+
+.SHinput-200px {
     height: 200px;
     background-color: none;
     border-width: 0;
@@ -35,34 +40,43 @@
     outline: none;
     font-size: 18px;
 }
-.space-120px{
+
+.space-120px {
     height: 120px;
 }
-.space-80px{
+
+.space-80px {
     height: 80px;
 }
-.space-72px{
+
+.space-72px {
     height: 72px;
 }
-.space-60px{
+
+.space-60px {
     height: 60px;
 }
-.space-40px{
+
+.space-40px {
     height: 40px;
 }
-.space-28px{
+
+.space-28px {
     height: 28px;
 }
-.space-12px{
+
+.space-12px {
     height: 12px;
 }
-.SHinput-tittle{
+
+.SHinput-tittle {
     margin: 0;
     font-size: 16px;
     color: #4D4F50;
     font-weight: 700;
 }
-.SHsubmit{
+
+.SHsubmit {
     height: 48px;
     background-color: #D0CFD4;
     color: #EDF2F4;
@@ -71,39 +85,43 @@
     display: flex;
     justify-content: center;
     font-size: 18px;
-    margin: 0 ;
+    margin: 0;
     border: 0;
-    width:100%;
+    width: 100%;
 }
-.SHsubmit.check{
-background-color: #00A066;
-/* background-color: #004643; */
+
+.SHsubmit.check {
+    background-color: #00A066;
+    /* background-color: #004643; */
 }
-.errorMSG{
+
+.errorMSG {
     text-align: center;
     margin-top: 32px;
 }
+
 input::placeholder {
-  color: #D0CFD4;
-  font-size: 14px;
+    color: #D0CFD4;
+    font-size: 14px;
 }
+
 textarea::placeholder {
-  color: #D0CFD4;
-  font-size: 14px;
+    color: #D0CFD4;
+    font-size: 14px;
 }
 
-.ELspan{
-  font-size: 26px;
-  font-size: 500;
+.ELspan {
+    font-size: 26px;
+    font-size: 500;
 }
 
-.SHcontainer{
-width: calc(100%-32px); 
-height: auto;
-margin: 0 16px;
+.SHcontainer {
+    width: calc(100%-32px);
+    height: auto;
+    margin: 0 16px;
 }
 
-.SHBTN{
+.SHBTN {
     width: 100%;
     border: 2px solid #00A066;
     height: 48px;
@@ -114,6 +132,22 @@ margin: 0 16px;
     display: flex;
     justify-content: center;
     font-size: 18px;
-    margin: 0 ;
+    margin: 0;
     padding: 0%;
+}
+
+.button-space {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    box-sizing: border-box;
+    padding: 0 16px;
+    background-color: #ffffff;
+    display: flex;
+}
+
+.button-space>*:first-child {
+    margin-top: 12px;
 }

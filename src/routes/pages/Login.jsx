@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Logo_main from '../../assets/login-logo.svg?react';
 import KakaoLogin from '../../components/KakaoLogin';
 import KakaoLogo from '../../assets/kakaologo.png';
+import { Button } from '../../components/Button/Button';
 
 export default function LoginPage() {
   return (
@@ -18,9 +19,9 @@ export default function LoginPage() {
         </div>
 
         <Link to='/EmailLogin'>
-          <div className='email-login'>
+          <Button variant='secondary' className='email-login'>
             <span>이메일로 로그인</span>
-          </div>
+          </Button>
         </Link>
 
         <div className='login-links'>
