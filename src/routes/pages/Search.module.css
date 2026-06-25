@@ -16,11 +16,11 @@
 }
 .searchHistoryContainer {
   display: flex;
-  gap: 10px;
-  flex-wrap: no-wrap;
-  overflow-x: scroll;
-  overflow-y: hidden;
+  flex-direction: column;
   padding-top: 48px;
+}
+.searchForm {
+  display: contents;
 }
 .searchRank {
   padding-inline: 25px;
