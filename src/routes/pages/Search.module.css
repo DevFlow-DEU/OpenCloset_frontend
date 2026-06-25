@@ -6,6 +6,7 @@
 .searchHistoryHeader {
   font-weight: var(--font-weight-medium);
   font-size: var(--font-size-m);
+  color: var(--color-gray4);
   width: calc(100% - 16px * 2);
   height: 48px;
   position: fixed;
@@ -31,6 +32,7 @@
 .clearHistoryButton {
   font-weight: var(--font-weight-regular);
   font-size: var(--font-size-sm);
+  color: var(--color-gray4);
   border: 0;
   padding: 0;
   background-color: transparent;
@@ -43,7 +45,7 @@
   display: flex;
   padding-inline: 16px;
   justify-content: space-between;
-  width: 100%;
+  width: calc(100% - 32px);
   align-items: center;
 }
 .historyDeleteButton {
@@ -57,4 +59,5 @@
   column-gap: 16px;
   font-size: var(--font-size-m);
   font-weight: var(--font-weight-regular);
+  color: var(--color-gray4);
 }
