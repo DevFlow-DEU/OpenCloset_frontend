@@ -15,6 +15,10 @@
   font-size: var(--font-size-lg);
 }
 
+.input::-webkit-search-cancel-button {
+  display: none;
+}
+
 .button {
   width: 16px;
   height: 16px;
