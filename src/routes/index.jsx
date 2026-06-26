@@ -21,6 +21,7 @@ import ChangeAddress from './pages/ChangeAddress/ChangeAddress';
 import AccountSettings from './pages/AccountSettings';
 import InformationEdit from './pages/InformationEdit';
 import Test from './pages/Test';
+import Like from './pages/Like/Like';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -111,6 +112,10 @@ const router = createBrowserRouter([
   {
     path: '/change-address',
     Component: ChangeAddress,
+  },
+  {
+    path: '/save',
+    element: <Like />,
   },
 ]);
 
