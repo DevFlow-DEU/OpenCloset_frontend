@@ -19,6 +19,7 @@ import ChangeAddress from './pages/ChangeAddress/ChangeAddress';
 import AccountSettings from './pages/AccountSettings';
 import InformationEdit from './pages/InformationEdit';
 import Test from './pages/Test';
+import KakaoSignUp from './pages/KakaoSignUp';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
   {
     path: '/kakaocheck',
     element: <KakaoCheck />,
+  },
+  {
+    path: '/KakaoSignUp',
+    element: <KakaoSignUp />,
   },
   {
     path: '/error',

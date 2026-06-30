@@ -10,7 +10,10 @@ import { client } from '../../api/client';
 import { useMutation } from '@tanstack/react-query';
 import type { components } from '../../api/api';
 import Input from '../../components/Input/Input';
+import Nickname from '../../components/Input/Nickname';
 import Location from '../../components/Input/Location';
+import Alert from '../../components/Alert/Alert';
+import { useState } from 'react';
 
 const SignUpSchema = z
   .object({
@@ -38,13 +41,15 @@ export default function SignUp() {
     register,
     handleSubmit,
     getValues,
-    formState: { errors },
+    setError,
+    formState: { errors, isValid, isDirty },
   } = useForm<SignUpForm>({
     resolver: zodResolver(SignUpSchema),
-    mode: 'onSubmit',
+    mode: 'onChange',
     defaultValues: { nickname: '', email: '', password: '', passwordConfirm: '', address: '' },
   });
   const navigate = useNavigate();
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const mutation = useMutation({
     mutationFn: (newUserInfo: components['schemas']['UserCreateRequestDto']) =>
       client.POST('/auth/register', { body: newUserInfo }),
@@ -53,11 +58,15 @@ export default function SignUp() {
     },
     onSuccess: async (data) => {
       if (data.response.status === 200) {
-        alert('회원가입에 성공했습니다. 로그인 페이지로 이동합니다');
-        navigate('/EmailLogin');
+        setShowSuccessAlert(true);
       } else if (data.response.status === 400) {
         const errorBody = data.error as { message?: string };
-        alert(errorBody?.message ?? '요청이 올바르지 않습니다.');
+        const message = errorBody?.message ?? '이미 사용 중인 이메일입니다.';
+        if (message.includes('닉네임')) {
+          setError('nickname', { type: 'manual', message });
+        } else {
+          setError('email', { type: 'manual', message });
+        }
       } else {
         alert('현재 회원가입을 이용할 수 없습니다. 잠시후 이용해주세요.');
       }
@@ -78,7 +87,7 @@ export default function SignUp() {
           })}
         >
           <div className='space-40px' />
-          <Input
+          <Nickname
             label='닉네임'
             placeholder='닉네임 입력'
             register={register('nickname')}
@@ -123,10 +132,22 @@ export default function SignUp() {
           form='signup-form'
           type='submit'
           variant='primary'
+          disabled={!(isDirty && isValid)}
         >
           가입하기
         </Button>
       </div>
+
+      {showSuccessAlert && (
+        <Alert
+          icon="check"
+          title="가입완료"
+          description="이제 다양한 옷을 둘러보고 원하는 스타일을 대여해보세요."
+          buttons="confirm"
+          onConfirm={() => navigate('/')}
+        />
+      )}
+
     </div>
   );
 }

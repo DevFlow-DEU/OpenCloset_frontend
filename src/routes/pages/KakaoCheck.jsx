@@ -68,6 +68,18 @@ export default function KakaoCallback() {
         // code 제거(재진입/오류 예방)
         window.history.replaceState({}, document.title, "/kakaocheck");
 
+        const profileRes = await fetch(`${import.meta.env.VITE_BACK_URL}/mypage/profile`, {
+          headers: { Authorization: `Bearer ${Token}` },
+        });
+
+        if (profileRes.ok) {
+          const profile = await profileRes.json();
+          if (!profile?.address) {
+            navigate("/KakaoSignUp", { replace: true });
+            return;
+          }
+        }
+
         navigate("/", { replace: true });
       } catch (e) {
         navigate("/error", {

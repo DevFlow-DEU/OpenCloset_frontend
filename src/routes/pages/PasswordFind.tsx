@@ -4,9 +4,10 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import './share.css';
-import Header from '../../components/Header';
+import Header from '../../components/Header/Header';
 import Input from '../../components/Input/Input';
 import { Button } from '../../components/Button/Button';
+import Alert from '../../components/Alert/Alert';
 
 const findSchema = z.object({
   email: z
@@ -20,7 +21,9 @@ type FindForm = z.infer<typeof findSchema>;
 
 export default function PasswordFind() {
   const navigate = useNavigate();
-  const [message, setMessage] = useState('');
+  const [showSentAlert, setShowSentAlert] = useState(false);
+  const [showNotFoundAlert, setShowNotFoundAlert] = useState(false);
+  const [errorAlertMessage, setErrorAlertMessage] = useState('');
   const backUrl = import.meta.env.VITE_BACK_URL;
 
   const {
@@ -45,21 +48,29 @@ export default function PasswordFind() {
       const data = await res.json().catch(() => null);
 
       if (res.ok) {
-        navigate('/login');
+        setShowSentAlert(true);
         reset();
         return;
       }
 
-      setMessage(data?.message || `요청 실패 (${res.status})`);
+      if (res.status === 400) {
+        setShowNotFoundAlert(true);
+        return;
+      }
+
+      setErrorAlertMessage(data?.message || `요청 실패 (${res.status})`);
     } catch (e) {
-      setMessage('서버에 연결할 수 없습니다.');
+      setErrorAlertMessage('서버에 연결할 수 없습니다.');
       console.error('network error:', e);
     }
   };
 
   return (
     <div>
-      <Header />
+      <Header.Root hasNotch hasCamera>
+        <Header.BackButton />
+        <Header.CenterTitle title="비밀번호 찾기" />
+      </Header.Root>
       <div className='SHcontainer'>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className='space-40px' />
@@ -78,9 +89,38 @@ export default function PasswordFind() {
               변경하기
             </Button>
           </div>
-          {message && <p className='SHinput-error errorMSG'>{message}</p>}
         </form>
       </div>
+
+      {showSentAlert && (
+        <Alert
+          icon="check"
+          title="발송 완료"
+          description={<>입력한 이메일로 임시 비밀번호가 발송되었습니다.<br />메일함에서 임시 비밀번호를 확인해 주세요.</>}
+          buttons="confirm"
+          onConfirm={() => navigate('/login')}
+        />
+      )}
+
+      {showNotFoundAlert && (
+        <Alert
+          icon="warning"
+          title="가입된 계정을 찾을 수 없어요"
+          description={<>입력한 이메일로 가입된 오픈 클로젯 계정이 없습니다.<br />이메일 주소를 다시 확인해 주세요.</>}
+          buttons="confirm"
+          onConfirm={() => setShowNotFoundAlert(false)}
+        />
+      )}
+
+      {errorAlertMessage && (
+        <Alert
+          icon="warning"
+          title="오류"
+          description={errorAlertMessage}
+          buttons="confirm"
+          onConfirm={() => setErrorAlertMessage('')}
+        />
+      )}
     </div>
   );
 }
