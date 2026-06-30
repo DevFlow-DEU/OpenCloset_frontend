@@ -5,6 +5,7 @@ import Header from '../../components/Header/Header';
 import { Button } from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import Location from '../../components/Input/Location';
+import Alert from '../../components/Alert/Alert';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
@@ -27,7 +28,7 @@ async function updateMyProfile({ token, nickname, address, profileImage }: Updat
   }
 
   const res = await fetch(`${import.meta.env.VITE_BACK_URL}/mypage/edit`, {
-    method: 'PATCH',
+    method: 'POST',
     headers: { Authorization: `Bearer ${token}` },
     body: formData,
   });
@@ -36,10 +37,10 @@ async function updateMyProfile({ token, nickname, address, profileImage }: Updat
     let message = '회원 정보 수정에 실패했습니다.';
     try {
       const errorData = await res.json();
-      if (res.status === 400) message = errorData.message ?? '잘못된 요청입니다.';
+      if (res.status === 400) message = errorData.message ?? '이미 사용 중인 닉네임입니다.';
       else if (res.status === 401) message = '인증이 만료되었습니다. 다시 로그인해주세요.';
       else message = errorData.message || message;
-    } catch {}
+    } catch { }
     throw new Error(message);
   }
 
@@ -61,6 +62,7 @@ export default function InformationEdit() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
   const {
     register,
@@ -74,7 +76,7 @@ export default function InformationEdit() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_BACK_URL}/mypage/edit`, {
+        const res = await fetch(`${import.meta.env.VITE_BACK_URL}/mypage/profile`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -104,8 +106,7 @@ export default function InformationEdit() {
       setLoading(true);
       setError('');
       await updateMyProfile({ token, nickname: data.nickname, address: data.address, profileImage: imageFile });
-      alert('회원 정보가 수정되었습니다.');
-      navigate('/mypage');
+      setShowSuccessAlert(true);
     } catch (err) {
       setError((err as Error).message || '수정에 실패했습니다.');
     } finally {
@@ -185,7 +186,15 @@ export default function InformationEdit() {
         </Button>
       </div>
 
-      <NavigationBar />
+      {showSuccessAlert && (
+        <Alert
+          icon="check"
+          title="수정 완료"
+          description="회원 정보가 수정되었습니다."
+          buttons="confirm"
+          onConfirm={() => navigate('/mypage')}
+        />
+      )}
     </>
   );
 }
