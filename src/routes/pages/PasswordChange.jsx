@@ -1,17 +1,18 @@
-import { useEffect, useState } from 'react';
-import Header from '../../components/Header';
-import NavBar from '../../components/NavBar';
+import { useState } from 'react';
+import Header from '../../components/Header/Header';
+import { Button } from '../../components/Button/Button';
+import Input from '../../components/Input/Input';
+import Alert from '../../components/Alert/Alert';
 import './share.css';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { pwChangeSchema } from './PWChangeSchema.ts';
 import { useNavigate } from 'react-router-dom';
+
 export default function PasswordChange() {
   const navigate = useNavigate();
-  // const [currentPassword,setcurrentPassword] = useState('')
-  // const [newPassword,setNewPassword] = useState('')
-  // const [checkPassword,setCheckPassword] = useState('')
   const backUrl = import.meta.env.VITE_BACK_URL;
+  const [alertState, setAlertState] = useState(null);
   const [errorMSG, setErrorMSG] = useState('');
   const {
     register,
@@ -42,9 +43,13 @@ export default function PasswordChange() {
 
       if (res.ok) {
         reset();
-        navigate('/');
+        setAlertState({ type: 'success' });
+      } else if (res.status === 400) {
+        setErrorMSG(data?.message ?? '현재 비밀번호가 일치하지 않습니다.');
+      } else if (res.status === 401) {
+        setErrorMSG('인증이 만료되었습니다. 다시 로그인해주세요.');
       } else {
-        setErrorMSG('비밀번호 변경 실패', data);
+        setErrorMSG(data?.message ?? '비밀번호 변경에 실패했습니다.');
       }
     } catch (error) {
       setErrorMSG(error.message || '요청 중 오류가 발생했습니다.');
@@ -53,79 +58,61 @@ export default function PasswordChange() {
 
   return (
     <>
-      <Header></Header>
-      <div className='SHcontainer'>
-        <form action='' onSubmit={handleSubmit(onSubmit)}>
-          <div className=' space-40px'></div>
+      <Header.Root hasNotch hasCamera>
+        <Header.BackButton />
+        <Header.CenterTitle title="비밀번호 변경" />
+      </Header.Root>
 
-          <div>
-            <p className='SHinput-tittle'>현재 비밀번호</p>
-            <input
-              {...register('currentPassword')}
-              className='SHinput'
-              type='password'
-              placeholder='현재 비밀번호 입력'
-            />
-            <div
-              className={`SHinput-bar ${errors.currentPassword ? 'red' : ''}  `}
-            ></div>
-            <div className='SHinput-space space-40px'>
-              {errors.currentPassword && (
-                <p className='SHinput-error'>
-                  {errors.currentPassword.message}
-                </p>
-              )}
-            </div>
-          </div>
-
-          <div>
-            <p className='SHinput-tittle'>새 비밀번호</p>
-            <input
-              {...register('newPassword')}
-              className='SHinput'
-              type='password'
-              placeholder='새 비밀번호 입력'
-            />
-            <div
-              className={`SHinput-bar  ${errors.newPassword ? 'red' : ''}`}
-            ></div>
-            <div className='SHinput-space space-28px'>
-              {errors.newPassword && (
-                <p className='SHinput-error'>{errors.newPassword.message}</p>
-              )}
-            </div>
-          </div>
-
-          <div>
-            <p className='SHinput-tittle'>새 비밀번호 확인</p>
-            <input
-              {...register('checkPassword')}
-              className='SHinput'
-              type='password'
-              placeholder='새 비밀번호 한번 더 입력'
-            />
-            <div
-              className={`SHinput-bar ${errors.checkPassword ? 'red' : ''}`}
-            ></div>
-            <div className='SHinput-space space-28px'>
-              {errors.checkPassword && (
-                <p className='SHinput-error'>{errors.checkPassword.message}</p>
-              )}
-            </div>
-          </div>
-
-          <button
-            className={`SHsubmit ${isDirty && isValid ? 'check' : ''}`}
-            type='submit'
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className='SHcontainer'>
+          <div className='space-40px' />
+          <Input
+            label="현재 비밀번호"
+            type="password"
+            placeholder="현재 비밀번호 입력"
+            register={register('currentPassword')}
+            error={errors.currentPassword}
+          />
+          <div className='space-40px' />
+          <Input
+            label="새 비밀번호"
+            type="password"
+            placeholder="새 비밀번호 입력"
+            register={register('newPassword')}
+            error={errors.newPassword}
+          />
+          <div className='space-28px' />
+          <Input
+            label="새 비밀번호 확인"
+            type="password"
+            placeholder="새 비밀번호 한번 더 입력"
+            register={register('checkPassword')}
+            error={errors.checkPassword}
+          />
+        </div>
+        <div className='fixed-bottom'>
+          <Button
+            variant="primary"
+            type="submit"
             disabled={!(isDirty && isValid)}
+            style={{ marginTop: '12px' }}
           >
-            {' '}
-            제출하기
-          </button>
-          <p className='SHinput-error errorMSG'>{errorMSG}</p>
-        </form>
-      </div>
-      <NavBar></NavBar>
+            변경하기
+          </Button>
+        </div>
+      </form>
+
+      {alertState?.type === 'success' && (
+        <Alert
+          icon="check"
+          title="변경 완료"
+          description="비밀번호가 변경되었습니다."
+          buttons="confirm"
+          onConfirm={() => navigate('/')}
+        />
+      )}
+
+      {errorMSG && <p className='SHinput-error errorMSG'>{errorMSG}</p>}
     </>
   );
 }
