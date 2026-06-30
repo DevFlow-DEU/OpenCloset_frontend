@@ -12,9 +12,7 @@ import PasswordFind from './pages/PasswordFind';
 import MyPage from './pages/MyPage';
 import PasswordChange from './pages/PasswordChange';
 import EmailLogin from './pages/EmailLogin';
-import SignUp from './pages/SignUp/SignUp';
-import SignUpHome from './pages/SignUp/SignUpHome';
-import GetLocation from './pages/GetLocation';
+import SignUp from './pages/SignUp';
 import GetLocation1 from './pages/GetLocation1';
 import DeleteAccount from './pages/DeleteAccount/DeleteAccount';
 import ChangeAddress from './pages/ChangeAddress/ChangeAddress';
@@ -97,16 +95,6 @@ const router = createBrowserRouter([
   {
     path: '/sign-up',
     Component: SignUp,
-    children: [
-      {
-        index: true,
-        Component: SignUpHome,
-      },
-      {
-        path: 'get-location',
-        Component: GetLocation,
-      },
-    ],
   },
   {
     path: '/change-address',

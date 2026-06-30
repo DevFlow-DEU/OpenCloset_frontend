@@ -1,10 +1,27 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginSchema } from './loginValidator';
+import { z } from 'zod';
 import { useNavigate } from 'react-router-dom';
 import './share.css';
 import Header from '../../components/Header';
+import Input from '../../components/Input/Input';
+import { Button } from '../../components/Button/Button';
+
+const loginSchema = z.object({
+  email: z
+    .string()
+    .trim()
+    .min(1, '이메일을 입력해주세요.')
+    .email('이메일 형식이 아닙니다.'),
+  password: z
+    .string()
+    .trim()
+    .min(1, '비밀번호를 입력해주세요.')
+    .min(8, '비밀번호는 8자 이상이어야 합니다.'),
+});
+
+type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -16,12 +33,12 @@ export default function LoginPage() {
     handleSubmit,
     formState: { errors, isValid, isDirty },
     reset,
-  } = useForm({
+  } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: '', password: '' },
   });
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: LoginFormValues) => {
     try {
       const res = await fetch(`${backUrl}/auth/login`, {
         method: 'POST',
@@ -54,48 +71,30 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className='logininput-space space-120px'></div>
 
-          <div>
-            <p className='SHinput-tittle'>이메일</p>
-            <input
-              className='SHinput'
-              placeholder='이메일 형식 입력'
-              {...register('email')}
-            />
-            <div className={`SHinput-bar ${errors.email ? 'red' : ''}  `}></div>
-            <div className='SHinput-space space-28px'>
-              {errors.email && (
-                <p className='SHinput-error'>{errors.email.message}</p>
-              )}
-            </div>
+          <Input
+            label='이메일'
+            placeholder='이메일 형식 입력'
+            register={register('email')}
+            error={errors.email}
+          />
+          <div className='space-28px'></div>
+          <Input
+            label='비밀번호'
+            placeholder='비밀번호 8자리 이상'
+            type='password'
+            register={register('password')}
+            error={errors.password}
+          />
+          <div className='button-space'>
+            <Button
+              variant='primary'
+              className={`${isDirty && isValid ? 'check' : ''}`}
+              type='submit'
+              disabled={!(isDirty && isValid)}
+            >
+              로그인
+            </Button>
           </div>
-
-          <div>
-            <p className='SHinput-tittle'>비밀번호</p>
-            <input
-              className='SHinput'
-              type='password'
-              placeholder='비밀번호 8자리 이상'
-              {...register('password')}
-            />
-            <div
-              className={`SHinput-bar ${errors.password ? 'red' : ''}  `}
-            ></div>
-            <div className='SHinput-space space-28px'>
-              {errors.password && (
-                <p className='SHinput-error'>{errors.password.message}</p>
-              )}
-            </div>
-          </div>
-
-          <button
-            className={`SHsubmit ${isDirty && isValid ? 'check' : ''}`}
-            type='submit'
-            disabled={!(isDirty && isValid)}
-          >
-            {' '}
-            로그인
-          </button>
-
           {message && <p className='SHinput-error errorMSG'>{message}</p>}
         </form>
       </div>
