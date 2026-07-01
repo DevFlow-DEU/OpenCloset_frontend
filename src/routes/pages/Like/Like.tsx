@@ -18,6 +18,7 @@ const mockProducts = [
     status: '대여가능' as const,
     startDate: '2026-06-20',
     endDate: '2026-06-22',
+    category: '아우터',
   },
   {
     id: 2,
@@ -29,6 +30,7 @@ const mockProducts = [
     status: '예약중' as const,
     startDate: '2026-06-25',
     endDate: '2026-06-27',
+    category: '상의',
   },
   {
     id: 3,
@@ -38,6 +40,7 @@ const mockProducts = [
     rentalPeriod: 3,
     wished: true,
     status: '대여가능' as const,
+    category: '하의',
   },
   {
     id: 4,
@@ -49,6 +52,7 @@ const mockProducts = [
     status: '대여중' as const,
     startDate: '2026-06-18',
     endDate: '2026-06-22',
+    category: '아우터',
   },
   {
     id: 5,
@@ -60,6 +64,7 @@ const mockProducts = [
     status: '대여가능' as const,
     startDate: '2026-07-01',
     endDate: '2026-07-03',
+    category: '하의',
   },
   {
     id: 6,
@@ -69,12 +74,17 @@ const mockProducts = [
     rentalPeriod: 3,
     wished: true,
     status: '반납가능' as const,
+    category: '상의',
   },
 ];
 
 export default function Like() {
   const [category, setCategory] = useState('전체');
-  const likedCount = mockProducts.length;
+  const filteredProducts =
+    category === '전체'
+      ? mockProducts
+      : mockProducts.filter((product) => product.category === category);
+  const likedCount = filteredProducts.length;
   const buttonText = '최신순';
   return (
     <>
@@ -101,7 +111,7 @@ export default function Like() {
           </div>
         </div>
         <div className={styles.productList}>
-          {mockProducts.map((product) => (
+          {filteredProducts.map(({ category: _category, ...product }) => (
             <ProductItem key={product.id} {...product} />
           ))}
         </div>
