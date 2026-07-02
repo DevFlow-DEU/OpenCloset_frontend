@@ -1,11 +1,23 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { findSchema } from './PWFindSchema';
+import { z } from 'zod';
 import './share.css';
-import NavBar from '../../components/NavBar';
 import Header from '../../components/Header';
+import Input from '../../components/Input/Input';
+import { Button } from '../../components/Button/Button';
+
+const findSchema = z.object({
+  email: z
+    .string()
+    .trim()
+    .min(1, '이메일을 입력해주세요.')
+    .email('이메일 형식이 아닙니다.'),
+});
+
+type FindForm = z.infer<typeof findSchema>;
+
 export default function PasswordFind() {
   const navigate = useNavigate();
   const [message, setMessage] = useState('');
@@ -16,13 +28,13 @@ export default function PasswordFind() {
     handleSubmit,
     formState: { errors, isValid, isDirty },
     reset,
-  } = useForm({
+  } = useForm<FindForm>({
     resolver: zodResolver(findSchema),
     defaultValues: { email: '' },
     mode: 'onChange',
   });
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: FindForm) => {
     try {
       const res = await fetch(`${backUrl}/auth/password-reset`, {
         method: 'POST',
@@ -50,33 +62,25 @@ export default function PasswordFind() {
       <Header />
       <div className='SHcontainer'>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className='space-40px'></div>
-          <p className='SHinput-tittle'>이메일</p>
-          <input
-            className='SHinput'
+          <div className='space-40px' />
+          <Input
+            label='이메일'
             placeholder='이메일 형식 입력'
-            {...register('email')}
+            register={register('email')}
+            error={errors.email}
           />
-          <div className={`SHinput-bar ${errors.email ? 'red' : ''}`}></div>
-
-          <div className='SHinput-space space-28px'>
-            {errors.email && (
-              <p className='SHinput-error'>{errors.email.message}</p>
-            )}
+          <div className='button-space'>
+            <Button
+              variant='primary'
+              type='submit'
+              disabled={!(isDirty && isValid)}
+            >
+              변경하기
+            </Button>
           </div>
-
-          <button
-            className={`SHsubmit ${isDirty && isValid ? 'check' : ''}`}
-            type='submit'
-            disabled={!(isDirty && isValid)}
-          >
-            변경하기
-          </button>
-
           {message && <p className='SHinput-error errorMSG'>{message}</p>}
         </form>
       </div>
-      <NavBar />
     </div>
   );
 }

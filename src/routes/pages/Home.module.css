@@ -1,75 +1,52 @@
-header {
-  padding-top: 70px;
-  padding-bottom: 16.29px;
-  padding-inline: 23.5px;
-  display: flex;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  justify-content: space-between;
-  font-size: 17px;
-  background-color: white;
-  z-index: 1;
-}
 .container {
-  margin-top: 108px;
-  margin-bottom: 132.92px;
-}
-.category-header {
-  padding-inline: 24px;
-  margin-top: 29px;
-  margin-bottom: 7.6px;
-  font-size: 24px;
-}
-.category-container {
-  display: flex;
-  text-align: center;
-  column-gap: 6.5%;
-  line-height: 110%;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.category-container a {
-  text-decoration: none;
-  color: black;
-  font-size: 11px;
-}
-.category-icon {
-  padding: 11.78px 11.78px 6.24px 11.78px;
-  background-color: white;
-  border-radius: 40px;
-}
-.caregory-item {
-  width: calc(25% - 20px);
-}
-.add-button {
-  z-index: 1;
-  position: fixed;
-  bottom: 80px;
-  left: 85vw;
-  padding: 0px 0px 0px 0px;
+  padding-top: 101px;
+  padding-bottom: 92px;
 }
 
-.nav-bar {
-  height: 68.85px;
+.bannerImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.headerGroup {
   display: flex;
-  justify-content: space-around;
-  text-align: center;
+  gap: 4px;
   align-items: center;
-  background-color: white;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
 }
-.nav-bar a {
-  text-decoration: none;
-  color: black;
+
+.locationText {
+  color: var(--color-gray3);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-m);
 }
-.item-list-header {
-  font-weight: normal;
-  margin-inline: 24px;
-  margin-bottom: 17px;
-  letter-spacing: 10%;
+
+.categoryHeader {
+  margin-top: 20px;
+  margin-bottom: 12px;
+  padding-inline: 16px;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -5%;
+}
+.categoryContainer {
+  display: flex;
+  column-gap: 12px;
+  overflow: scroll;
+  scrollbar-width: none;
+  padding-inline: 16px;
+}
+
+.itemListHeader {
+  margin-top: 20px;
+  margin-bottom: 12px;
+  padding-inline: 16px;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -5%;
+}
+.itemList {
+  padding-inline: 16px;
+  column-gap: 12px;
+  display: grid;
+  grid-template-columns: 175px 175px;
 }
