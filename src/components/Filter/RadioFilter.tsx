@@ -5,7 +5,7 @@ type RadioFilterType = 'chat' | 'owner' | 'renter' | 'category';
 const OPTIONS: Record<RadioFilterType, string[]> = {
   chat: ['전체', '안읽음', '대여', '차용', '예약', '대여중', '반납완료'],
   owner: ['전체', '대여가능', '예약중', '대여중', '대여완료'],
-  renter: ['대여중', '대여완료'],
+  renter: ['전체', '대여중', '대여완료'],
   category: [
     '전체',
     '상의',
