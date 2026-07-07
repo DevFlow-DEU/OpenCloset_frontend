@@ -95,7 +95,7 @@ export default function Search() {
               <div className={styles.searchHistoryWord} key={word}>
                 <div className={styles.iconWordGroup}>
                   <RecentIcon />
-                  {word}
+                  <button onClick={() => setSearchText(word)}>{word}</button>
                 </div>
                 <button
                   className={styles.historyDeleteButton}
