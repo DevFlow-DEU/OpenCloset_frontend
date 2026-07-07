@@ -5,6 +5,7 @@
   width: 95%;
   font-size: var(--font-size-lg);
   outline: none;
+  color: var(--color-gray4);
 }
 
 .submit {
@@ -13,6 +14,10 @@
 
 .input::placeholder {
   font-size: var(--font-size-lg);
+}
+
+.input::-webkit-search-cancel-button {
+  display: none;
 }
 
 .button {
