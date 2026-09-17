@@ -1,6 +1,7 @@
 import checkSrc from '../../assets/icon/Alert/check.svg';
 import warningSrc from '../../assets/icon/Alert/warning.svg';
 import styles from './Alert.module.css';
+import type { ReactNode } from 'react';
 
 type IconType = 'check' | 'warning';
 type ButtonType = 'confirm' | 'delete';
@@ -8,7 +9,7 @@ type ButtonType = 'confirm' | 'delete';
 type Props = {
   icon: IconType;
   title: string;
-  description: string;
+  description: ReactNode;
   buttons: ButtonType;
   onConfirm: () => void;
   onCancel?: () => void;

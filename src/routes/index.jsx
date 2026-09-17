@@ -14,7 +14,9 @@ import PasswordChange from './pages/PasswordChange';
 import EmailLogin from './pages/EmailLogin';
 import SignUp from './pages/SignUp';
 import GetLocation1 from './pages/GetLocation1';
-import DeleteAccount from './pages/DeleteAccount/DeleteAccount';
+import DeleteAccount from './pages/DeleteAccount';
+import ProductManage from './pages/ProductManage';
+import DeleteAccountComplete from './pages/DeleteAccountComplete';
 import ChangeAddress from './pages/ChangeAddress/ChangeAddress';
 import AccountSettings from './pages/AccountSettings';
 import InformationEdit from './pages/InformationEdit';
@@ -61,8 +63,16 @@ const router = createBrowserRouter([
     element: <PasswordFind />,
   },
   {
-    path: '/delete-account',
+    path: '/DeleteAccount',
     element: <DeleteAccount />,
+  },
+  {
+    path: '/ProductManage',
+    element: <ProductManage />,
+  },
+  {
+    path: '/DeleteAccountComplete',
+    element: <DeleteAccountComplete />,
   },
   {
     path: '/MyPage',
