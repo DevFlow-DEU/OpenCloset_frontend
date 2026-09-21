@@ -5,6 +5,7 @@ import { type ReactNode } from 'react';
 import ProfileIcon from '../../assets/header_profile.svg?react';
 import SearchIcon from '../../assets/header_search.svg?react';
 import BackIcon from '../../assets/header_back.svg?react';
+import HomeIcon from '../../assets/home.svg?react';
 import Logo from '../Logo/Logo';
 
 interface RootProps {
@@ -66,6 +67,16 @@ function MyPageLink() {
   );
 }
 
+function HomeLink() {
+  return (
+    <span>
+      <Link to={'/'}>
+        <HomeIcon width={24} />
+      </Link>
+    </span>
+  );
+}
+
 function Root({ hasNotch, hasCamera, children }: RootProps) {
   return (
     <>
@@ -92,6 +103,7 @@ Header.CenterLogo = CenterLogo;
 Header.MainTitle = MainTitle;
 Header.MyPageLink = MyPageLink;
 Header.SearchLink = SearchLink;
+Header.HomeLink = HomeLink;
 Header.BackButton = BackButton;
 Header.Logo = Logo;
 Header.LinkGroup = LinkGroup;
