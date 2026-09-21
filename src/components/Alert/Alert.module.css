@@ -73,6 +73,6 @@
 }
 
 .cancelButton {
-    background: var(--color-gray1);
-    color: var(--color-gray4);
+    background: var(--color-gray2);
+    color: var(--color-gray3);
 }

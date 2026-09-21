@@ -121,7 +121,20 @@ textarea::placeholder {
     margin: 0 16px;
 }
 
-.SHBTN {
+.fixed-bottom {
+  width: 100%;
+  height: 100px;
+  position: fixed;
+  bottom: 0;
+}
+
+.fixed-bottom > *:first-child {
+  margin-left: 16px;
+  margin-right: 16px;
+  width: calc(100% - 32px);
+}
+
+.SHBTN{
     width: 100%;
     border: 2px solid #00A066;
     height: 48px;

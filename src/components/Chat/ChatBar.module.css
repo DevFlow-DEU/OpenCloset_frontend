@@ -1,0 +1,83 @@
+.container {
+  width: 100vw;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  padding-bottom: 34px;
+}
+button {
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+  border-style: none;
+  border-width: 0px;
+}
+
+.photoBar {
+  padding-inline: 16px;
+  display: flex;
+  column-gap: 8px;
+  overflow: scroll;
+  height: 85px;
+  align-items: center;
+  scrollbar-width: none;
+}
+.photoPreview {
+  position: relative;
+  height: 60px;
+  width: 60px;
+}
+.photoPreview img {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--border-radius);
+  object-fit: cover;
+}
+.photoDeleteButton {
+  top: -4px;
+  right: -4px;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+  border-style: none;
+  border-width: 0px;
+  border-radius: 50px;
+}
+.sendButton {
+  border-radius: 50px;
+  width: 40px;
+  height: 40px;
+}
+.inputBar {
+  padding-inline: 16px;
+  display: flex;
+  justify-content: center;
+  column-gap: 8px;
+  padding-top: 6px;
+}
+.textInput {
+  border-style: none;
+  background-color: var(--color-gray1);
+  width: 265px;
+  height: calc(40px - 20px);
+  font-size: var(--font-size-m);
+  font-weight: var(--font-weight-medium);
+  border-radius: 1213px;
+  padding-inline: 16px;
+  padding-block: 10px;
+  color: var(--color-gray4);
+}
+
+.textInput::placeholder {
+  color: var(--color-gray2);
+}
+
+.divider {
+  border-width: 0px;
+  border-top-width: 1px;
+  margin: 0;
+  color: var(--color-gray2);
+  border-style: solid;
+}

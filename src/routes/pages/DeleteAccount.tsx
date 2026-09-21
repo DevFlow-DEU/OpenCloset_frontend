@@ -8,9 +8,7 @@ import Input from '../../components/Input/Input';
 import Alert from '../../components/Alert/Alert';
 import { client } from '../../api/client';
 
-type AlertState =
-  | { type: 'confirm' }
-  | { type: 'error'; message: string };
+type AlertState = { type: 'confirm' } | { type: 'error'; message: string };
 
 export default function DeleteAccount() {
   const [password, setPassword] = useState('');
@@ -33,13 +31,19 @@ export default function DeleteAccount() {
     },
     onSuccess: (data) => {
       if (data.response.status === 200) {
-        navigate('/DeleteAccountComplete');
+        navigate('/delete-account-complete');
       } else if (data.response.status === 401) {
         setAlertState({ type: 'error', message: '탈퇴 권한이 없습니다.' });
       } else if (data.response.status === 400) {
-        setAlertState({ type: 'error', message: '비밀번호가 일치하지 않습니다.' });
+        setAlertState({
+          type: 'error',
+          message: '비밀번호가 일치하지 않습니다.',
+        });
       } else {
-        setAlertState({ type: 'error', message: '현재 회원탈퇴를 이용할 수 없습니다. 잠시후 이용해주세요.' });
+        setAlertState({
+          type: 'error',
+          message: '현재 회원탈퇴를 이용할 수 없습니다. 잠시후 이용해주세요.',
+        });
       }
     },
   });
@@ -78,7 +82,13 @@ export default function DeleteAccount() {
         <Alert
           icon="warning"
           title="정말 오픈 클로젯을 떠나시겠어요?"
-          description={<>탈퇴 후에는 기존 계정으로 로그인할 수 없으며,<br />대여 내역, 관심 상품, 등록한 옷 정보가 삭제됩니다.</>}
+          description={
+            <>
+              탈퇴 후에는 기존 계정으로 로그인할 수 없으며,
+              <br />
+              대여 내역, 관심 상품, 등록한 옷 정보가 삭제됩니다.
+            </>
+          }
           buttons="delete"
           onConfirm={() => {
             setAlertState(null);

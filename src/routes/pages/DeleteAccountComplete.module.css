@@ -1,0 +1,60 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.spacerTop {
+  flex: 9;
+}
+
+.spacerBottom {
+  flex: 10;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 16px;
+  text-align: center;
+}
+
+.icon {
+  width: 120px;
+  height: 120px;
+}
+
+.gap44 {
+  height: 44px;
+}
+
+.gap24 {
+  height: 24px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray4);
+  margin: 0;
+}
+
+.descPrimary {
+  font-size: var(--font-size-m);
+  color: var(--color-gray4);
+  margin: 0;
+}
+
+.descSecondary {
+  font-size: var(--font-size-m);
+  color: var(--color-gray3);
+  margin: 0;
+}
+
+.fixedButton {
+  position: fixed;
+  bottom: 40px;
+  left: 16px;
+  right: 16px;
+}

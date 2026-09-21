@@ -16,7 +16,7 @@ type Props = {
   dateStart: string;
   dateEnd: string;
   price: number;
-  state: StateType;
+  state?: StateType;
   onClick?: () => void;
   onEdit?: () => void;
 };
@@ -56,7 +56,7 @@ export default function ManageItem({
         <div className={styles.priceRow}>
           <span className={styles.price}>{price.toLocaleString()}원</span>
           <span className={styles.perDay}>/ 1Day</span>
-          <State state={state} />
+          {state && <State state={state} />}
         </div>
       </div>
     </div>
