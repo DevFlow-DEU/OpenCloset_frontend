@@ -1,6 +1,5 @@
 import './share.css';
 import './InformationEdit.css';
-import NavigationBar from '../../components/NavigationBar/NavigationBar';
 import Header from '../../components/Header/Header';
 import { Button } from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
