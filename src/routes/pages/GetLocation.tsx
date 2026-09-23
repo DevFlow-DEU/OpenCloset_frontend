@@ -4,8 +4,8 @@ import {
   fetchKakaoAddressByCoords,
   loadKakaoMapSdk,
   renderKakaoMapWithMarker,
-} from './getLocationMap';
-import styles from './GetLocation.module.css';
+} from '../../domains/location/utils/getLocationMap';
+import styles from '../../domains/location/pages/GetLocation.module.css';
 import { useNavigate } from 'react-router-dom';
 import PageHeader from '../../components/PageHeader';
 import BottomConfirmBar from '../../components/BottomConfirmBar';
@@ -97,7 +97,7 @@ export default function GetLocation() {
 
   return (
     <div className={styles.page}>
-      <PageHeader title='위치 정보 설정' />
+      <PageHeader title="위치 정보 설정" />
       <main className={styles.content}>
         <section className={styles.mapSection}>
           <div ref={mapRef} className={styles.mapContainer} />
@@ -111,13 +111,13 @@ export default function GetLocation() {
         <section className={styles.addressSection}>
           <input
             className={styles.addressInput}
-            type='text'
+            type="text"
             value={addressText}
             readOnly
-            aria-label='현재 위치 주소'
+            aria-label="현재 위치 주소"
           />
           <button
-            type='button'
+            type="button"
             className={styles.resetButton}
             onClick={updateLocation}
           >
@@ -128,7 +128,7 @@ export default function GetLocation() {
       </main>
       <BottomConfirmBar>
         <button
-          type='button'
+          type="button"
           className={styles.confirmButton}
           onClick={() => {
             navigate(-1);

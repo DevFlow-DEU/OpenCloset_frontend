@@ -124,12 +124,15 @@ export const fetchKakaoAddressByCoords = async (
     y: String(latitude),
     input_coord: 'WGS84',
   });
-  const response = await fetch(`${KAKAO_COORD2ADDRESS_URL}?${params.toString()}`, {
-    method: 'GET',
-    headers: {
-      Authorization: `KakaoAK ${restKey}`,
-    },
-  });
+  const response = await fetch(
+    `${KAKAO_COORD2ADDRESS_URL}?${params.toString()}`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `KakaoAK ${restKey}`,
+      },
+    }
+  );
 
   if (!response.ok) {
     throw new Error(`카카오 주소 변환 API 호출 실패: ${response.status}`);
@@ -150,8 +153,8 @@ export const fetchKakaoAddressByCoords = async (
   const depth2 = source.region_2depth_name?.trim();
   const depth3 = source.region_3depth_name?.trim();
 
-  const addressParts = [depth1, depth2, depth3].filter(
-    (part): part is string => Boolean(part)
+  const addressParts = [depth1, depth2, depth3].filter((part): part is string =>
+    Boolean(part)
   );
 
   return addressParts.length > 0 ? addressParts.join(' ') : null;
