@@ -5,11 +5,11 @@ import type {
   SetStateAction,
 } from 'react';
 import styles from './ChatBar.module.css';
-import PhotoDeleteIcon from '../../assets/icon/chat_bar_delete.svg?react';
-import PhotoAddIcon from '../../assets/icon/chat_bar_add.svg?react';
-import SendIcon from '../../assets/icon/chat_bar_send.svg?react';
-import SendIconDisabled from '../../assets/icon/chat_bar_send_disabled.svg?react';
-import { type Message, type Photo } from '../../types/chat';
+import PhotoDeleteIcon from '../../../assets/icon/chat_bar_delete.svg?react';
+import PhotoAddIcon from '../../../assets/icon/chat_bar_add.svg?react';
+import SendIcon from '../../../assets/icon/chat_bar_send.svg?react';
+import SendIconDisabled from '../../../assets/icon/chat_bar_send_disabled.svg?react';
+import { type Message, type Photo } from '../types';
 
 interface Props {
   message: Message;
