@@ -118,38 +118,34 @@ export const fetchKakaoAddressByCoords = (
     }
 
     maps.load(() => {
-      const kakao = (window as any).kakao;
+      const kakao = window.kakao;
       if (!kakao?.maps?.services) {
         resolve(null);
         return;
       }
 
-      const geocoder = new kakao.maps.services.Geocoder();
-      geocoder.coord2RegionCode(
-        longitude,
-        latitude,
-        (result: any[], status: string) => {
-          if (status !== kakao.maps.services.Status.OK) {
-            resolve(null);
-            return;
-          }
-
-          const region =
-            result.find((r: any) => r.region_type === 'H') || result[0];
-          if (!region) {
-            resolve(null);
-            return;
-          }
-
-          const parts = [
-            region.region_1depth_name,
-            region.region_2depth_name,
-            region.region_3depth_name,
-          ].filter((p: string) => Boolean(p?.trim()));
-
-          resolve(parts.length > 0 ? parts.join(' ') : null);
+      const { services } = kakao.maps;
+      const geocoder = new services.Geocoder();
+      geocoder.coord2RegionCode(longitude, latitude, (result, status) => {
+        if (status !== services.Status.OK) {
+          resolve(null);
+          return;
         }
-      );
+
+        const region = result.find((r) => r.region_type === 'H') || result[0];
+        if (!region) {
+          resolve(null);
+          return;
+        }
+
+        const parts = [
+          region.region_1depth_name,
+          region.region_2depth_name,
+          region.region_3depth_name,
+        ].filter((p: string) => Boolean(p?.trim()));
+
+        resolve(parts.length > 0 ? parts.join(' ') : null);
+      });
     });
   });
 };

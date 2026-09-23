@@ -5,6 +5,13 @@ declare module '*.module.css' {
   export default classes;
 }
 
+interface KakaoRegion {
+  region_type: string;
+  region_1depth_name: string;
+  region_2depth_name: string;
+  region_3depth_name: string;
+}
+
 interface Window {
   kakao?: {
     maps?: {
@@ -27,6 +34,16 @@ interface Window {
           type: string,
           handler: () => void
         ) => void;
+      };
+      services: {
+        Status: { OK: string };
+        Geocoder: new () => {
+          coord2RegionCode: (
+            longitude: number,
+            latitude: number,
+            callback: (result: KakaoRegion[], status: string) => void
+          ) => void;
+        };
       };
     };
   };

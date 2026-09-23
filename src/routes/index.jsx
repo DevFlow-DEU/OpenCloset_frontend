@@ -5,7 +5,6 @@ import Search from './pages/Search';
 import Login from './pages/Login';
 import SearchResult from './pages/SearchResult';
 import Registration from './pages/Registration';
-import Chat from './pages/Chat';
 import KakaoCheck from './pages/KakaoCheck';
 import Error from './pages/Error';
 import PasswordFind from './pages/PasswordFind';
@@ -46,10 +45,6 @@ const router = createBrowserRouter([
   {
     path: '/add_product',
     element: <Registration />,
-  },
-  {
-    path: '/chat',
-    element: <Chat />,
   },
   {
     path: '/kakaocheck',

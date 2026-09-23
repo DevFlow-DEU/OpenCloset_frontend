@@ -73,17 +73,17 @@ export default function PasswordFind() {
       </Header.Root>
       <div className='SHcontainer'>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className='space-40px' />
+          <div className="space-40px" />
           <Input
-            label='이메일'
-            placeholder='이메일 형식 입력'
+            label="이메일"
+            placeholder="이메일 형식 입력"
             register={register('email')}
             error={errors.email}
           />
-          <div className='button-space'>
+          <div className="button-space">
             <Button
-              variant='primary'
-              type='submit'
+              variant="primary"
+              type="submit"
               disabled={!(isDirty && isValid)}
             >
               변경하기

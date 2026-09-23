@@ -70,35 +70,35 @@ export default function LoginPage() {
         <span className='ELspan typo-logo'>OPENCLOSET</span>
         <span className='ELspan'>에</span>
         <br />
-        <span className='ELspan'>오신걸 환영합니다!</span>
+        <span className="ELspan">오신걸 환영합니다!</span>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className='logininput-space space-120px'></div>
+          <div className="logininput-space space-120px"></div>
 
           <Input
-            label='이메일'
-            placeholder='이메일 형식 입력'
+            label="이메일"
+            placeholder="이메일 형식 입력"
             register={register('email')}
             error={errors.email}
           />
-          <div className='space-28px'></div>
+          <div className="space-28px"></div>
           <Input
-            label='비밀번호'
-            placeholder='비밀번호 8자리 이상'
-            type='password'
+            label="비밀번호"
+            placeholder="비밀번호 8자리 이상"
+            type="password"
             register={register('password')}
             error={errors.password}
           />
-          <div className='button-space'>
+          <div className="button-space">
             <Button
-              variant='primary'
+              variant="primary"
               className={`${isDirty && isValid ? 'check' : ''}`}
-              type='submit'
+              type="submit"
               disabled={!(isDirty && isValid)}
             >
               로그인
             </Button>
           </div>
-          {message && <p className='SHinput-error errorMSG'>{message}</p>}
+          {message && <p className="SHinput-error errorMSG">{message}</p>}
         </form>
       </div>
     </>
