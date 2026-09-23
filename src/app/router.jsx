@@ -8,7 +8,7 @@ import Registration from '../domains/product/pages/Registration';
 import KakaoCheck from '../domains/auth/pages/KakaoCheck';
 import Error from '../routes/pages/Error';
 import PasswordFind from '../domains/auth/pages/PasswordFind';
-import MyPage from '../routes/pages/MyPage';
+import MyPage from '../domains/mypage/pages/MyPage';
 import PasswordChange from '../domains/auth/pages/PasswordChange';
 import EmailLogin from '../domains/auth/pages/EmailLogin';
 import SignUp from '../domains/auth/pages/SignUp';
