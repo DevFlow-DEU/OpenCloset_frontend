@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import styles from '../routes/pages/Home.module.css';
 import SaveIcon from '../assets/save.svg?react';
@@ -7,20 +6,10 @@ import ProfileIcon from '../assets/profile.svg?react';
 import HomeIcon from '../assets/home.svg?react';
 import ChatIcon from '../assets/chat.svg?react';
 
-
-
-
-
-
 export default function NavBar() {
-
-
-const token = localStorage.getItem('token');
-
+  const token = localStorage.getItem('token');
 
   return (
-    
-    
     <div className={styles['nav-bar']}>
       <Link to={'/map'}>
         <div>
