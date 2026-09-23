@@ -17,7 +17,8 @@ export default function DeleteAccountComplete() {
           <div className={styles.gap24} />
           <p className={styles.descSecondary}>
             그동안 OPENCLOSET을 이용해 주셔서 감사합니다. <br />
-            오픈 클로젯에서 옷을 빌리고, 나누고,<br />
+            오픈 클로젯에서 옷을 빌리고, 나누고,
+            <br />
             새로운 스타일을 경험해 주셔서 진심으로 감사드립니다.
           </p>
         </div>

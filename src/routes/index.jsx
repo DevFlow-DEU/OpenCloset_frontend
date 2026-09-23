@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/Home';
-import Particular from './pages/Particular';
+import Product from './pages/Product';
 import Search from './pages/Search';
 import Login from './pages/Login';
 import SearchResult from './pages/SearchResult';
@@ -21,6 +21,7 @@ import ChangeAddress from './pages/ChangeAddress/ChangeAddress';
 import AccountSettings from './pages/AccountSettings';
 import InformationEdit from './pages/InformationEdit';
 import Test from './pages/Test';
+import KakaoSignUp from './pages/KakaoSignUp';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/product/:id',
-    element: <Particular />,
+    element: <Product />,
   },
   {
     path: '/search',
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
   {
     path: '/kakaocheck',
     element: <KakaoCheck />,
+  },
+  {
+    path: '/KakaoSignUp',
+    element: <KakaoSignUp />,
   },
   {
     path: '/error',

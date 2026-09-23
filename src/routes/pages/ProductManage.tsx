@@ -52,7 +52,7 @@ export default function ProductManage() {
         ]);
         setOwnerItems(owner);
         setRenterItems(renter);
-      } catch { }
+      } catch {}
     };
 
     fetchItems();
@@ -110,7 +110,11 @@ export default function ProductManage() {
               dateStart={item.startDate}
               dateEnd={item.endDate}
               price={item.price}
-              state={item.status === '대여가능' ? undefined : (item.status as StateType)}
+              state={
+                item.status === '대여가능'
+                  ? undefined
+                  : (item.status as StateType)
+              }
               onEdit={() => navigate(`/product/${item.id}/edit`)}
             />
           ))}

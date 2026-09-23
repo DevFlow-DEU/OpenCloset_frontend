@@ -13,6 +13,11 @@ type Props = {
   btnLabel?: string;
 };
 
+type CheckResult = {
+  available: boolean;
+  message: string;
+};
+
 export default function Nickname({
   label,
   placeholder,
@@ -22,12 +27,23 @@ export default function Nickname({
   btnLabel = '확인',
 }: Props) {
   const [inputValue, setInputValue] = useState('');
+  const [checkResult, setCheckResult] = useState<CheckResult | null>(null);
   const { onChange: registerOnChange, ...restRegister } = register;
 
   const handleNickCheck = async () => {
-    await axios.post(`${import.meta.env.VITE_BACK_URL}/경로`, {
-      nickname: inputValue,
-    });
+    try {
+      const res = await axios.get<CheckResult>(
+        `${import.meta.env.VITE_BACK_URL}/auth/check_nickname`,
+        { params: { nickname: inputValue } }
+      );
+      setCheckResult(res.data);
+    } catch (err) {
+      const data = axios.isAxiosError(err) ? err.response?.data : null;
+      setCheckResult({
+        available: false,
+        message: data?.message ?? '닉네임 확인에 실패했습니다.',
+      });
+    }
   };
 
   return (
@@ -42,6 +58,7 @@ export default function Nickname({
           onChange={(e) => {
             registerOnChange(e);
             setInputValue(e.target.value);
+            setCheckResult(null);
           }}
         />
         <button
@@ -54,10 +71,23 @@ export default function Nickname({
         </button>
       </div>
       <div
-        className={`${commonStyles.inputErrorBar}${error ? ` ${commonStyles.error}` : ''}`}
+        className={`${commonStyles.inputErrorBar}${
+          error || checkResult?.available === false ? ` ${commonStyles.error}` : ''
+        }`}
       />
       {error && (
         <p className={commonStyles.inputErrorMessage}>{error.message}</p>
+      )}
+      {!error && checkResult && (
+        <p
+          className={
+            checkResult.available
+              ? styles.checkAvailable
+              : commonStyles.inputErrorMessage
+          }
+        >
+          {checkResult.message}
+        </p>
       )}
     </div>
   );

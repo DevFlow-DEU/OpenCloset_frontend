@@ -1,6 +1,5 @@
 import './share.css';
 import './InformationEdit.css';
-import NavigationBar from '../../components/NavigationBar/NavigationBar';
 import Header from '../../components/Header/Header';
 import { Button } from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
@@ -18,7 +17,12 @@ type UpdateMyProfileParams = {
   profileImage: File | null;
 };
 
-async function updateMyProfile({ token, nickname, address, profileImage }: UpdateMyProfileParams) {
+async function updateMyProfile({
+  token,
+  nickname,
+  address,
+  profileImage,
+}: UpdateMyProfileParams) {
   const formData = new FormData();
   formData.append('nickname', nickname);
   formData.append('address', address);
@@ -37,10 +41,12 @@ async function updateMyProfile({ token, nickname, address, profileImage }: Updat
     let message = '회원 정보 수정에 실패했습니다.';
     try {
       const errorData = await res.json();
-      if (res.status === 400) message = errorData.message ?? '이미 사용 중인 닉네임입니다.';
-      else if (res.status === 401) message = '인증이 만료되었습니다. 다시 로그인해주세요.';
+      if (res.status === 400)
+        message = errorData.message ?? '이미 사용 중인 닉네임입니다.';
+      else if (res.status === 401)
+        message = '인증이 만료되었습니다. 다시 로그인해주세요.';
       else message = errorData.message || message;
-    } catch { }
+    } catch {}
     throw new Error(message);
   }
 
@@ -76,13 +82,16 @@ export default function InformationEdit() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_BACK_URL}/mypage/profile`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await fetch(
+          `${import.meta.env.VITE_BACK_URL}/mypage/profile`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (!res.ok) {
           setError('회원 정보를 불러오지 못했습니다.');
@@ -91,7 +100,10 @@ export default function InformationEdit() {
         }
 
         const jsonData = await res.json();
-        reset({ nickname: jsonData.nickname ?? '', address: jsonData.address ?? '' });
+        reset({
+          nickname: jsonData.nickname ?? '',
+          address: jsonData.address ?? '',
+        });
         if (jsonData.profileImage) setImages(jsonData.profileImage);
       } catch (err) {
         setError((err as Error).message || '서버 오류가 발생했습니다.');
@@ -105,7 +117,12 @@ export default function InformationEdit() {
     try {
       setLoading(true);
       setError('');
-      await updateMyProfile({ token, nickname: data.nickname, address: data.address, profileImage: imageFile });
+      await updateMyProfile({
+        token,
+        nickname: data.nickname,
+        address: data.address,
+        profileImage: imageFile,
+      });
       setShowSuccessAlert(true);
     } catch (err) {
       setError((err as Error).message || '수정에 실패했습니다.');
@@ -153,7 +170,10 @@ export default function InformationEdit() {
             placeholder="닉네임 입력"
             register={register('nickname', {
               required: '닉네임을 입력해주세요.',
-              minLength: { value: 2, message: '닉네임은 2자 이상 입력해주세요.' },
+              minLength: {
+                value: 2,
+                message: '닉네임은 2자 이상 입력해주세요.',
+              },
             })}
             error={errors.nickname}
           />

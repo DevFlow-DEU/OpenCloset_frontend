@@ -64,8 +64,8 @@ export default function PasswordChange() {
       </Header.Root>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='SHcontainer'>
-          <div className='space-40px' />
+        <div className="SHcontainer">
+          <div className="space-40px" />
           <Input
             label="현재 비밀번호"
             type="password"
@@ -73,7 +73,7 @@ export default function PasswordChange() {
             register={register('currentPassword')}
             error={errors.currentPassword}
           />
-          <div className='space-40px' />
+          <div className="space-40px" />
           <Input
             label="새 비밀번호"
             type="password"
@@ -81,7 +81,7 @@ export default function PasswordChange() {
             register={register('newPassword')}
             error={errors.newPassword}
           />
-          <div className='space-28px' />
+          <div className="space-28px" />
           <Input
             label="새 비밀번호 확인"
             type="password"
@@ -90,7 +90,7 @@ export default function PasswordChange() {
             error={errors.checkPassword}
           />
         </div>
-        <div className='fixed-bottom'>
+        <div className="fixed-bottom">
           <Button
             variant="primary"
             type="submit"
@@ -112,7 +112,7 @@ export default function PasswordChange() {
         />
       )}
 
-      {errorMSG && <p className='SHinput-error errorMSG'>{errorMSG}</p>}
+      {errorMSG && <p className="SHinput-error errorMSG">{errorMSG}</p>}
     </>
   );
 }

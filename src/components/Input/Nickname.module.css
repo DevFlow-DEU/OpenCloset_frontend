@@ -33,3 +33,9 @@
 .inputNicknameButton.active:active {
     background: var(--color-brand2);
 }
+
+.checkAvailable {
+    color: var(--color-brand2);
+    font-size: var(--font-size-sm);
+    margin: 0;
+}

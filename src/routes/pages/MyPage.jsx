@@ -1,20 +1,19 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import NavigationBar from '../../components/NavigationBar/NavigationBar'
-import Header from '../../components/Header/Header'
-import './MyPage.css'
-import { SlArrowRight } from "react-icons/sl";
-
-
-
+import NavigationBar from '../../components/NavigationBar/NavigationBar';
+import Header from '../../components/Header/Header';
+import './MyPage.css';
+import { SlArrowRight } from 'react-icons/sl';
 
 export default function MyPage() {
-  const [images, setImages] = useState('https://opencloset.jihongeek.workers.dev/src/assets/Default_Profile.png');
+  const [images, setImages] = useState(
+    'https://opencloset.jihongeek.workers.dev/src/assets/Default_Profile.png'
+  );
   const [error, setError] = useState('');
   const [nickname, setNickname] = useState('');
   const [address, setAddress] = useState('');
   const token = localStorage.getItem('token');
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const backUrl = import.meta.env.VITE_BACK_URL;
 
   useEffect(() => {
@@ -28,9 +27,7 @@ export default function MyPage() {
           },
         });
 
-        if (!res.ok)
-          navigate('/login');
-
+        if (!res.ok) navigate('/login');
 
         const jsonData = await res.json();
         // console.log(jsonData);
@@ -39,15 +36,9 @@ export default function MyPage() {
         const nickname = jsonData.nickname;
         const address = jsonData.address;
 
-
-
-
         setImages(image);
         setNickname(nickname);
         setAddress(address);
-
-
-
       } catch (err) {
         setError(err.message);
       }
@@ -72,31 +63,26 @@ export default function MyPage() {
       console.log(err);
     } finally {
       localStorage.removeItem('token');
-    };
-  }
+    }
+  };
   return (
     <div>
       <Header.Root hasNotch hasCamera>
         <Header.MainTitle title="내 정보" />
       </Header.Root>
       <section>
-
-
-        <article className='user-space'>
-
-          <span><img src={images} alt="" /></span>
+        <article className="user-space">
+          <span>
+            <img src={images} alt="" />
+          </span>
           <span>
             <p>{nickname}</p> <span>{error}</span>
             <p>{address}</p>
           </span>
         </article>
-        <div className='article-bar'></div>
+        <div className="article-bar"></div>
 
-
-
-
-
-        <article className='menu-item'>
+        <article className="menu-item">
           <Link to={'/ProductManage'}>
             <span>상품 관리</span>{' '}
             <span>
@@ -105,13 +91,9 @@ export default function MyPage() {
             </span>
           </Link>
         </article>
-        <div className='article-bar'></div>
+        <div className="article-bar"></div>
 
-
-
-
-
-        <article className='menu-item'>
+        <article className="menu-item">
           <Link to={'/accountSettings'}>
             <span>내 정보 관리</span>{' '}
             <span>
@@ -120,40 +102,21 @@ export default function MyPage() {
             </span>
           </Link>
         </article>
-        <div className='article-bar'></div>
+        <div className="article-bar"></div>
 
-
-
-
-
-
-
-
-
-
-        <article className='menu-item'>
+        <article className="menu-item">
           <Link to={'/'} onClick={logOut}>
-            <span>로그아웃</span> <span> <SlArrowRight size={24} />  </span>
+            <span>로그아웃</span>{' '}
+            <span>
+              {' '}
+              <SlArrowRight size={24} />{' '}
+            </span>
           </Link>
         </article>
-        <div className='article-bar'></div>
-
-
-
-
-
-
-
-
+        <div className="article-bar"></div>
       </section>
-
-
-
-
-
 
       <NavigationBar />
     </div>
   );
 }
-
