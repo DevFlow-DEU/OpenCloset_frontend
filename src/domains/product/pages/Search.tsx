@@ -1,10 +1,10 @@
 import styles from './Search.module.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '../../components/Header/Header';
-import SearchInput from '../../components/Input/SearchInput';
-import RecentIcon from '../../assets/recent.svg?react';
-import RecentDeleteIcon from '../../assets/recent_delete.svg?react';
+import Header from '../../../components/Header/Header';
+import SearchInput from '../../../components/Input/SearchInput';
+import RecentIcon from '../../../assets/recent.svg?react';
+import RecentDeleteIcon from '../../../assets/recent_delete.svg?react';
 
 const SEARCH_HISTORY_KEY = 'searchHistory';
 const MAX_HISTORY_LENGTH = 10;

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '../../components/Header/Header';
-import RadioFilter from '../../components/Filter/RadioFilter';
-import ManageItem from '../../components/Product/ManageItem';
-import Alert from '../../components/Alert/Alert';
-import type { StateType } from '../../components/State/State';
+import Header from '../../../components/Header/Header';
+import RadioFilter from '../../../components/Filter/RadioFilter';
+import ManageItem from '../components/ManageItem';
+import Alert from '../../../components/Alert/Alert';
+import type { StateType } from '../../../components/State/State';
 import styles from './ProductManage.module.css';
 
 type Tab = 'owner' | 'renter';

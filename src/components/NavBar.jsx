@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import styles from '../routes/pages/Home.module.css';
+import styles from '../domains/product/pages/Home.module.css';
 import SaveIcon from '../assets/save.svg?react';
 import MapIcon from '../assets/map.svg?react';
 import ProfileIcon from '../assets/profile.svg?react';

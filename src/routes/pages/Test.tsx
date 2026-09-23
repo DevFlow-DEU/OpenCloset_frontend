@@ -14,7 +14,7 @@ import SearchFilter from '../../components/Filter/SearchFilter';
 import RadioFilter from '../../components/Filter/RadioFilter';
 import ChatItem from '../../components/Chat/ChatItem';
 import ChatState from '../../components/Chat/ChatState';
-import ManageItem from '../../components/Product/ManageItem';
+import ManageItem from '../../domains/product/components/ManageItem';
 import { type StateType } from '../../components/State/State';
 import Alert from '../../components/Alert/Alert';
 import DateRange from '../../components/Input/DateRange';

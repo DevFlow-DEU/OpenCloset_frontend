@@ -1,13 +1,13 @@
 import styles from './CategoryLink.module.css';
 import { Link } from 'react-router-dom';
-import TopsIcon from '../../assets/icon/Category/Tops.svg?react';
-import PantsIcon from '../../assets/icon/Category/Pants.svg?react';
-import OuterIcon from '../../assets/icon/Category/Outer.svg?react';
-import BagIcon from '../../assets/icon/Category/Bag.svg?react';
-import JewelryIcon from '../../assets/icon/Category/Jewelry.svg?react';
-import OnePieceIcon from '../../assets/icon/Category/OnePiece.svg?react';
-import ShoesIcon from '../../assets/icon/Category/Shoes.svg?react';
-import AccessoryIcon from '../../assets/icon/Category/Accessory.svg?react';
+import TopsIcon from '../../../assets/icon/Category/Tops.svg?react';
+import PantsIcon from '../../../assets/icon/Category/Pants.svg?react';
+import OuterIcon from '../../../assets/icon/Category/Outer.svg?react';
+import BagIcon from '../../../assets/icon/Category/Bag.svg?react';
+import JewelryIcon from '../../../assets/icon/Category/Jewelry.svg?react';
+import OnePieceIcon from '../../../assets/icon/Category/OnePiece.svg?react';
+import ShoesIcon from '../../../assets/icon/Category/Shoes.svg?react';
+import AccessoryIcon from '../../../assets/icon/Category/Accessory.svg?react';
 
 const clothTypeIconMap = {
   top: TopsIcon,

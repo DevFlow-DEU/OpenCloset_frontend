@@ -1,5 +1,5 @@
-import NavBar from '../../components/NavBar';
-import ProductList from '../../components/ProductList';
+import NavBar from '../../../components/NavBar';
+import ProductList from '../components/ProductList';
 import styles from './SearchResult.module.css';
 import { Link, useParams } from 'react-router-dom';
 import {
@@ -9,7 +9,7 @@ import {
   Search as SearchIcon,
 } from 'lucide-react';
 import { useState } from 'react';
-import { useProducts } from '../../utils/products';
+import { useProducts } from '../hooks/useProducts';
 export default function SearchResult() {
   const token = localStorage.getItem('token');
   let param = useParams();
@@ -32,10 +32,10 @@ export default function SearchResult() {
           </Link>
           <div className={styles['search-bar']}>
             <input
-              type='search'
-              name=''
-              id=''
-              placeholder='검색어를 입력해주세요'
+              type="search"
+              name=""
+              id=""
+              placeholder="검색어를 입력해주세요"
               onChange={onSearchInputChange}
               defaultValue={param.searchText}
             />

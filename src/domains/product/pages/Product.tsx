@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Header from '../../components/Header/Header';
-import { Button } from '../../components/Button/Button';
-import StaticMap from '../../components/Map/StaticMap';
-import List from '../../components/Drawer/List';
+import Header from '../../../components/Header/Header';
+import { Button } from '../../../components/Button/Button';
+import StaticMap from '../../../components/Map/StaticMap';
+import List from '../../../components/Drawer/List';
 import {
   fetchKakaoAddressByCoords,
   loadKakaoMapSdk,
-} from '../../components/Map/kakao';
-import LikeRedHeartIcon from '../../assets/icon/Like_red_heart.svg?react';
-import LikeGrayHeartIcon from '../../assets/icon/Like_gray_heart.svg?react';
-import '../../components/share.css';
+} from '../../../components/Map/kakao';
+import LikeRedHeartIcon from '../../../assets/icon/Like_red_heart.svg?react';
+import LikeGrayHeartIcon from '../../../assets/icon/Like_gray_heart.svg?react';
+import '../../../components/share.css';
 import styles from './Product.module.css';
 
 type ProductData = {

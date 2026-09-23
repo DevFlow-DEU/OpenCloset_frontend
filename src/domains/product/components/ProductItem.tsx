@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import styles from './ProductItem.module.css';
-import LikeGrayHeartIcon from '../../assets/icon/Like_gray_heart.svg?react';
-import LikeRedHeartIcon from '../../assets/icon/Like_red_heart.svg?react';
-import ItemNoImage from '../../assets/item_no_image.svg';
+import LikeGrayHeartIcon from '../../../assets/icon/Like_gray_heart.svg?react';
+import LikeRedHeartIcon from '../../../assets/icon/Like_red_heart.svg?react';
+import ItemNoImage from '../../../assets/item_no_image.svg';
 export interface ProductItemProps {
   id: number;
   imageUrls: string[];

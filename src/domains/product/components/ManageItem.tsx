@@ -1,4 +1,4 @@
-import State, { type StateType } from '../State/State';
+import State, { type StateType } from '../../../components/State/State';
 import styles from './ManageItem.module.css';
 
 const DAYS = ['일', '월', '화', '수', '목', '금', '토'];

@@ -4,16 +4,16 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { FiCamera } from 'react-icons/fi';
-import Header from '../../components/Header/Header';
-import { Button } from '../../components/Button/Button';
-import Input from '../../components/Input/Input';
-import Radio from '../../components/Input/Radio';
-import Select from '../../components/Input/Select';
-import Textarea from '../../components/Input/Textarea';
-import Location from '../../components/Input/Location';
-import commonStyles from '../../components/Input/common.module.css';
-import CancelIcon from '../../assets/icon/Cancel.svg?react';
-import '../../components/share.css';
+import Header from '../../../components/Header/Header';
+import { Button } from '../../../components/Button/Button';
+import Input from '../../../components/Input/Input';
+import Radio from '../../../components/Input/Radio';
+import Select from '../../../components/Input/Select';
+import Textarea from '../../../components/Input/Textarea';
+import Location from '../../../components/Input/Location';
+import commonStyles from '../../../components/Input/common.module.css';
+import CancelIcon from '../../../assets/icon/Cancel.svg?react';
+import '../../../components/share.css';
 import styles from './Registration.module.css';
 
 const RegistrationSchema = z.object({

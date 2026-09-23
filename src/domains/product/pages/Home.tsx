@@ -1,8 +1,8 @@
 import styles from './Home.module.css';
-import NavigationBar from '../../components/NavigationBar/NavigationBar';
-import Header from '../../components/Header/Header';
-import CategoryLink from '../../components/CategoryLink/CategoryLink';
-import ProductItem from '../../components/Product/ProductItem';
+import NavigationBar from '../../../components/NavigationBar/NavigationBar';
+import Header from '../../../components/Header/Header';
+import CategoryLink from '../components/CategoryLink';
+import ProductItem from '../components/ProductItem';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
