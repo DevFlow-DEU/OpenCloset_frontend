@@ -2,25 +2,25 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from '../routes/pages/Home';
 import Product from '../routes/pages/Product';
 import Search from '../routes/pages/Search';
-import Login from '../routes/pages/Login';
+import Login from '../domains/auth/pages/Login';
 import SearchResult from '../routes/pages/SearchResult';
 import Registration from '../routes/pages/Registration';
-import KakaoCheck from '../routes/pages/KakaoCheck';
+import KakaoCheck from '../domains/auth/pages/KakaoCheck';
 import Error from '../routes/pages/Error';
-import PasswordFind from '../routes/pages/PasswordFind';
+import PasswordFind from '../domains/auth/pages/PasswordFind';
 import MyPage from '../routes/pages/MyPage';
-import PasswordChange from '../routes/pages/PasswordChange';
-import EmailLogin from '../routes/pages/EmailLogin';
-import SignUp from '../routes/pages/SignUp';
+import PasswordChange from '../domains/auth/pages/PasswordChange';
+import EmailLogin from '../domains/auth/pages/EmailLogin';
+import SignUp from '../domains/auth/pages/SignUp';
 import GetLocation1 from '../routes/pages/GetLocation1';
-import DeleteAccount from '../routes/pages/DeleteAccount';
+import DeleteAccount from '../domains/auth/pages/DeleteAccount';
 import ProductManage from '../routes/pages/ProductManage';
-import DeleteAccountComplete from '../routes/pages/DeleteAccountComplete';
+import DeleteAccountComplete from '../domains/auth/pages/DeleteAccountComplete';
 import ChangeAddress from '../routes/pages/ChangeAddress/ChangeAddress';
-import AccountSettings from '../routes/pages/AccountSettings';
-import InformationEdit from '../routes/pages/InformationEdit';
+import AccountSettings from '../domains/auth/pages/AccountSettings';
+import InformationEdit from '../domains/auth/pages/InformationEdit';
 import Test from '../routes/pages/Test';
-import KakaoSignUp from '../routes/pages/KakaoSignUp';
+import KakaoSignUp from '../domains/auth/pages/KakaoSignUp';
 const router = createBrowserRouter([
   {
     path: '/',

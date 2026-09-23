@@ -1,18 +1,18 @@
-import './share.css';
+import '../../../components/share.css';
 import styles from './SignUp.module.css';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Header from '../../components/Header.tsx';
-import { Button } from '../../components/Button/Button';
+import Header from '../../../components/Header.tsx';
+import { Button } from '../../../components/Button/Button';
 import { useNavigate } from 'react-router-dom';
-import { client } from '../../api/client';
+import { client } from '../../../api/client';
 import { useMutation } from '@tanstack/react-query';
-import type { components } from '../../api/api';
-import Input from '../../components/Input/Input';
-import Nickname from '../../components/Input/Nickname';
-import Location from '../../components/Input/Location';
-import Alert from '../../components/Alert/Alert';
+import type { components } from '../../../api/api';
+import Input from '../../../components/Input/Input';
+import Nickname from '../../../components/Input/Nickname';
+import Location from '../../../components/Input/Location';
+import Alert from '../../../components/Alert/Alert';
 import { useState } from 'react';
 
 const SignUpSchema = z
@@ -25,7 +25,9 @@ const SignUpSchema = z
     password: z
       .string()
       .min(8, '비밀번호는 8자 이상이어야 합니다.')
-      .regex(/^(?=.*[A-Za-z])(?=.*\d)/, { message: '영문과 숫자를 포함해야 합니다.' }),
+      .regex(/^(?=.*[A-Za-z])(?=.*\d)/, {
+        message: '영문과 숫자를 포함해야 합니다.',
+      }),
     passwordConfirm: z.string().min(1, '비밀번호 확인을 입력해주세요.'),
     address: z.string().min(1, '주소를 등록해주세요.'),
   })
@@ -46,7 +48,13 @@ export default function SignUp() {
   } = useForm<SignUpForm>({
     resolver: zodResolver(SignUpSchema),
     mode: 'onChange',
-    defaultValues: { nickname: '', email: '', password: '', passwordConfirm: '', address: '' },
+    defaultValues: {
+      nickname: '',
+      email: '',
+      password: '',
+      passwordConfirm: '',
+      address: '',
+    },
   });
   const navigate = useNavigate();
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
@@ -75,63 +83,63 @@ export default function SignUp() {
 
   return (
     <div className={styles.pageLayout}>
-      <Header title='회원가입' />
+      <Header title="회원가입" />
       <main className={styles.contentLayout}>
         <form
           noValidate
-          id='signup-form'
-          className='SHinput-container'
+          id="signup-form"
+          className="SHinput-container"
           onSubmit={handleSubmit(() => {
             const { password, email, nickname, address } = getValues();
             mutation.mutate({ email, password, nickname, address });
           })}
         >
-          <div className='space-40px' />
+          <div className="space-40px" />
           <Nickname
-            label='닉네임'
-            placeholder='닉네임 입력'
+            label="닉네임"
+            placeholder="닉네임 입력"
             register={register('nickname')}
             error={errors.nickname}
           />
-          <div className='space-40px' />
+          <div className="space-40px" />
           <Input
-            label='이메일'
-            placeholder='이메일'
-            type='email'
+            label="이메일"
+            placeholder="이메일"
+            type="email"
             register={register('email')}
             error={errors.email}
           />
-          <div className='space-28px' />
+          <div className="space-28px" />
           <Input
-            label='비밀번호'
-            placeholder='비밀번호 입력'
-            type='password'
+            label="비밀번호"
+            placeholder="비밀번호 입력"
+            type="password"
             register={register('password')}
             error={errors.password}
           />
-          <div className='space-28px' />
+          <div className="space-28px" />
           <Input
-            label='비밀번호 확인'
-            placeholder='비밀번호 입력'
-            type='password'
+            label="비밀번호 확인"
+            placeholder="비밀번호 입력"
+            type="password"
             register={register('passwordConfirm')}
             error={errors.passwordConfirm}
           />
-          <div className='space-40px' />
+          <div className="space-40px" />
           <Location
-            label='주소'
-            placeholder='현재 위치 찾기 버튼을 눌러주세요.'
+            label="주소"
+            placeholder="현재 위치 찾기 버튼을 눌러주세요."
             register={register('address')}
-            map='map'
+            map="map"
             error={errors.address}
           />
         </form>
       </main>
-      <div className='button-space'>
+      <div className="button-space">
         <Button
-          form='signup-form'
-          type='submit'
-          variant='primary'
+          form="signup-form"
+          type="submit"
+          variant="primary"
           disabled={!(isDirty && isValid)}
         >
           가입하기
@@ -147,7 +155,6 @@ export default function SignUp() {
           onConfirm={() => navigate('/')}
         />
       )}
-
     </div>
   );
 }

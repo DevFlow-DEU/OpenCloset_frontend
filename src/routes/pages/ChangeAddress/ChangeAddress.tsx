@@ -5,7 +5,7 @@ import {
   loadKakaoMapSdk,
   renderKakaoMapWithMarker,
 } from '../getLocationMap';
-import '../share.css';
+import '../../../components/share.css';
 import styles from './ChangeAddress.module.css';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../../components/Header.tsx';
@@ -130,7 +130,7 @@ export default function ChangeAddress() {
 
   return (
     <div className={styles.page}>
-      <Header title='주소 변경' />
+      <Header title="주소 변경" />
       <main className={styles.content}>
         <section className={styles.mapSection}>
           <div ref={mapRef} className={styles.mapContainer} />
@@ -142,17 +142,17 @@ export default function ChangeAddress() {
         </section>
 
         <section className={styles.addressSection}>
-          <p className='SHinput-tittle'>현재 위치 주소</p>
+          <p className="SHinput-tittle">현재 위치 주소</p>
           <input
-            className='SHinput'
-            type='text'
+            className="SHinput"
+            type="text"
             value={addressText}
             readOnly
-            aria-label='현재 위치 주소'
+            aria-label="현재 위치 주소"
           />
-          <div className='SHinput-bar'></div>
+          <div className="SHinput-bar"></div>
           <button
-            type='button'
+            type="button"
             className={`SHsubmit check ${styles.resetButton}`}
             onClick={updateLocation}
           >
@@ -163,8 +163,8 @@ export default function ChangeAddress() {
       </main>
       <BottomConfirmBar>
         <button
-          type='button'
-          className='SHsubmit check'
+          type="button"
+          className="SHsubmit check"
           onClick={() => {
             mutation.mutate();
           }}

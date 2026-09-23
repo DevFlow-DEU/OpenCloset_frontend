@@ -1,9 +1,9 @@
-import './share.css';
-import Header from '../../components/Header/Header';
-import Nickname from '../../components/Input/Nickname';
-import Input from '../../components/Input/Input';
-import Location from '../../components/Input/Location';
-import { Button } from '../../components/Button/Button';
+import '../../../components/share.css';
+import Header from '../../../components/Header/Header';
+import Nickname from '../../../components/Input/Nickname';
+import Input from '../../../components/Input/Input';
+import Location from '../../../components/Input/Location';
+import { Button } from '../../../components/Button/Button';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -28,7 +28,12 @@ export default function KakaoSignUp() {
     formState: { errors, isValid, isDirty },
   } = useForm<KakaoSignUpForm>({
     mode: 'onChange',
-    defaultValues: { nickname: '', password: '', passwordConfirm: '', address: '' },
+    defaultValues: {
+      nickname: '',
+      password: '',
+      passwordConfirm: '',
+      address: '',
+    },
   });
 
   const onSubmit = async (data: KakaoSignUpForm) => {
@@ -52,7 +57,7 @@ export default function KakaoSignUp() {
         try {
           const errorData = await res.json();
           message = errorData.message || message;
-        } catch { }
+        } catch {}
         throw new Error(message);
       }
 
@@ -76,7 +81,9 @@ export default function KakaoSignUp() {
           <Nickname
             label="닉네임"
             placeholder="닉네임 입력"
-            register={register('nickname', { required: '닉네임을 입력해주세요.' })}
+            register={register('nickname', {
+              required: '닉네임을 입력해주세요.',
+            })}
             error={errors.nickname}
           />
           <div className="space-40px" />
@@ -86,7 +93,10 @@ export default function KakaoSignUp() {
             type="password"
             register={register('password', {
               required: '비밀번호를 입력해주세요.',
-              minLength: { value: 8, message: '비밀번호는 8자 이상이어야 합니다.' },
+              minLength: {
+                value: 8,
+                message: '비밀번호는 8자 이상이어야 합니다.',
+              },
               pattern: {
                 value: /^(?=.*[A-Za-z])(?=.*\d)/,
                 message: '영문과 숫자를 포함해야 합니다.',
@@ -102,7 +112,8 @@ export default function KakaoSignUp() {
             register={register('passwordConfirm', {
               required: '비밀번호 확인을 입력해주세요.',
               validate: (value) =>
-                value === getValues('password') || '비밀번호가 일치하지 않습니다.',
+                value === getValues('password') ||
+                '비밀번호가 일치하지 않습니다.',
             })}
             error={errors.passwordConfirm}
           />

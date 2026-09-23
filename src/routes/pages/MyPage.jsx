@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import NavigationBar from '../../components/NavigationBar/NavigationBar';
 import Header from '../../components/Header/Header';
-import './MyPage.css';
+import '../../components/MyPage.css';
 import { SlArrowRight } from 'react-icons/sl';
 
 export default function MyPage() {

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../../components/Button/Button';
-import checkSrc from '../../assets/icon/Alert/check.svg';
+import { Button } from '../../../components/Button/Button';
+import checkSrc from '../../../assets/icon/Alert/check.svg';
 import styles from './DeleteAccountComplete.module.css';
 
 export default function DeleteAccountComplete() {

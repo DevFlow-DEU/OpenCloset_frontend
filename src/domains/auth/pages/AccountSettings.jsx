@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import NavigationBar from '../../components/NavigationBar/NavigationBar';
-import Header from '../../components/Header/Header';
-import './MyPage.css';
+import NavigationBar from '../../../components/NavigationBar/NavigationBar';
+import Header from '../../../components/Header/Header';
+import '../../../components/MyPage.css';
 import { SlArrowRight } from 'react-icons/sl';
 
 export default function AccountSettings() {

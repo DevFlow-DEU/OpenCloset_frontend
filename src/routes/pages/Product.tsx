@@ -10,7 +10,7 @@ import {
 } from '../../components/Map/kakao';
 import LikeRedHeartIcon from '../../assets/icon/Like_red_heart.svg?react';
 import LikeGrayHeartIcon from '../../assets/icon/Like_gray_heart.svg?react';
-import './share.css';
+import '../../components/share.css';
 import styles from './Product.module.css';
 
 type ProductData = {

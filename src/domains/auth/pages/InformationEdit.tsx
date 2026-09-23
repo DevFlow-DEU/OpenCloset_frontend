@@ -1,10 +1,10 @@
-import './share.css';
+import '../../../components/share.css';
 import './InformationEdit.css';
-import Header from '../../components/Header/Header';
-import { Button } from '../../components/Button/Button';
-import Input from '../../components/Input/Input';
-import Location from '../../components/Input/Location';
-import Alert from '../../components/Alert/Alert';
+import Header from '../../../components/Header/Header';
+import { Button } from '../../../components/Button/Button';
+import Input from '../../../components/Input/Input';
+import Location from '../../../components/Input/Location';
+import Alert from '../../../components/Alert/Alert';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';

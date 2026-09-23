@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import Header from '../../components/Header/Header';
-import { Button } from '../../components/Button/Button';
-import Input from '../../components/Input/Input';
-import Alert from '../../components/Alert/Alert';
-import './share.css';
+import Header from '../../../components/Header/Header';
+import { Button } from '../../../components/Button/Button';
+import Input from '../../../components/Input/Input';
+import Alert from '../../../components/Alert/Alert';
+import '../../../components/share.css';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { pwChangeSchema } from './PWChangeSchema.ts';

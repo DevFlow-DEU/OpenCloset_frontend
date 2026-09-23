@@ -1,12 +1,12 @@
-import './share.css';
+import '../../../components/share.css';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import Header from '../../components/Header/Header';
-import { Button } from '../../components/Button/Button';
-import Input from '../../components/Input/Input';
-import Alert from '../../components/Alert/Alert';
-import { client } from '../../api/client';
+import Header from '../../../components/Header/Header';
+import { Button } from '../../../components/Button/Button';
+import Input from '../../../components/Input/Input';
+import Alert from '../../../components/Alert/Alert';
+import { client } from '../../../api/client';
 
 type AlertState = { type: 'confirm' } | { type: 'error'; message: string };
 

@@ -1,29 +1,32 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function KakaoCallback() {
   const navigate = useNavigate();
 
   useEffect(() => {
     const currentUrl = new URL(window.location.href);
-    const code = currentUrl.searchParams.get("code");
-    const error = currentUrl.searchParams.get("error");
-    const errorDesc = currentUrl.searchParams.get("error_description");
+    const code = currentUrl.searchParams.get('code');
+    const error = currentUrl.searchParams.get('error');
+    const errorDesc = currentUrl.searchParams.get('error_description');
 
     // 1) 카카오에서 error로 돌아온 경우
     if (error) {
-      navigate("/error", {
+      navigate('/error', {
         replace: true,
-        state: { error, errorDesc: errorDesc || "카카오 서버 오류" },
+        state: { error, errorDesc: errorDesc || '카카오 서버 오류' },
       });
       return;
     }
 
     // 2) code가 없는 경우(이상 케이스)
     if (!code) {
-      navigate("/error", {
+      navigate('/error', {
         replace: true,
-        state: { error: "code 없음", errorDesc: "카카오톡으로부터 코드를 받지 못함" },
+        state: {
+          error: 'code 없음',
+          errorDesc: '카카오톡으로부터 코드를 받지 못함',
+        },
       });
       return;
     }
@@ -32,17 +35,17 @@ export default function KakaoCallback() {
       try {
         const backCodeUrl = import.meta.env.VITE_BACK_CODE_URL;
         if (!backCodeUrl) {
-          throw new Error("환경변수 문제");
+          throw new Error('환경변수 문제');
         }
 
         const backendUrl = new URL(backCodeUrl);
-        backendUrl.searchParams.set("code", code);
+        backendUrl.searchParams.set('code', code);
 
-        console.log(backendUrl)
+        console.log(backendUrl);
 
         const res = await fetch(backendUrl.toString(), {
-          method: "GET",
-          headers: { Accept: "application/json" },
+          method: 'GET',
+          headers: { Accept: 'application/json' },
         });
         // console.log("backendUrl:", backendUrl.toString());
 
@@ -59,32 +62,35 @@ export default function KakaoCallback() {
         const refreshToken = data?.refreshToken;
 
         if (!Token) {
-          throw new Error("토큰 에러: accessToken이 응답에 없음");
+          throw new Error('토큰 에러: accessToken이 응답에 없음');
         }
 
-        localStorage.setItem("token", Token);
-        if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem('token', Token);
+        if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
 
         // code 제거(재진입/오류 예방)
-        window.history.replaceState({}, document.title, "/kakaocheck");
+        window.history.replaceState({}, document.title, '/kakaocheck');
 
-        const profileRes = await fetch(`${import.meta.env.VITE_BACK_URL}/mypage/profile`, {
-          headers: { Authorization: `Bearer ${Token}` },
-        });
+        const profileRes = await fetch(
+          `${import.meta.env.VITE_BACK_URL}/mypage/profile`,
+          {
+            headers: { Authorization: `Bearer ${Token}` },
+          }
+        );
 
         if (profileRes.ok) {
           const profile = await profileRes.json();
           if (!profile?.address) {
-            navigate("/KakaoSignUp", { replace: true });
+            navigate('/KakaoSignUp', { replace: true });
             return;
           }
         }
 
-        navigate("/", { replace: true });
+        navigate('/', { replace: true });
       } catch (e) {
-        navigate("/error", {
+        navigate('/error', {
           replace: true,
-          state: { error: "로그인 실패", errorDesc: String(e?.message || e) },
+          state: { error: '로그인 실패', errorDesc: String(e?.message || e) },
         });
       }
     })();

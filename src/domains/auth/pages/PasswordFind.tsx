@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import './share.css';
-import Header from '../../components/Header/Header';
-import Input from '../../components/Input/Input';
-import { Button } from '../../components/Button/Button';
-import Alert from '../../components/Alert/Alert';
+import '../../../components/share.css';
+import Header from '../../../components/Header/Header';
+import Input from '../../../components/Input/Input';
+import { Button } from '../../../components/Button/Button';
+import Alert from '../../../components/Alert/Alert';
 
 const findSchema = z.object({
   email: z
@@ -71,7 +71,7 @@ export default function PasswordFind() {
         <Header.BackButton />
         <Header.CenterTitle title="비밀번호 찾기" />
       </Header.Root>
-      <div className='SHcontainer'>
+      <div className="SHcontainer">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-40px" />
           <Input
@@ -96,7 +96,13 @@ export default function PasswordFind() {
         <Alert
           icon="check"
           title="발송 완료"
-          description={<>입력한 이메일로 임시 비밀번호가 발송되었습니다.<br />메일함에서 임시 비밀번호를 확인해 주세요.</>}
+          description={
+            <>
+              입력한 이메일로 임시 비밀번호가 발송되었습니다.
+              <br />
+              메일함에서 임시 비밀번호를 확인해 주세요.
+            </>
+          }
           buttons="confirm"
           onConfirm={() => navigate('/login')}
         />
@@ -106,7 +112,13 @@ export default function PasswordFind() {
         <Alert
           icon="warning"
           title="가입된 계정을 찾을 수 없어요"
-          description={<>입력한 이메일로 가입된 오픈 클로젯 계정이 없습니다.<br />이메일 주소를 다시 확인해 주세요.</>}
+          description={
+            <>
+              입력한 이메일로 가입된 오픈 클로젯 계정이 없습니다.
+              <br />
+              이메일 주소를 다시 확인해 주세요.
+            </>
+          }
           buttons="confirm"
           onConfirm={() => setShowNotFoundAlert(false)}
         />

@@ -13,7 +13,7 @@ import Textarea from '../../components/Input/Textarea';
 import Location from '../../components/Input/Location';
 import commonStyles from '../../components/Input/common.module.css';
 import CancelIcon from '../../assets/icon/Cancel.svg?react';
-import './share.css';
+import '../../components/share.css';
 import styles from './Registration.module.css';
 
 const RegistrationSchema = z.object({
@@ -93,7 +93,8 @@ export default function Registration() {
     }
     setImageError('');
 
-    const categoryKey = CATEGORY_LABEL_TO_KEY[values.category] ?? values.category;
+    const categoryKey =
+      CATEGORY_LABEL_TO_KEY[values.category] ?? values.category;
     const sexKey = SEX_LABEL_TO_KEY[values.sex] ?? values.sex;
 
     const formData = new FormData();
@@ -145,19 +146,30 @@ export default function Registration() {
           <div className={styles.photoRow}>
             <label className={styles.addPhotoButton}>
               <FiCamera size={32} className={styles.addPhotoIcon} />
-              <input type="file" accept="image/*" onChange={handleImageUpload} hidden />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                hidden
+              />
             </label>
 
             {image && (
               <div className={styles.thumbnail}>
                 <img src={image.url} alt="상품 이미지" />
-                <button type="button" className={styles.removeButton} onClick={removeImage}>
+                <button
+                  type="button"
+                  className={styles.removeButton}
+                  onClick={removeImage}
+                >
                   <CancelIcon width={16} height={16} />
                 </button>
               </div>
             )}
           </div>
-          {imageError && <p className={commonStyles.inputErrorMessage}>{imageError}</p>}
+          {imageError && (
+            <p className={commonStyles.inputErrorMessage}>{imageError}</p>
+          )}
         </div>
 
         <div className="space-20px" />
@@ -182,7 +194,10 @@ export default function Registration() {
               const formatted = e.target.value
                 .replace(/[^0-9]/g, '')
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-              setValue('price', formatted, { shouldDirty: true, shouldValidate: true });
+              setValue('price', formatted, {
+                shouldDirty: true,
+                shouldValidate: true,
+              });
             }}
             error={errors.price}
           />
@@ -248,9 +263,15 @@ export default function Registration() {
 
           <div className="space-40px" />
 
-          {submitError && <p className="SHinput-error errorMSG">{submitError}</p>}
+          {submitError && (
+            <p className="SHinput-error errorMSG">{submitError}</p>
+          )}
 
-          <Button variant="primary" type="submit" disabled={!canSubmit || submitting}>
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={!canSubmit || submitting}
+          >
             {submitting ? '처리 중...' : '등록하기'}
           </Button>
 

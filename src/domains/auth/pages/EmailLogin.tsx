@@ -3,10 +3,10 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useNavigate } from 'react-router-dom';
-import './share.css';
-import Header from '../../components/Header/Header';
-import Input from '../../components/Input/Input';
-import { Button } from '../../components/Button/Button';
+import '../../../components/share.css';
+import Header from '../../../components/Header/Header';
+import Input from '../../../components/Input/Input';
+import { Button } from '../../../components/Button/Button';
 
 const loginSchema = z.object({
   email: z
@@ -52,7 +52,10 @@ export default function LoginPage() {
         navigate('/');
         reset();
       }
-      setMessage(data?.message || `이메일 또는 비밀번호가 일치하지 않습니다. (${res.status})`);
+      setMessage(
+        data?.message ||
+          `이메일 또는 비밀번호가 일치하지 않습니다. (${res.status})`
+      );
     } catch (e) {
       setMessage('서버에 연결할 수 없습니다.');
       console.error('network error:', e);
@@ -65,10 +68,10 @@ export default function LoginPage() {
         <Header.BackButton />
         <Header.CenterTitle title="이메일 로그인" />
       </Header.Root>
-      <div className='SHcontainer'>
-        <div className='space-60px'></div>
-        <span className='ELspan typo-logo'>OPENCLOSET</span>
-        <span className='ELspan'>에</span>
+      <div className="SHcontainer">
+        <div className="space-60px"></div>
+        <span className="ELspan typo-logo">OPENCLOSET</span>
+        <span className="ELspan">에</span>
         <br />
         <span className="ELspan">오신걸 환영합니다!</span>
         <form onSubmit={handleSubmit(onSubmit)}>
