@@ -8,6 +8,9 @@
     "host": "vite --host 0.0.0.0",
     "build": "vite build",
     "lint": "eslint .",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "typecheck": "tsc -b --noEmit",
     "preview": "npm run build && wrangler dev",
     "deploy": "npm run build && wrangler deploy",
     "prepare": "husky"
