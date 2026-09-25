@@ -4,8 +4,8 @@ import {
   fetchKakaoAddressByCoords,
   loadKakaoMapSdk,
   renderKakaoMapWithMarker,
-} from '../../domains/location/utils/getLocationMap';
-import styles from '../../domains/location/pages/GetLocation.module.css';
+} from '../../components/Map/getLocationMap';
+import styles from '../../domains/auth/pages/GetLocation.module.css';
 import { useNavigate } from 'react-router-dom';
 import PageHeader from '../../components/PageHeader';
 import BottomConfirmBar from '../../components/BottomConfirmBar';

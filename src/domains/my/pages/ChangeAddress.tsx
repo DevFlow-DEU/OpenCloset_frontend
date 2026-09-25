@@ -4,7 +4,7 @@ import {
   fetchKakaoAddressByCoords,
   loadKakaoMapSdk,
   renderKakaoMapWithMarker,
-} from '../utils/getLocationMap';
+} from '../../../components/Map/getLocationMap';
 import '../../../components/share.css';
 import styles from './ChangeAddress.module.css';
 import { useNavigate } from 'react-router-dom';

@@ -5,7 +5,7 @@ import {
   fetchKakaoAddressByCoords,
   loadKakaoMapSdk,
   renderKakaoMapWithMarker,
-} from '../utils/getLocationMap';
+} from '../../../components/Map/getLocationMap';
 import styles from './GetLocation.module.css';
 
 type Coordinates = {
