@@ -1,14 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MdGpsFixed } from 'react-icons/md';
 import {
   fetchKakaoAddressByCoords,
   loadKakaoMapSdk,
   renderKakaoMapWithMarker,
-} from '../../components/Map/getLocationMap';
-import styles from '../../domains/auth/pages/GetLocation.module.css';
-import { useNavigate } from 'react-router-dom';
-import PageHeader from '../../components/PageHeader';
-import BottomConfirmBar from '../../components/BottomConfirmBar';
+} from '../../../components/Map/getLocationMap';
+import styles from './GetLocation.module.css';
 
 type Coordinates = {
   latitude: number | null;
@@ -17,30 +15,31 @@ type Coordinates = {
 
 export default function GetLocation() {
   const navigate = useNavigate();
+  const mapRef = useRef<HTMLDivElement | null>(null);
+
   const [coordinates, setCoordinates] = useState<Coordinates>({
     latitude: null,
     longitude: null,
   });
   const [addressText, setAddressText] = useState('현재 위치 기반 주소');
-  const mapRef = useRef<HTMLDivElement | null>(null);
 
   const updateLocation = useCallback(() => {
     if (!navigator.geolocation) {
       console.error('이 브라우저에서는 위치 정보를 지원하지 않습니다.');
+      setAddressText('이 브라우저에서는 위치 정보를 지원하지 않습니다.');
       return;
     }
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        const nextCoordinates = {
+        setCoordinates({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
-        };
-
-        setCoordinates(nextCoordinates);
+        });
       },
       (error) => {
         console.error('현재 위치를 가져오지 못했습니다:', error);
+        setAddressText('현재 위치를 가져오지 못했습니다.');
       }
     );
   }, []);
@@ -52,12 +51,8 @@ export default function GetLocation() {
   useEffect(() => {
     const { latitude, longitude } = coordinates;
 
-    if (latitude === null || longitude === null || !mapRef.current) {
-      return;
-    }
+    if (latitude === null || longitude === null || !mapRef.current) return;
 
-    const lat = latitude;
-    const lng = longitude;
     let isCancelled = false;
 
     setAddressText('주소를 불러오는 중입니다.');
@@ -65,26 +60,24 @@ export default function GetLocation() {
     const renderMapAndFetchAddress = async () => {
       try {
         await loadKakaoMapSdk();
-      } catch (error) {
-        console.error('카카오 지도 SDK를 불러오지 못했습니다.', error);
-      }
 
-      if (!isCancelled && mapRef.current) {
-        renderKakaoMapWithMarker(mapRef.current, lat, lng);
-      }
+        if (!isCancelled && mapRef.current) {
+          renderKakaoMapWithMarker(mapRef.current, latitude, longitude);
+        }
 
-      try {
-        const regionAddress = await fetchKakaoAddressByCoords(lat, lng);
-        if (isCancelled) {
-          return;
+        const regionAddress = await fetchKakaoAddressByCoords(
+          latitude,
+          longitude
+        );
+
+        if (!isCancelled) {
+          setAddressText(regionAddress ?? '주소를 확인할 수 없습니다.');
         }
-        setAddressText(regionAddress ?? '주소를 확인할 수 없습니다.');
       } catch (error) {
-        if (isCancelled) {
-          return;
+        if (!isCancelled) {
+          console.error(error);
+          setAddressText('주소를 확인할 수 없습니다.');
         }
-        console.error('좌표 기반 주소를 가져오지 못했습니다.', error);
-        setAddressText('주소를 확인할 수 없습니다.');
       }
     };
 
@@ -95,9 +88,23 @@ export default function GetLocation() {
     };
   }, [coordinates]);
 
+  const isInvalidAddress =
+    !addressText ||
+    addressText === '현재 위치 기반 주소' ||
+    addressText === '주소를 불러오는 중입니다.' ||
+    addressText === '주소를 확인할 수 없습니다.' ||
+    addressText === '현재 위치를 가져오지 못했습니다.' ||
+    addressText === '이 브라우저에서는 위치 정보를 지원하지 않습니다.';
+
+  const handleConfirm = () => {
+    if (isInvalidAddress) return;
+
+    sessionStorage.setItem('selectedAddress', addressText);
+    navigate(-1);
+  };
+
   return (
     <div className={styles.page}>
-      <PageHeader title="위치 정보 설정" />
       <main className={styles.content}>
         <section className={styles.mapSection}>
           <div ref={mapRef} className={styles.mapContainer} />
@@ -116,6 +123,7 @@ export default function GetLocation() {
             readOnly
             aria-label="현재 위치 주소"
           />
+
           <button
             type="button"
             className={styles.resetButton}
@@ -124,19 +132,16 @@ export default function GetLocation() {
             <MdGpsFixed className={styles.resetIcon} />
             <span>위치 재설정</span>
           </button>
+
+          <button
+            type="button"
+            className={styles.confirmButton}
+            onClick={handleConfirm}
+          >
+            확인
+          </button>
         </section>
       </main>
-      <BottomConfirmBar>
-        <button
-          type="button"
-          className={styles.confirmButton}
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
-          확인
-        </button>
-      </BottomConfirmBar>
     </div>
   );
 }

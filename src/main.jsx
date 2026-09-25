@@ -2,8 +2,8 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import 'react-day-picker/style.css';
 import './index.css';
-import Router from './routes';
-import App from './routes/App';
+import Router from './app/router';
+import App from './app/App';
 async function enableMocking() {
   if (import.meta.env.VITE_MOCK !== 'true') {
     return;
