@@ -3,6 +3,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useNavigate } from 'react-router-dom';
+import { useLogin } from '../hooks';
+import { getApiErrorMessage } from '../../../api/http';
+import { setTokens } from '../../../api/token';
 import '../../../components/share.css';
 import Header from '../../../components/Header/Header';
 import Input from '../../../components/Input/Input';
@@ -26,7 +29,6 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const navigate = useNavigate();
   const [message, setMessage] = useState('');
-  const backUrl = import.meta.env.VITE_BACK_URL;
 
   const {
     register,
@@ -38,28 +40,21 @@ export default function LoginPage() {
     defaultValues: { email: '', password: '' },
   });
 
-  const onSubmit = async (values: LoginFormValues) => {
-    try {
-      const res = await fetch(`${backUrl}/auth/login`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(values),
-      });
-      const data = await res.json().catch(() => null);
+  const mutation = useLogin();
 
-      if (res.ok) {
-        localStorage.setItem('token', data?.accessToken ?? '');
+  const onSubmit = (values: LoginFormValues) => {
+    mutation.mutate(values, {
+      onSuccess: (data) => {
+        setTokens(data?.accessToken ?? '', data?.refreshToken);
         navigate('/');
         reset();
-      }
-      setMessage(
-        data?.message ||
-          `이메일 또는 비밀번호가 일치하지 않습니다. (${res.status})`
-      );
-    } catch (e) {
-      setMessage('서버에 연결할 수 없습니다.');
-      console.error('network error:', e);
-    }
+      },
+      onError: (error) => {
+        setMessage(
+          getApiErrorMessage(error, '이메일 또는 비밀번호가 일치하지 않습니다.')
+        );
+      },
+    });
   };
 
   return (

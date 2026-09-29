@@ -10,49 +10,30 @@ import styles from './ChangeAddress.module.css';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../../components/Header.tsx';
 import BottomConfirmBar from '../../../components/BottomConfirmBar';
-import { client } from '../../../api/client';
-import { useMutation } from '@tanstack/react-query';
+import { useChangeAddress } from '../hooks';
+import { ApiError, getApiErrorMessage } from '../../../api/http';
+import { getAccessToken } from '../../../api/token';
+
 type Coordinates = {
   latitude: number | null;
   longitude: number | null;
 };
 
 export default function ChangeAddress() {
-  const token = localStorage.getItem('token');
-  const mutation = useMutation({
-    mutationFn: () =>
-      client.POST('/mypage/edit', {
-        query: {
-          address: addressText,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
-    onError: (error) => {
-      alert(`에러 발생\n\n${error}`);
-    },
-    onSuccess: async (data) => {
-      if (data.response.status === 200) {
-        alert('주소 수정에 성공했습니다. 마이페이지로 이동합니다.');
-        navigate('/MyPage');
-      } else if (data.response.status === 400) {
-        const errorBody = data.error as { message?: string };
-        alert(errorBody?.message ?? '요청이 올바르지 않습니다.');
-      } else if (data.response.status === 401) {
-        alert('주소를 수정할 권한이 없습니다.');
-      } else {
-        alert('현재 주소 수정을 이용할 수 없습니다. 잠시후 이용해주세요.');
-      }
-    },
-  });
   const navigate = useNavigate();
+  const token = getAccessToken();
+  const changeAddress = useChangeAddress();
+
   const [coordinates, setCoordinates] = useState<Coordinates>({
     latitude: null,
     longitude: null,
   });
   const [addressText, setAddressText] = useState('현재 위치 기반 주소');
   const mapRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!token) navigate('/login');
+  }, [token, navigate]);
 
   const updateLocation = useCallback(() => {
     if (!navigator.geolocation) {
@@ -79,9 +60,6 @@ export default function ChangeAddress() {
     updateLocation();
   }, [updateLocation]);
 
-  useEffect(() => {
-    if (!token) navigate('/login');
-  }, [token, navigate]);
   useEffect(() => {
     const { latitude, longitude } = coordinates;
 
@@ -128,6 +106,24 @@ export default function ChangeAddress() {
     };
   }, [coordinates]);
 
+  const submitAddress = () => {
+    changeAddress.mutate(addressText, {
+      onSuccess: () => {
+        alert('주소 수정에 성공했습니다. 마이페이지로 이동합니다.');
+        navigate('/MyPage');
+      },
+      onError: (error) => {
+        if (error instanceof ApiError && error.status === 400) {
+          alert(getApiErrorMessage(error, '요청이 올바르지 않습니다.'));
+        } else if (error instanceof ApiError && error.status === 401) {
+          alert('주소를 수정할 권한이 없습니다.');
+        } else {
+          alert('현재 주소 수정을 이용할 수 없습니다. 잠시후 이용해주세요.');
+        }
+      },
+    });
+  };
+
   return (
     <div className={styles.page}>
       <Header title="주소 변경" />
@@ -165,9 +161,7 @@ export default function ChangeAddress() {
         <button
           type="button"
           className="SHsubmit check"
-          onClick={() => {
-            mutation.mutate();
-          }}
+          onClick={submitAddress}
         >
           주소 변경
         </button>

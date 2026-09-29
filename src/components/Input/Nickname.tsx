@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { UseFormRegisterReturn, FieldError } from 'react-hook-form';
-import axios from 'axios';
+import { apiFetch, ApiError } from '../../api/http';
 import commonStyles from './common.module.css';
 import styles from './Nickname.module.css';
 
@@ -32,16 +32,15 @@ export default function Nickname({
 
   const handleNickCheck = async () => {
     try {
-      const res = await axios.get<CheckResult>(
-        `${import.meta.env.VITE_BACK_URL}/auth/check_nickname`,
-        { params: { nickname: inputValue } }
+      const data = await apiFetch<CheckResult>(
+        `/auth/check_nickname?${new URLSearchParams({ nickname: inputValue })}`
       );
-      setCheckResult(res.data);
+      setCheckResult(data);
     } catch (err) {
-      const data = axios.isAxiosError(err) ? err.response?.data : null;
       setCheckResult({
         available: false,
-        message: data?.message ?? '닉네임 확인에 실패했습니다.',
+        message:
+          err instanceof ApiError ? err.message : '닉네임 확인에 실패했습니다.',
       });
     }
   };
@@ -72,7 +71,9 @@ export default function Nickname({
       </div>
       <div
         className={`${commonStyles.inputErrorBar}${
-          error || checkResult?.available === false ? ` ${commonStyles.error}` : ''
+          error || checkResult?.available === false
+            ? ` ${commonStyles.error}`
+            : ''
         }`}
       />
       {error && (

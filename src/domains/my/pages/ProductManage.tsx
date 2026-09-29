@@ -5,58 +5,34 @@ import RadioFilter from '../../../components/Filter/RadioFilter';
 import ManageItem from '../../product/components/ManageItem';
 import Alert from '../../../components/Alert/Alert';
 import type { StateType } from '../../../components/State/State';
+import { useOwnerBoards, useRenterBoards } from '../hooks';
+import { ApiError } from '../../../api/http';
 import styles from './ProductManage.module.css';
 
 type Tab = 'owner' | 'renter';
 
-type BoardItem = {
-  id: number;
-  title: string;
-  images: string[];
-  startDate: string;
-  endDate: string;
-  price: number;
-  status: string;
-};
-
 export default function ProductManage() {
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
-  const backUrl = import.meta.env.VITE_BACK_URL;
 
   const [tab, setTab] = useState<Tab>('owner');
   const [ownerFilter, setOwnerFilter] = useState('전체');
   const [renterFilter, setRenterFilter] = useState('전체');
-  const [ownerItems, setOwnerItems] = useState<BoardItem[]>([]);
-  const [renterItems, setRenterItems] = useState<BoardItem[]>([]);
   const [showAuthAlert, setShowAuthAlert] = useState(false);
 
+  const ownerQuery = useOwnerBoards();
+  const renterQuery = useRenterBoards();
+
+  const ownerItems = ownerQuery.data ?? [];
+  const renterItems = renterQuery.data ?? [];
+
   useEffect(() => {
-    const fetchList = async (path: string): Promise<BoardItem[]> => {
-      const res = await fetch(`${backUrl}${path}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!res.ok) {
-        if (res.status === 401) setShowAuthAlert(true);
-        return [];
-      }
-      const data = await res.json();
-      return data.items ?? [];
-    };
-
-    const fetchItems = async () => {
-      try {
-        const [owner, renter] = await Promise.all([
-          fetchList('/board/my/owner'),
-          fetchList('/board/my/renter'),
-        ]);
-        setOwnerItems(owner);
-        setRenterItems(renter);
-      } catch {}
-    };
-
-    fetchItems();
-  }, [backUrl, token]);
+    const unauthorized =
+      (ownerQuery.error instanceof ApiError &&
+        ownerQuery.error.status === 401) ||
+      (renterQuery.error instanceof ApiError &&
+        renterQuery.error.status === 401);
+    if (unauthorized) setShowAuthAlert(true);
+  }, [ownerQuery.error, renterQuery.error]);
 
   const filterOwner = ownerItems.filter(
     (item) => ownerFilter === '전체' || item.status === ownerFilter

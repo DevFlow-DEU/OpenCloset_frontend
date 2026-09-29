@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { usePasswordReset } from '../hooks';
+import { ApiError, getApiErrorMessage } from '../../../api/http';
 import '../../../components/share.css';
 import Header from '../../../components/Header/Header';
 import Input from '../../../components/Input/Input';
@@ -24,7 +26,6 @@ export default function PasswordFind() {
   const [showSentAlert, setShowSentAlert] = useState(false);
   const [showNotFoundAlert, setShowNotFoundAlert] = useState(false);
   const [errorAlertMessage, setErrorAlertMessage] = useState('');
-  const backUrl = import.meta.env.VITE_BACK_URL;
 
   const {
     register,
@@ -37,32 +38,22 @@ export default function PasswordFind() {
     mode: 'onChange',
   });
 
-  const onSubmit = async (values: FindForm) => {
-    try {
-      const res = await fetch(`${backUrl}/auth/password-reset`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(values),
-      });
+  const mutation = usePasswordReset();
 
-      const data = await res.json().catch(() => null);
-
-      if (res.ok) {
+  const onSubmit = (values: FindForm) => {
+    mutation.mutate(values, {
+      onSuccess: () => {
         setShowSentAlert(true);
         reset();
-        return;
-      }
-
-      if (res.status === 400) {
-        setShowNotFoundAlert(true);
-        return;
-      }
-
-      setErrorAlertMessage(data?.message || `요청 실패 (${res.status})`);
-    } catch (e) {
-      setErrorAlertMessage('서버에 연결할 수 없습니다.');
-      console.error('network error:', e);
-    }
+      },
+      onError: (error) => {
+        if (error instanceof ApiError && error.status === 400) {
+          setShowNotFoundAlert(true);
+          return;
+        }
+        setErrorAlertMessage(getApiErrorMessage(error, '요청에 실패했습니다.'));
+      },
+    });
   };
 
   return (

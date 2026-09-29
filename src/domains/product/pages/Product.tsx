@@ -10,32 +10,10 @@ import {
 } from '../../../components/Map/kakao';
 import LikeRedHeartIcon from '../../../assets/icon/Like_red_heart.svg?react';
 import LikeGrayHeartIcon from '../../../assets/icon/Like_gray_heart.svg?react';
+import { useProductDetail, useUpdateBoardStatus } from '../hooks';
+import { getApiErrorMessage } from '../../../api/http';
 import '../../../components/share.css';
 import styles from './Product.module.css';
-
-type ProductData = {
-  id: number;
-  title: string;
-  description: string;
-  images: string[];
-  size: string;
-  sex: string;
-  latitude: number;
-  longitude: number;
-  startDate: string;
-  endDate: string;
-  category: string;
-  price: number;
-  rentalDays: number;
-  status: string;
-  sellerId: number;
-  sellerNickname: string;
-  buyerId: number | null;
-  buyerNickname: string | null;
-  createAt: string;
-  wished: boolean;
-  owner: boolean;
-};
 
 const categoryLabelMap: Record<string, string> = {
   top: '상의',
@@ -59,11 +37,11 @@ function formatDate(dateStr: string) {
 
 export default function Product() {
   const { id } = useParams();
-  const token = localStorage.getItem('token');
-  const backUrl = import.meta.env.VITE_BACK_URL;
+  const navigate = useNavigate();
 
-  const [data, setData] = useState<ProductData | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const { data, isPending, isError, error } = useProductDetail(id ?? '');
+  const updateStatus = useUpdateBoardStatus(id ?? '');
+
   const [liked, setLiked] = useState(false);
   const [address, setAddress] = useState('');
   const [statusDrawerOpen, setStatusDrawerOpen] = useState(false);
@@ -71,31 +49,10 @@ export default function Product() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const touchStartX = useRef(0);
   const isMouseDown = useRef(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(`${backUrl}/board/${id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!res.ok) throw new Error('서버 응답 실패');
-
-        const jsonData: ProductData = await res.json();
-        setData(jsonData);
-        setLiked(jsonData.wished);
-      } catch (err) {
-        setError((err as Error).message);
-      }
-    };
-
-    fetchData();
-  }, [backUrl, id, token]);
+    if (data) setLiked(data.wished);
+  }, [data]);
 
   useEffect(() => {
     if (!data) return;
@@ -146,7 +103,7 @@ export default function Product() {
     handleSwipe(touchStartX.current, e.clientX);
   };
 
-  const handleStatusSelect = async (status: string) => {
+  const handleStatusSelect = (status: string) => {
     setStatusDrawerOpen(false);
 
     if (status === '예약중') {
@@ -154,26 +111,21 @@ export default function Product() {
       return;
     }
 
-    try {
-      const params = new URLSearchParams({ status });
-      const res = await fetch(
-        `${backUrl}/board/${id}/status?${params.toString()}`,
-        {
-          method: 'PATCH',
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-
-      if (!res.ok) throw new Error('상태 변경에 실패했습니다.');
-
-      const updated: ProductData = await res.json();
-      setData(updated);
-    } catch (err) {
-      alert((err as Error).message);
-    }
+    updateStatus.mutate(status, {
+      onError: (err) => {
+        alert(getApiErrorMessage(err, '상태 변경에 실패했습니다.'));
+      },
+    });
   };
 
-  if (error) return <div>에러 발생: {error}</div>;
+  if (isPending) return <div>로딩 중...</div>;
+  if (isError) {
+    return (
+      <div>
+        에러 발생: {getApiErrorMessage(error, '상품을 불러오지 못했습니다.')}
+      </div>
+    );
+  }
   if (!data) return <div>로딩 중...</div>;
 
   return (

@@ -13,6 +13,8 @@ import Textarea from '../../../components/Input/Textarea';
 import Location from '../../../components/Input/Location';
 import commonStyles from '../../../components/Input/common.module.css';
 import CancelIcon from '../../../assets/icon/Cancel.svg?react';
+import { useCreateBoard } from '../hooks';
+import { getApiErrorMessage } from '../../../api/http';
 import '../../../components/share.css';
 import styles from './Registration.module.css';
 
@@ -47,13 +49,15 @@ const SEX_LABEL_TO_KEY: Record<string, string> = {
 
 export default function Registration() {
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
-  const backUrl = import.meta.env.VITE_BACK_URL;
+  const createBoard = useCreateBoard();
 
   const [image, setImage] = useState<{ url: string; file: File } | null>(null);
   const [imageError, setImageError] = useState('');
-  const [submitError, setSubmitError] = useState('');
-  const [submitting, setSubmitting] = useState(false);
+
+  const submitting = createBoard.isPending;
+  const submitError = createBoard.isError
+    ? getApiErrorMessage(createBoard.error, '등록에 실패했습니다.')
+    : '';
 
   const {
     register,
@@ -86,47 +90,31 @@ export default function Registration() {
 
   const removeImage = () => setImage(null);
 
-  const onSubmit = async (values: RegistrationFormValues) => {
+  const onSubmit = (values: RegistrationFormValues) => {
     if (!image) {
       setImageError('사진을 추가해주세요.');
       return;
     }
     setImageError('');
 
-    const categoryKey =
-      CATEGORY_LABEL_TO_KEY[values.category] ?? values.category;
-    const sexKey = SEX_LABEL_TO_KEY[values.sex] ?? values.sex;
-
-    const formData = new FormData();
-    formData.append('title', values.title);
-    formData.append('description', values.description);
-    formData.append('price', values.price.replace(/,/g, ''));
-    formData.append('date', values.date);
-    formData.append('category', categoryKey);
-    formData.append('size', values.size);
-    formData.append('sex', sexKey);
-    formData.append('place', values.place);
-    formData.append('image', image.file);
-
-    try {
-      setSubmitting(true);
-      setSubmitError('');
-
-      const res = await fetch(`${backUrl}/board/create`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
-      });
-
-      if (!res.ok) throw new Error('등록에 실패했습니다.');
-
-      const saved = await res.json();
-      navigate(`/product/${saved.id}`);
-    } catch (err) {
-      setSubmitError((err as Error).message);
-    } finally {
-      setSubmitting(false);
-    }
+    createBoard.mutate(
+      {
+        title: values.title,
+        description: values.description,
+        price: values.price.replace(/,/g, ''),
+        date: values.date,
+        category: CATEGORY_LABEL_TO_KEY[values.category] ?? values.category,
+        size: values.size,
+        sex: SEX_LABEL_TO_KEY[values.sex] ?? values.sex,
+        place: values.place,
+        image: image.file,
+      },
+      {
+        onSuccess: (saved) => {
+          navigate(saved?.id != null ? `/product/${saved.id}` : '/');
+        },
+      }
+    );
   };
 
   const priceValue = watch('price');

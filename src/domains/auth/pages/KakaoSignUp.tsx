@@ -6,7 +6,8 @@ import Location from '../../../components/Input/Location';
 import { Button } from '../../../components/Button/Button';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useKakaoSignUp } from '../hooks';
+import { getApiErrorMessage } from '../../../api/http';
 
 type KakaoSignUpForm = {
   nickname: string;
@@ -17,9 +18,12 @@ type KakaoSignUpForm = {
 
 export default function KakaoSignUp() {
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const mutation = useKakaoSignUp();
+
+  const loading = mutation.isPending;
+  const error = mutation.isError
+    ? getApiErrorMessage(mutation.error, '가입 처리에 실패했습니다.')
+    : '';
 
   const {
     register,
@@ -36,37 +40,17 @@ export default function KakaoSignUp() {
     },
   });
 
-  const onSubmit = async (data: KakaoSignUpForm) => {
-    try {
-      setLoading(true);
-      setError('');
-
-      const formData = new FormData();
-      formData.append('nickname', data.nickname);
-      formData.append('password', data.password);
-      formData.append('address', data.address);
-
-      const res = await fetch(`${import.meta.env.VITE_BACK_URL}/수정해야함`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
-      });
-
-      if (!res.ok) {
-        let message = '가입 처리에 실패했습니다.';
-        try {
-          const errorData = await res.json();
-          message = errorData.message || message;
-        } catch {}
-        throw new Error(message);
+  const onSubmit = (data: KakaoSignUpForm) => {
+    mutation.mutate(
+      {
+        nickname: data.nickname,
+        password: data.password,
+        address: data.address,
+      },
+      {
+        onSuccess: () => navigate('/'),
       }
-
-      navigate('/');
-    } catch (err) {
-      setError((err as Error).message || '가입 처리에 실패했습니다.');
-    } finally {
-      setLoading(false);
-    }
+    );
   };
 
   return (

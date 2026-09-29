@@ -1,52 +1,47 @@
 import '../../../components/share.css';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
 import Header from '../../../components/Header/Header';
 import { Button } from '../../../components/Button/Button';
 import Input from '../../../components/Input/Input';
 import Alert from '../../../components/Alert/Alert';
-import { client } from '../../../api/client';
+import { getAccessToken } from '../../../api/token';
+import { useDeleteAccount } from '../hooks';
+import { ApiError } from '../../../api/http';
 
 type AlertState = { type: 'confirm' } | { type: 'error'; message: string };
 
 export default function DeleteAccount() {
   const [password, setPassword] = useState('');
   const [alertState, setAlertState] = useState<AlertState | null>(null);
-  const token = localStorage.getItem('token');
+  const token = getAccessToken();
   const navigate = useNavigate();
+  const deleteAccount = useDeleteAccount();
 
   useEffect(() => {
     if (!token) navigate('/login');
   }, [token, navigate]);
 
-  const mutation = useMutation({
-    mutationFn: (password: string) =>
-      client.DELETE('/auth/delete', {
-        headers: { Authorization: `Bearer ${token}` },
-        body: { password },
-      }),
-    onError: (error) => {
-      setAlertState({ type: 'error', message: `에러 발생\n${error}` });
-    },
-    onSuccess: (data) => {
-      if (data.response.status === 200) {
-        navigate('/delete-account-complete');
-      } else if (data.response.status === 401) {
-        setAlertState({ type: 'error', message: '탈퇴 권한이 없습니다.' });
-      } else if (data.response.status === 400) {
-        setAlertState({
-          type: 'error',
-          message: '비밀번호가 일치하지 않습니다.',
-        });
-      } else {
-        setAlertState({
-          type: 'error',
-          message: '현재 회원탈퇴를 이용할 수 없습니다. 잠시후 이용해주세요.',
-        });
-      }
-    },
-  });
+  const submitDeletion = () => {
+    deleteAccount.mutate(password, {
+      onSuccess: () => navigate('/delete-account-complete'),
+      onError: (error) => {
+        if (error instanceof ApiError && error.status === 401) {
+          setAlertState({ type: 'error', message: '탈퇴 권한이 없습니다.' });
+        } else if (error instanceof ApiError && error.status === 400) {
+          setAlertState({
+            type: 'error',
+            message: '비밀번호가 일치하지 않습니다.',
+          });
+        } else {
+          setAlertState({
+            type: 'error',
+            message: '현재 회원탈퇴를 이용할 수 없습니다. 잠시후 이용해주세요.',
+          });
+        }
+      },
+    });
+  };
 
   return (
     <>
@@ -92,7 +87,7 @@ export default function DeleteAccount() {
           buttons="delete"
           onConfirm={() => {
             setAlertState(null);
-            mutation.mutate(password);
+            submitDeletion();
           }}
           onCancel={() => setAlertState(null)}
         />
