@@ -29,6 +29,20 @@ export async function requestPasswordReset(email: string) {
   return data;
 }
 
+export type NicknameCheckResult = {
+  available?: boolean;
+  message?: string;
+};
+
+export async function checkNickname(nickname: string) {
+  const { data, error, response } = await fetchClient.GET(
+    '/auth/check_nickname',
+    { params: { query: { nickname } } }
+  );
+  if (error) throw new ApiError(response.status, error);
+  return data as NicknameCheckResult | undefined;
+}
+
 export async function completeKakaoSignUp(input: {
   nickname: string;
   password: string;

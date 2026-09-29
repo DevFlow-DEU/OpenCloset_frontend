@@ -83,7 +83,7 @@ export default function SearchResult() {
               title: product.name,
               price: product.rentalCost,
               date: product.rentalPeriod,
-              image: product.imageUrl,
+              image: product.imageUrl ?? product.imageUrls?.[0],
             };
           })}
         />

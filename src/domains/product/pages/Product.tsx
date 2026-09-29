@@ -28,7 +28,8 @@ const categoryLabelMap: Record<string, string> = {
 
 const DAYS = ['일', '월', '화', '수', '목', '금', '토'];
 
-function formatDate(dateStr: string) {
+function formatDate(dateStr: string | undefined) {
+  if (!dateStr) return '';
   const d = new Date(dateStr);
   const month = String(d.getMonth() + 1).padStart(2, '0');
   const day = String(d.getDate()).padStart(2, '0');
@@ -51,20 +52,19 @@ export default function Product() {
   const isMouseDown = useRef(false);
 
   useEffect(() => {
-    if (data) setLiked(data.wished);
+    if (data) setLiked(data.wished ?? false);
   }, [data]);
 
   useEffect(() => {
     if (!data) return;
+    const { latitude, longitude } = data;
+    if (latitude == null || longitude == null) return;
     let isCancelled = false;
 
     (async () => {
       try {
         await loadKakaoMapSdk();
-        const result = await fetchKakaoAddressByCoords(
-          data.latitude,
-          data.longitude
-        );
+        const result = await fetchKakaoAddressByCoords(latitude, longitude);
         if (!isCancelled) setAddress(result ?? '주소를 확인할 수 없습니다.');
       } catch {
         if (!isCancelled) setAddress('주소를 확인할 수 없습니다.');
@@ -111,11 +111,14 @@ export default function Product() {
       return;
     }
 
-    updateStatus.mutate(status, {
-      onError: (err) => {
-        alert(getApiErrorMessage(err, '상태 변경에 실패했습니다.'));
-      },
-    });
+    updateStatus.mutate(
+      { status },
+      {
+        onError: (err) => {
+          alert(getApiErrorMessage(err, '상태 변경에 실패했습니다.'));
+        },
+      }
+    );
   };
 
   if (isPending) return <div>로딩 중...</div>;
@@ -173,14 +176,16 @@ export default function Product() {
 
       <div className={styles.infoContainer}>
         <p className={styles.category}>
-          {categoryLabelMap[data.category] ?? data.category}
+          {categoryLabelMap[data.category ?? ''] ?? data.category}
         </p>
         <div className={styles.gap20} />
         <p className={styles.productName}>{data.title}</p>
         <div className={styles.gap12} />
         <div className={styles.priceRow}>
-          <span className={styles.price}>{data.price.toLocaleString()}원</span>
-          <span className={styles.rentalDays}>/ {data.rentalDays}일</span>
+          <span className={styles.price}>
+            {(data.price ?? 0).toLocaleString()}원
+          </span>
+          <span className={styles.rentalDays}>/ {data.rentalDays ?? 0}일</span>
         </div>
         <div className={styles.gap12} />
         <div className={styles.divider} />
@@ -214,7 +219,10 @@ export default function Product() {
         <div className={styles.gap20} />
         <p className={styles.placeLabel}>거래 장소</p>
         <div className={styles.gap12} />
-        <StaticMap latitude={data.latitude} longitude={data.longitude} />
+        <StaticMap
+          latitude={data.latitude ?? 0}
+          longitude={data.longitude ?? 0}
+        />
         <p className={styles.placeAddress}>{address}</p>
 
         <div className={styles.gap20} />

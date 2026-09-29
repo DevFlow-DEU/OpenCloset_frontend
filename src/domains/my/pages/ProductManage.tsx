@@ -78,18 +78,18 @@ export default function ProductManage() {
         <p className={styles.count}>상품 {currentItems.length}</p>
 
         <div className={styles.list}>
-          {currentItems.map((item) => (
+          {currentItems.map((item, index) => (
             <ManageItem
-              key={item.id}
+              key={item.id ?? index}
               image={item.images?.[0] ?? ''}
-              name={item.title}
-              dateStart={item.startDate}
-              dateEnd={item.endDate}
-              price={item.price}
+              name={item.title ?? ''}
+              dateStart={item.startDate ?? ''}
+              dateEnd={item.endDate ?? ''}
+              price={item.price ?? 0}
               state={
-                item.status === '대여가능'
-                  ? undefined
-                  : (item.status as StateType)
+                item.status && item.status !== '대여가능'
+                  ? (item.status as StateType)
+                  : undefined
               }
               onEdit={() => navigate(`/product/${item.id}/edit`)}
             />

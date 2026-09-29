@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { UseFormRegisterReturn, FieldError } from 'react-hook-form';
-import { apiFetch, ApiError } from '../../api/http';
+import { checkNickname } from '../../domains/auth/api';
+import { ApiError } from '../../api/http';
 import commonStyles from './common.module.css';
 import styles from './Nickname.module.css';
 
@@ -14,8 +15,8 @@ type Props = {
 };
 
 type CheckResult = {
-  available: boolean;
-  message: string;
+  available?: boolean;
+  message?: string;
 };
 
 export default function Nickname({
@@ -32,10 +33,10 @@ export default function Nickname({
 
   const handleNickCheck = async () => {
     try {
-      const data = await apiFetch<CheckResult>(
-        `/auth/check_nickname?${new URLSearchParams({ nickname: inputValue })}`
+      const data = await checkNickname(inputValue);
+      setCheckResult(
+        data ?? { available: false, message: '닉네임 확인에 실패했습니다.' }
       );
-      setCheckResult(data);
     } catch (err) {
       setCheckResult({
         available: false,

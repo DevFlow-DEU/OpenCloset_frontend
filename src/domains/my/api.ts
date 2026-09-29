@@ -1,10 +1,11 @@
 import { fetchClient } from '../../api/client';
 import type { components } from '../../api/api';
-import { apiFetch, ApiError } from '../../api/http';
+import { ApiError } from '../../api/http';
 
 export type EditProfileInput = {
-  nickname: string;
-  address: string;
+  nickname?: string;
+  address?: string;
+  password?: string;
   profileImage: File | null;
 };
 
@@ -16,12 +17,18 @@ export async function getMyProfile() {
 
 export async function editProfile(input: EditProfileInput) {
   const formData = new FormData();
-  formData.append('nickname', input.nickname);
-  formData.append('address', input.address);
-  if (input.profileImage) {
-    formData.append('profileImage', input.profileImage);
-  }
+  if (input.nickname) formData.append('nickname', input.nickname);
+  if (input.address) formData.append('address', input.address);
+  if (input.profileImage) formData.append('profileImage', input.profileImage);
+
   const { data, error, response } = await fetchClient.POST('/mypage/edit', {
+    params: {
+      query: {
+        nickname: input.nickname,
+        address: input.address,
+        password: input.password,
+      },
+    },
     body: formData as unknown as { profileImage?: string },
   });
   if (error) throw new ApiError(response.status, error);
@@ -60,24 +67,18 @@ export async function deleteAccount(password: string) {
   return data;
 }
 
-export type ManageBoardItem = {
-  id: number;
-  title: string;
-  images: string[];
-  startDate: string;
-  endDate: string;
-  price: number;
-  status: string;
-};
-
-export async function fetchOwnerBoards() {
-  const data = await apiFetch<{ items?: ManageBoardItem[] }>('/board/my/owner');
+export async function getOwnerBoards(status?: string) {
+  const { data, error, response } = await fetchClient.GET('/board/my/owner', {
+    params: { query: { status } },
+  });
+  if (!response.ok) throw new ApiError(response.status, error ?? null);
   return data?.items ?? [];
 }
 
-export async function fetchRenterBoards() {
-  const data = await apiFetch<{ items?: ManageBoardItem[] }>(
-    '/board/my/renter'
-  );
+export async function getRenterBoards(status?: string) {
+  const { data, error, response } = await fetchClient.GET('/board/my/renter', {
+    params: { query: { status } },
+  });
+  if (!response.ok) throw new ApiError(response.status, error ?? null);
   return data?.items ?? [];
 }

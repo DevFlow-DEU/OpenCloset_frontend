@@ -1,30 +1,6 @@
 import { fetchClient } from '../../api/client';
 import type { components } from '../../api/api';
-import { apiFetch, ApiError } from '../../api/http';
-
-export type ProductDetail = {
-  id: number;
-  title: string;
-  description: string;
-  images: string[];
-  size: string;
-  sex: string;
-  latitude: number;
-  longitude: number;
-  startDate: string;
-  endDate: string;
-  category: string;
-  price: number;
-  rentalDays: number;
-  status: string;
-  sellerId: number;
-  sellerNickname: string;
-  buyerId: number | null;
-  buyerNickname: string | null;
-  createAt: string;
-  wished: boolean;
-  owner: boolean;
-};
+import { ApiError } from '../../api/http';
 
 export type CreateBoardForm = {
   title: string;
@@ -36,6 +12,20 @@ export type CreateBoardForm = {
   sex: string;
   place: string;
   image: File;
+};
+
+export type UpdateBoardForm = {
+  title?: string;
+  description?: string;
+  images?: File[];
+  size?: string;
+  sex?: string;
+  latitude?: number;
+  longitude?: number;
+  price?: number;
+  startDate?: string;
+  endDate?: string;
+  category?: string;
 };
 
 export const productApi = {
@@ -57,9 +47,57 @@ export const productApi = {
     if (!response.ok) throw new ApiError(response.status, error ?? null);
     return data;
   },
-  updateStatus: (id: string | number, status: string) =>
-    apiFetch<ProductDetail>(
-      `/board/${id}/status?${new URLSearchParams({ status }).toString()}`,
-      { method: 'PATCH' }
-    ),
+  updateBoard: async (id: string | number, form: UpdateBoardForm) => {
+    const formData = new FormData();
+    if (form.title !== undefined) formData.append('title', form.title);
+    if (form.description !== undefined) {
+      formData.append('description', form.description);
+    }
+    form.images?.forEach((image) => formData.append('images', image));
+    if (form.size !== undefined) formData.append('size', form.size);
+    if (form.sex !== undefined) formData.append('sex', form.sex);
+    if (form.latitude !== undefined) {
+      formData.append('latitude', String(form.latitude));
+    }
+    if (form.longitude !== undefined) {
+      formData.append('longitude', String(form.longitude));
+    }
+    if (form.price !== undefined) formData.append('price', String(form.price));
+    if (form.startDate !== undefined) {
+      formData.append('startDate', form.startDate);
+    }
+    if (form.endDate !== undefined) {
+      formData.append('endDate', form.endDate);
+    }
+    if (form.category !== undefined) {
+      formData.append('category', form.category);
+    }
+
+    const { data, error, response } = await fetchClient.PUT('/board/{id}', {
+      params: { path: { id: Number(id) } },
+      body: formData as unknown as components['schemas']['BoardUpdateRequestDto'],
+    });
+    if (!response.ok) throw new ApiError(response.status, error ?? null);
+    return data;
+  },
+  toggleWishlist: async (boardId: string | number) => {
+    const { data, error, response } = await fetchClient.POST(
+      '/wishlist/{boardId}',
+      { params: { path: { boardId: Number(boardId) } } }
+    );
+    if (!response.ok) throw new ApiError(response.status, error ?? null);
+    return data;
+  },
+  updateStatus: async (
+    id: string | number,
+    status: string,
+    buyerId?: number
+  ) => {
+    const { data, error, response } = await fetchClient.PATCH(
+      '/board/{id}/status',
+      { params: { path: { id: Number(id) }, query: { status, buyerId } } }
+    );
+    if (!response.ok) throw new ApiError(response.status, error ?? null);
+    return data;
+  },
 };

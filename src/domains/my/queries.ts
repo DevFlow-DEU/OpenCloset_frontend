@@ -7,8 +7,8 @@ import {
   changePassword,
   deleteAccount,
   editProfile,
-  fetchOwnerBoards,
-  fetchRenterBoards,
+  getOwnerBoards,
+  getRenterBoards,
   logout,
 } from './api';
 
@@ -33,14 +33,14 @@ export const myQueries = {
     }),
   changePassword: () => mutationOptions({ mutationFn: changePassword }),
   deleteAccount: () => mutationOptions({ mutationFn: deleteAccount }),
-  ownerBoards: () =>
+  ownerBoards: (status?: string) =>
     queryOptions({
-      queryKey: ['board-my', 'owner'],
-      queryFn: fetchOwnerBoards,
+      queryKey: ['board-my', 'owner', { status }],
+      queryFn: () => getOwnerBoards(status),
     }),
-  renterBoards: () =>
+  renterBoards: (status?: string) =>
     queryOptions({
-      queryKey: ['board-my', 'renter'],
-      queryFn: fetchRenterBoards,
+      queryKey: ['board-my', 'renter', { status }],
+      queryFn: () => getRenterBoards(status),
     }),
 };
