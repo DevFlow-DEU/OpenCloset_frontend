@@ -9,49 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { FaPen } from 'react-icons/fa';
-
-type UpdateMyProfileParams = {
-  token: string | null;
-  nickname: string;
-  address: string;
-  profileImage: File | null;
-};
-
-async function updateMyProfile({
-  token,
-  nickname,
-  address,
-  profileImage,
-}: UpdateMyProfileParams) {
-  const formData = new FormData();
-  formData.append('nickname', nickname);
-  formData.append('address', address);
-
-  if (profileImage) {
-    formData.append('profileImage', profileImage);
-  }
-
-  const res = await fetch(`${import.meta.env.VITE_BACK_URL}/mypage/edit`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${token}` },
-    body: formData,
-  });
-
-  if (!res.ok) {
-    let message = '회원 정보 수정에 실패했습니다.';
-    try {
-      const errorData = await res.json();
-      if (res.status === 400)
-        message = errorData.message ?? '이미 사용 중인 닉네임입니다.';
-      else if (res.status === 401)
-        message = '인증이 만료되었습니다. 다시 로그인해주세요.';
-      else message = errorData.message || message;
-    } catch {}
-    throw new Error(message);
-  }
-
-  return res.json();
-}
+import { useEditProfile, useMyProfile } from '../hooks';
+import { getApiErrorMessage } from '../../../api/http';
 
 type FormValues = {
   nickname: string;
@@ -60,14 +19,15 @@ type FormValues = {
 
 export default function InformationEdit() {
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
+
+  const { data: profile, isError: isProfileError } = useMyProfile();
+  const editProfile = useEditProfile();
 
   const [images, setImages] = useState(
     'https://opencloset.jihongeek.workers.dev/src/assets/Default_Profile.png'
   );
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
   const {
@@ -80,56 +40,36 @@ export default function InformationEdit() {
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(
-          `${import.meta.env.VITE_BACK_URL}/mypage/profile`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+    if (profile) {
+      reset({
+        nickname: profile.nickname ?? '',
+        address: profile.address ?? '',
+      });
+      if (profile.profileImage) setImages(profile.profileImage);
+    }
+  }, [profile, reset]);
 
-        if (!res.ok) {
-          setError('회원 정보를 불러오지 못했습니다.');
-          if (res.status === 401) navigate('/login');
-          return;
-        }
+  useEffect(() => {
+    if (isProfileError) setError('회원 정보를 불러오지 못했습니다.');
+  }, [isProfileError]);
 
-        const jsonData = await res.json();
-        reset({
-          nickname: jsonData.nickname ?? '',
-          address: jsonData.address ?? '',
-        });
-        if (jsonData.profileImage) setImages(jsonData.profileImage);
-      } catch (err) {
-        setError((err as Error).message || '서버 오류가 발생했습니다.');
-      }
-    };
-
-    fetchData();
-  }, [navigate, reset, token]);
-
-  const onSubmit = async (data: FormValues) => {
-    try {
-      setLoading(true);
-      setError('');
-      await updateMyProfile({
-        token,
+  const onSubmit = (data: FormValues) => {
+    setError('');
+    editProfile.mutate(
+      {
         nickname: data.nickname,
         address: data.address,
         profileImage: imageFile,
-      });
-      setShowSuccessAlert(true);
-    } catch (err) {
-      setError((err as Error).message || '수정에 실패했습니다.');
-    } finally {
-      setLoading(false);
-    }
+      },
+      {
+        onSuccess: () => setShowSuccessAlert(true),
+        onError: (err) =>
+          setError(getApiErrorMessage(err, '회원 정보 수정에 실패했습니다.')),
+      }
+    );
   };
+
+  const loading = editProfile.isPending;
 
   return (
     <>
@@ -183,7 +123,7 @@ export default function InformationEdit() {
           <Location
             label="주소"
             placeholder="위치 입력 버튼을 눌러주세요."
-            register={register('address', { required: '주소를 입력해주세요.' })}
+            register={register('address', { required: '주소를 등록해주세요.' })}
             map="map"
             error={errors.address}
           />

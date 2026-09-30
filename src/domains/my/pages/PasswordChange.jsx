@@ -8,12 +8,14 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { pwChangeSchema } from './PWChangeSchema.ts';
 import { useNavigate } from 'react-router-dom';
+import { useChangePassword } from '../hooks';
+import { ApiError, getApiErrorMessage } from '../../../api/http';
 
 export default function PasswordChange() {
   const navigate = useNavigate();
-  const backUrl = import.meta.env.VITE_BACK_URL;
   const [alertState, setAlertState] = useState(null);
   const [errorMSG, setErrorMSG] = useState('');
+  const changePassword = useChangePassword();
   const {
     register,
     handleSubmit,
@@ -25,35 +27,26 @@ export default function PasswordChange() {
     mode: 'onChange',
   });
 
-  const onSubmit = async (values) => {
+  const onSubmit = (values) => {
     const { currentPassword, newPassword } = values;
-    const token = localStorage.getItem('token');
-
-    try {
-      const res = await fetch(`${backUrl}/auth/password-change`, {
-        method: 'PUT',
-        headers: {
-          'content-type': 'application/json',
-          Authorization: `Bearer ${token}`,
+    changePassword.mutate(
+      { currentPassword, newPassword },
+      {
+        onSuccess: () => {
+          reset();
+          setAlertState({ type: 'success' });
         },
-        body: JSON.stringify({ currentPassword, newPassword }),
-      });
-
-      const data = await res.json().catch(() => null);
-
-      if (res.ok) {
-        reset();
-        setAlertState({ type: 'success' });
-      } else if (res.status === 400) {
-        setErrorMSG(data?.message ?? '현재 비밀번호가 일치하지 않습니다.');
-      } else if (res.status === 401) {
-        setErrorMSG('인증이 만료되었습니다. 다시 로그인해주세요.');
-      } else {
-        setErrorMSG(data?.message ?? '비밀번호 변경에 실패했습니다.');
+        onError: (error) => {
+          if (error instanceof ApiError && error.status === 401) {
+            setErrorMSG('인증이 만료되었습니다. 다시 로그인해주세요.');
+            return;
+          }
+          setErrorMSG(
+            getApiErrorMessage(error, '비밀번호 변경에 실패했습니다.')
+          );
+        },
       }
-    } catch (error) {
-      setErrorMSG(error.message || '요청 중 오류가 발생했습니다.');
-    }
+    );
   };
 
   return (

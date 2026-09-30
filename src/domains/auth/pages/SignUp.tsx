@@ -6,9 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Header from '../../../components/Header.tsx';
 import { Button } from '../../../components/Button/Button';
 import { useNavigate } from 'react-router-dom';
-import { client } from '../../../api/client';
-import { useMutation } from '@tanstack/react-query';
-import type { components } from '../../../api/api';
+import { useRegister } from '../hooks';
+import { ApiError, getApiErrorMessage } from '../../../api/http';
 import Input from '../../../components/Input/Input';
 import Nickname from '../../../components/Input/Nickname';
 import Location from '../../../components/Input/Location';
@@ -58,28 +57,7 @@ export default function SignUp() {
   });
   const navigate = useNavigate();
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const mutation = useMutation({
-    mutationFn: (newUserInfo: components['schemas']['UserCreateRequestDto']) =>
-      client.POST('/auth/register', { body: newUserInfo }),
-    onError: (error) => {
-      alert(`에러 발생\n\n${error}`);
-    },
-    onSuccess: async (data) => {
-      if (data.response.status === 200) {
-        setShowSuccessAlert(true);
-      } else if (data.response.status === 400) {
-        const errorBody = data.error as { message?: string };
-        const message = errorBody?.message ?? '이미 사용 중인 이메일입니다.';
-        if (message.includes('닉네임')) {
-          setError('nickname', { type: 'manual', message });
-        } else {
-          setError('email', { type: 'manual', message });
-        }
-      } else {
-        alert('현재 회원가입을 이용할 수 없습니다. 잠시후 이용해주세요.');
-      }
-    },
-  });
+  const mutation = useRegister();
 
   return (
     <div className={styles.pageLayout}>
@@ -91,7 +69,31 @@ export default function SignUp() {
           className="SHinput-container"
           onSubmit={handleSubmit(() => {
             const { password, email, nickname, address } = getValues();
-            mutation.mutate({ email, password, nickname, address });
+            mutation.mutate(
+              { email, password, nickname, address },
+              {
+                onSuccess: () => {
+                  setShowSuccessAlert(true);
+                },
+                onError: (error) => {
+                  const message = getApiErrorMessage(
+                    error,
+                    '이미 사용 중인 이메일입니다.'
+                  );
+                  if (error instanceof ApiError && error.status === 400) {
+                    if (message.includes('닉네임')) {
+                      setError('nickname', { type: 'manual', message });
+                    } else {
+                      setError('email', { type: 'manual', message });
+                    }
+                    return;
+                  }
+                  alert(
+                    '현재 회원가입을 이용할 수 없습니다. 잠시후 이용해주세요.'
+                  );
+                },
+              }
+            );
           })}
         >
           <div className="space-40px" />

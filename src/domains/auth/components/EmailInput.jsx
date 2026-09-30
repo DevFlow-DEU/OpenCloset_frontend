@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import './EmailInput.css';
 import { ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { requestPasswordReset } from '../api';
+import { ApiError } from '../../../api/http';
 export default function EmailInput() {
   const navigate = useNavigate();
   const [email, setemail] = useState('');
@@ -42,32 +44,19 @@ export default function EmailInput() {
   const emailsubmit = async (e) => {
     e.preventDefault();
     const fullEmail = getEmail();
+    if (!fullEmail) {
+      alert('이메일을 정확히 입력해 주세요');
+      return;
+    }
     try {
-      if (!fullEmail) {
-        alert('이메일을 정확히 입력해 주세요');
+      await requestPasswordReset(fullEmail);
+      alert('비밀번호가 변경되었습니다.');
+      navigate('/login'); //변경되면 로그인으로
+    } catch (err) {
+      if (err instanceof ApiError) {
+        alert(`비밀번호 변경에 실패했습니다.`);
         return;
       }
-      //기본양식
-      const res = await fetch(
-        'http://opencloset.jihongeek.com/auth/password-reset',
-        {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({
-            email: fullEmail,
-          }),
-        }
-      );
-
-      if (res.ok) {
-        alert('비밀번호가 변경되었습니다.');
-        navigate('/login'); //변경되면 로그인으로
-      } else {
-        //토큰 못 받았을 때
-        alert(`비밀번호 변경에 실패했습니다.`);
-        console.log(fullEmail);
-      }
-    } catch {
       navigate('/error', {
         replace: true,
         state: {
@@ -75,7 +64,6 @@ export default function EmailInput() {
           errorDesc: ' 비밀번호를 변경할 수 없습니다.',
         },
       });
-      console.log(fullEmail);
     }
   };
 

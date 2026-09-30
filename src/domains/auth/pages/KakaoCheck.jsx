@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getMyProfile } from '../../my/api';
+import { setTokens } from '../../../api/token';
 
 export default function KakaoCallback() {
   const navigate = useNavigate();
@@ -65,25 +67,19 @@ export default function KakaoCallback() {
           throw new Error('토큰 에러: accessToken이 응답에 없음');
         }
 
-        localStorage.setItem('token', Token);
-        if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
+        setTokens(Token, refreshToken);
 
         // code 제거(재진입/오류 예방)
         window.history.replaceState({}, document.title, '/kakaocheck');
 
-        const profileRes = await fetch(
-          `${import.meta.env.VITE_BACK_URL}/mypage/profile`,
-          {
-            headers: { Authorization: `Bearer ${Token}` },
-          }
-        );
-
-        if (profileRes.ok) {
-          const profile = await profileRes.json();
+        try {
+          const profile = await getMyProfile();
           if (!profile?.address) {
             navigate('/KakaoSignUp', { replace: true });
             return;
           }
+        } catch (profileError) {
+          console.error('프로필 조회 실패:', profileError);
         }
 
         navigate('/', { replace: true });

@@ -5,9 +5,10 @@ import MapIcon from '../assets/map.svg?react';
 import ProfileIcon from '../assets/profile.svg?react';
 import HomeIcon from '../assets/home.svg?react';
 import ChatIcon from '../assets/chat.svg?react';
+import { getAccessToken } from '../api/token';
 
 export default function NavBar() {
-  const token = localStorage.getItem('token');
+  const token = getAccessToken();
 
   return (
     <div className={styles['nav-bar']}>

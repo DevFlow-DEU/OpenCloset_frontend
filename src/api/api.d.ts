@@ -4,1480 +4,2698 @@
  */
 
 export interface paths {
-    "/auth/password-change": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /**
-         * 비밀번호 변경
-         * @description 현재 비밀번호를 확인한 후 새 비밀번호로 변경합니다. JWT 토큰이 필요합니다.
-         */
-        put: operations["changePassword"];
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+  '/board/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/search": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["searchBoards"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /**
+     * 특정 게시물 상세 조회
+     * @description 게시물 ID로 상세 정보를 조회합니다. seller/buyer 정보, 상태, 좌표, 대여기간, 이미지 목록, 찜 여부, 본인 게시물 여부가 포함됩니다.
+     */
+    get: operations['getPost'];
+    /**
+     * 게시물 수정 (로직 구현됨 ✅)
+     * @description 본인이 작성한 게시물을 수정합니다. 카테고리가 바뀌면 서브 테이블 매핑도 자동으로 이전됩니다. 이미지를 보내면 새 이미지로 덮어써집니다. (토큰 인증 필수)
+     */
+    put: operations['updateBoard'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/auth/password-change': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/mypage/logout": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * 로그아웃
-         * @description 현재 로그인된 사용자를 로그아웃합니다. 세션을 무효화합니다.
-         */
-        post: operations["logout"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    /**
+     * 비밀번호 변경
+     * @description 현재 비밀번호를 확인한 후 새 비밀번호로 변경합니다. JWT 토큰이 필요합니다.
+     */
+    put: operations['changePassword'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/wishlist/{boardId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/mypage/edit": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * 프로필 통합 수정
-         * @description 기존에 분리되어 있던 이미지, 닉네임, 주소 변경을 한 번에 처리하는 API입니다. 변경을 원하는 필드 값(FormData 형식)만 채워서 보내면 됩니다. 변경하지 않을 값은 빈 값으로 두거나 안 보내도 됩니다. JWT 토큰이 필수입니다.
-         */
-        post: operations["editProfile"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /**
+     * 게시물 찜하기/취소 (토글) (로직 구현됨 ✅)
+     * @description 특정 게시물을 찜하거나 찜 취소합니다. 이미 찜한 상태이면 찜 취소, 찜하지 않은 상태이면 찜 등록. (토큰 인증 필수)
+     */
+    post: operations['toggleWishlist'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/search': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/board/create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * 새 게시물 생성
-         * @description 새로운 옷 대여 게시물을 작성. (토큰 인증 필수)
-         */
-        post: operations["createBoard"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /**
+     * 게시물 기본 검색 (로직 구현됨 ✅)
+     * @description 키워드(제목/설명) + 사이즈 조건으로 검색합니다. 필터(성별, 가격, 카테고리)와 정렬 기능이 필요하면 /search/advanced API를 사용하세요. 로그인한 유저의 주소 기반으로 필터링됩니다. 정렬: 최신순 고정. (토큰 인증 필수)
+     */
+    post: operations['searchBoards'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/search/advanced': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/auth/register": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * 회원가입
-         * @description 신규 사용자를 등록. 이메일, 닉네임, 비밀번호, 주소 정보가 필요.
-         */
-        post: operations["registerUser"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /**
+     * 게시물 고급 검색 — 필터 + 정렬 (로직 구현됨 ✅)
+     * @description 앱 검색 결과 화면에서 사용하는 API입니다. [필터] 성별(M/W/공용), 가격범위(minPrice~maxPrice), 사이즈(S/M/L/XL/FREE), 카테고리(top/bottom/outer/one piece/jewelry/shoes/bag). [정렬] sort 파라미터 — latest(최신순), expensive(비싼순), cheap(싼순). [응답] 총 검색 결과 수(totalCount) + 상품 목록(items) + 찜 여부(isWished) 매핑. 모든 필터는 선택사항이며, 보내지 않으면 해당 조건은 무시됩니다. 로그인한 유저의 주소 기반으로 필터링됩니다. (토큰 인증 필수)
+     */
+    post: operations['advancedSearch'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/mypage/logout': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/auth/refresh": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["refreshAccessToken"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /**
+     * 로그아웃
+     * @description 현재 로그인된 사용자를 로그아웃합니다. 세션을 무효화합니다.
+     */
+    post: operations['logout'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/mypage/edit': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/auth/password-reset": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * 임시 비밀번호 발급
-         * @description 등록된 이메일로 임시 비밀번호를 생성하여 전송합니다. 기존 비밀번호는 임시 비밀번호로 변경됩니다.
-         */
-        post: operations["resetPassword"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /**
+     * 프로필 통합 수정
+     * @description 기존에 분리되어 있던 이미지, 닉네임, 주소, 비밀번호 변경을 한 번에 처리하는 API입니다. 변경을 원하는 필드 값(FormData 형식)만 채워서 보내면 됩니다. 변경하지 않을 값은 빈 값으로 두거나 안 보내도 됩니다. JWT 토큰이 필수입니다.
+     */
+    post: operations['editProfile'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/chat/room': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/auth/login": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["loginUser"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /**
+     * 채팅방 생성 (또는 기존 방 반환) (로직 구현됨 ✅)
+     * @description 특정 게시물에 대해 채팅방을 생성합니다. 이미 해당 게시물에 대한 채팅방이 존재하면 기존 방을 반환합니다. seller는 게시물 작성자, wearer는 로그인한 유저로 자동 지정됩니다. (토큰 인증 필수)
+     */
+    post: operations['createRoom'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/board/create': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/mypage/profile": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 마이페이지 프로필 조회
-         * @description 현재 로그인된 사용자의 프로필 정보를 조회합니다. (닉네임, 주소, 이메일) JWT 토큰이 필요합니다.
-         */
-        get: operations["getMyProfile"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /**
+     * 새 게시물 생성
+     * @description 새로운 옷 대여 게시물을 작성. 작성자가 seller(판매자)로 자동 등록됨. (토큰 인증 필수)
+     */
+    post: operations['createBoard'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/auth/register': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/mypage/products": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 내 상품 목록 조회
-         * @description 현재 로그인된 유저가 업로드(등록)한 모든 상품(옷) 목록을 불러옴.
-         *
-         *      이메일(JWT 토큰)을 기반으로 본인이 올린 게시물만 출력하며, 상태(판매중 등)와 사진 정보가 포함.
-         */
-        get: operations["getMyProducts"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /**
+     * 회원가입
+     * @description 신규 사용자를 등록. 이메일, 닉네임, 비밀번호, 주소 정보가 필요.
+     */
+    post: operations['registerUser'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/auth/refresh': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/board/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getPost"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    post: operations['refreshAccessToken'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/auth/password-reset': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/board/top": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getTops"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /**
+     * 임시 비밀번호 발급
+     * @description 등록된 이메일로 임시 비밀번호를 생성하여 전송합니다. 기존 비밀번호는 임시 비밀번호로 변경됩니다.
+     */
+    post: operations['resetPassword'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/auth/login': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/board/shoes": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getShoes"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    post: operations['loginUser'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/chat/room/{roomId}/read': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/board/outher": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getOuter"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /**
+     * 메시지 읽음 처리 (로직 구현됨 ✅)
+     * @description 특정 채팅방의 안 읽은 메시지를 모두 읽음 처리합니다. (토큰 인증 필수)
+     */
+    patch: operations['markAsRead'];
+    trace?: never;
+  };
+  '/chat/board/{boardId}/confirm/{wearerId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/board/onepiece": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getOnePieces"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /**
+     * 거래 확정 — buyer 지정 (로직 구현됨 ✅)
+     * @description seller가 특정 wearer를 buyer로 확정합니다. 확정 시 게시물 상태가 '대여가능' → '예약중'으로 변경됩니다. (토큰 인증 필수)
+     */
+    patch: operations['confirmDeal'];
+    trace?: never;
+  };
+  '/board/{id}/status': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/board/jewelry": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getJewelry"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /**
+     * 게시물 상태 변경 + Buyer 지정
+     * @description 게시물의 대여 상태를 변경합니다. 본인이 올린 게시물(seller)만 변경 가능합니다. '예약중'으로 변경 시 buyerId(빌리는 사람)를 함께 보내야 합니다. 상태 흐름: 대여가능 → 예약중(buyerId 필수) → 대여중 → 대여완료 (토큰 인증 필수)
+     */
+    patch: operations['updateStatus'];
+    trace?: never;
+  };
+  '/wishlist/my': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/board/bottom": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getBottoms"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /**
+     * 내 찜 목록 조회 (로직 구현됨 ✅)
+     * @description 로그인한 사용자가 찜한 게시물 목록을 최신순으로 조회합니다. status 파라미터로 대여 상태 필터링 가능 (대여가능 / 예약중 / 대여중 / 대여완료), category 파라미터로 의류 카테고리 필터링 가능 (top / bottom / outer / one piece / jewelry / shoes / bag). 응답에 총 상품 수(totalCount)가 포함됩니다. (토큰 인증 필수)
+     */
+    get: operations['getMyWishlist'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/mypage/profile': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/board/All": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getPosts"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /**
+     * 마이페이지 프로필 조회
+     * @description 현재 로그인된 사용자의 프로필 정보를 조회합니다. (닉네임, 주소, 이메일) JWT 토큰이 필요합니다.
+     */
+    get: operations['getMyProfile'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/mypage/products': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/auth/kakao/login-url": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 카카오 로그인 URL 조회
-         * @description 프론트에서 이 URL로 리다이렉트하면 카카오 로그인 페이지가 열립니다.
-         */
-        get: operations["getKakaoLoginUrl"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /**
+     * 내 상품 목록 조회
+     * @description 현재 로그인된 유저가 업로드(등록)한 모든 상품(옷) 목록을 불러옴.
+     *
+     *      이메일(JWT 토큰)을 기반으로 본인이 올린 게시물만 출력하며, 상태(판매중 등)와 사진 정보가 포함.
+     */
+    get: operations['getMyProducts'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/chat/rooms': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/auth/kakao/callback": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 카카오 로그인 콜백
-         * @description 카카오에서 인가 코드를 받아 로그인 처리 후 JWT 토큰을 반환합니다.
-         */
-        get: operations["kakaoCallback"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /**
+     * 내 채팅방 목록 조회 (로직 구현됨 ✅)
+     * @description 로그인한 유저가 참여한 모든 채팅방 목록을 조회합니다. 마지막 메시지, 안 읽은 메시지 수 포함. (토큰 인증 필수)
+     */
+    get: operations['getMyRooms'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/chat/room/{roomId}/messages': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/protected": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["protectedEndpoint"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /**
+     * 채팅 메시지 내역 조회 (로직 구현됨 ✅)
+     * @description 특정 채팅방의 과거 대화 내역을 조회합니다. (토큰 인증 필수)
+     */
+    get: operations['getMessages'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/chat/board/{boardId}/wearers': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/auth/delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /**
-         * 회원 탈퇴
-         * @description 현재 로그인된 사용자의 계정을 삭제합니다. JSON 바디로 'password'를 보내서 비밀번호가 일치해야 탈퇴됩니다. 관련된 게시글 및 데이터도 함께 삭제됩니다.
-         */
-        delete: operations["deleteUser"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /**
+     * 게시물별 채팅 유저(wearer) 리스트 조회 (로직 구현됨 ✅)
+     * @description seller(옷 주인)가 자신의 게시물에 대해 채팅을 건 wearer(빌리려는 사람) 목록을 조회합니다. 이 목록에서 buyer를 선택하여 거래를 확정할 수 있습니다. (토큰 인증 필수)
+     */
+    get: operations['getWearerList'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/board/top': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
+    /** 상의(top) 카테고리 목록 조회 */
+    get: operations['getTops'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/board/shoes': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** 신발(shoes) 카테고리 목록 조회 */
+    get: operations['getShoes'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/board/outher': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** 아우터(outer) 카테고리 목록 조회 */
+    get: operations['getOuter'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/board/onepiece': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** 원피스(onepiece) 카테고리 목록 조회 */
+    get: operations['getOnePieces'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/board/my': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 내 상품 상태별 필터링 조회
+     * @description 로그인한 유저(seller)가 등록한 상품을 상태별로 필터링하여 조회합니다. status 파라미터를 안 보내면 전체 조회. 응답에 총 상품 수(totalCount)가 포함됩니다. (토큰 인증 필수)
+     */
+    get: operations['getMyBoardsByStatus'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/board/my/renter': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Renter(빌린) 상품 목록 조회 (로직 구현됨 ✅)
+     * @description 로그인한 유저가 '빌린' 상품(buyer인 게시물) 목록을 조회합니다. status 파라미터로 상태 필터링 가능. 응답에 총 상품 수(totalCount)가 포함됩니다. (토큰 인증 필수)
+     */
+    get: operations['getRenterBoards'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/board/my/owner': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Owner(빌려준) 상품 목록 조회 (로직 구현됨 ✅)
+     * @description 로그인한 유저가 '빌려준' 상품(seller이면서 buyer가 존재하는 게시물) 목록을 조회합니다. status 파라미터로 상태 필터링 가능. 응답에 총 상품 수(totalCount)가 포함됩니다. (토큰 인증 필수)
+     */
+    get: operations['getOwnerBoards'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/board/jewelry': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** 주얼리(jewelry) 카테고리 목록 조회 */
+    get: operations['getJewelry'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/board/bottom': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** 하의(bottom) 카테고리 목록 조회 */
+    get: operations['getBottoms'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/board/bag': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** 가방(bag) 카테고리 목록 조회 */
+    get: operations['getBags'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/board/All': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 전체 게시물 목록 조회
+     * @description 모든 게시물을 최신순으로 조회합니다. 로그인 상태이면 같은 주소(address) 기반으로 필터링된 게시물을 반환하며, 찜 여부(isWished)와 본인 게시글 여부(isOwner)가 매핑됩니다. 비로그인 시 전체 게시물을 반환합니다.
+     */
+    get: operations['getPosts'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/auth/kakao/login-url': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 카카오 로그인 URL 조회
+     * @description 프론트에서 이 URL로 리다이렉트하면 카카오 로그인 페이지가 열립니다.
+     */
+    get: operations['getKakaoLoginUrl'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/auth/kakao/callback': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 카카오 로그인 콜백
+     * @description 카카오에서 인가 코드를 받아 로그인 처리 후 JWT 토큰을 반환합니다.
+     */
+    get: operations['kakaoCallback'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/auth/check_nickname': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 닉네임 중복 확인
+     * @description 회원가입 또는 프로필 수정 전 닉네임이 이미 사용 중인지 확인합니다. 사용 가능하면 available: true, 이미 사용 중이면 available: false를 반환합니다.
+     */
+    get: operations['checkNickname'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/protected': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['protectedEndpoint'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/auth/delete': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /**
+     * 회원 탈퇴
+     * @description 현재 로그인된 사용자의 계정을 삭제합니다. JSON 바디로 'password'를 보내서 비밀번호가 일치해야 탈퇴됩니다. 관련된 게시글 및 데이터도 함께 삭제됩니다.
+     */
+    delete: operations['deleteUser'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: {
-        /** @description 비밀번호 변경 요청 DTO */
-        PasswordChangeRequestDto: {
-            /**
-             * @description 현재 비밀번호
-             * @example currentPassword123
-             */
-            currentPassword: string;
-            /**
-             * @description 새 비밀번호
-             * @example newPassword456
-             */
-            newPassword: string;
-        };
-        BoardSearchRequestDto: {
-            title?: string;
-            description?: string;
-            sex?: string;
-            size?: string;
-            place?: string;
-        };
-        BoardSearchResponseDto: {
-            /** Format: int64 */
-            id?: number;
-            name?: string;
-            /** Format: int32 */
-            rentalPeriod?: number;
-            /** Format: int32 */
-            rentalCost?: number;
-            location?: string;
-            imageUrl?: string;
-            /** Format: date-time */
-            createdAt?: string;
-        };
-        /** @description 게시물 생성 요청 DTO */
-        BoardCreateRequestDto: {
-            /**
-             * @description 게시물 제목
-             * @example 나이키 바람막이 L사이즈 빌려드려요!
-             */
-            title?: string;
-            /**
-             * @description 게시물 상세 설명
-             * @example 1회 실착 완전 새상품급입니다. 비 오는 날 입기 좋아요.
-             */
-            description?: string;
-            /**
-             * Format: binary
-             * @description 게시물 이미지 파일 (첨부 안 할 시 기본 이미지 등록됨)
-             */
-            image?: string;
-            /**
-             * @description 옷 사이즈 (예: S, M, L, XL, Free)
-             * @example L
-             */
-            size?: string;
-            /**
-             * @description 성별 (예: M, W, 공용)
-             * @example 공용
-             */
-            sex?: string;
-            /**
-             * @description 거래 희망 장소 (직거래 시)
-             * @example 강남역 2번 출구 앞
-             */
-            place?: string;
-            /**
-             * Format: int64
-             * @description 대여 가격 (원 단위)
-             * @example 15000
-             */
-            price?: number;
-            /**
-             * Format: int32
-             * @description 대여 기간 (일 수)
-             * @example 3
-             */
-            date?: number;
-            /**
-             * @description 옷 카테고리 (tops, bottom, outher, onepiece, jewelry, shoes 중 택 1)
-             * @example outher
-             */
-            category?: string;
-        };
-        BoardCreateResponsetDto: {
-            /** Format: int64 */
-            id?: number;
-            title?: string;
-            description?: string;
-            image?: string;
-            size?: string;
-            sex?: string;
-            place?: string;
-            /** Format: int32 */
-            date?: number;
-            category?: string;
-            /** Format: int64 */
-            price?: number;
-            /** Format: date-time */
-            createAt?: string;
-        };
-        /** @description 회원가입 요청 DTO */
-        UserCreateRequestDto: {
-            /**
-             * @description 사용자 이메일 주소(고유해야함)
-             * @example user@example.com
-             */
-            email: string;
-            /**
-             * @description 사용자 닉네임 (고유해야 함)
-             * @example 홍길동
-             */
-            nickname: string;
-            /**
-             * @description 사용자 비밀번호
-             * @example password123
-             */
-            password: string;
-            /**
-             * @description 사용자 주소
-             * @example 부산시 부산진구
-             */
-            address?: string;
-        };
-        /** @description 회원가입 응답 DTO */
-        UserResponeDto: {
-            /**
-             * @description 등록된 사용자 이메일
-             * @example user@example.com
-             */
-            email?: string;
-            /**
-             * @description 등록된 사용자 닉네임
-             * @example 김영진
-             */
-            nickname?: string;
-            /**
-             * @description 등록된 사용자 주소
-             * @example 부산시 부산진구
-             */
-            address?: string;
-            /**
-             * @description 등록된 사용자 프로필 이미지 경로
-             * @example https://opencloset.jihongeek.workers.dev/images/default_profile.png
-             */
-            profileImage?: string;
-        };
-        RefreshTokenRequestDto: {
-            refreshToken?: string;
-        };
-        TokenRefreshResponseDto: {
-            accessToken?: string;
-        };
-        PasswordResetRequestDto: {
-            email?: string;
-        };
-        LoginRequestDto: {
-            email?: string;
-            password?: string;
-        };
-        LoginResponseDto: {
-            email?: string;
-            nickname?: string;
-            message?: string;
-            accessToken?: string;
-            refreshToken?: string;
-            profileImage?: string;
-        };
-        /** @description 마이페이지 프로필 조회 응답 DTO */
-        MyPageProfileResponseDto: {
-            /**
-             * @description 사용자 닉네임
-             * @example UserName
-             */
-            nickname?: string;
-            /**
-             * @description 사용자 주소
-             * @example 부산 진구 가야동
-             */
-            address?: string;
-            /**
-             * @description 사용자 이메일
-             * @example user@example.com
-             */
-            email?: string;
-            /**
-             * @description 프로필 이미지 경로
-             * @example /uploads/profiles/default.jpg
-             */
-            profileImage?: string;
-        };
-        /** @description 내 상품 목록 응답 DTO */
-        MyProductResponseDto: {
-            /**
-             * Format: int64
-             * @description 상품 ID
-             * @example 1
-             */
-            productId?: number;
-            /**
-             * @description 상품 제목
-             * @example 나이키 에어맥스 90
-             */
-            title?: string;
-            /**
-             * Format: int32
-             * @description 상품 가격
-             * @example 50000
-             */
-            price?: number;
-            /**
-             * @description 상품 상태 (판매중, 예약중, 판매완료)
-             * @example 판매중
-             */
-            status?: string;
-            /**
-             * @description 상품 이미지 URL
-             * @example https://example.com/image.jpg
-             */
-            imageUrl?: string;
-            /**
-             * @description 등록 일시
-             * @example 2026-03-19T10:00:00
-             */
-            createdAt?: string;
-        };
-        TopsResponseDto: {
-            /** Format: int64 */
-            id?: number;
-            title?: string;
-            description?: string;
-            image?: string;
-            size?: string;
-            sex?: string;
-            place?: string;
-            /** Format: int32 */
-            date?: number;
-            category?: string;
-            /** Format: int64 */
-            price?: number;
-            /** Format: date-time */
-            createAt?: string;
-        };
-        ShoesResponseDto: {
-            /** Format: int64 */
-            id?: number;
-            title?: string;
-            description?: string;
-            image?: string;
-            size?: string;
-            sex?: string;
-            place?: string;
-            /** Format: int32 */
-            date?: number;
-            category?: string;
-            /** Format: int64 */
-            price?: number;
-            /** Format: date-time */
-            createAt?: string;
-        };
-        OutherResponseDto: {
-            /** Format: int64 */
-            id?: number;
-            title?: string;
-            description?: string;
-            image?: string;
-            size?: string;
-            sex?: string;
-            place?: string;
-            /** Format: int32 */
-            date?: number;
-            category?: string;
-            /** Format: int64 */
-            price?: number;
-            /** Format: date-time */
-            createAt?: string;
-        };
-        One_pieceResponseDto: {
-            /** Format: int64 */
-            id?: number;
-            title?: string;
-            description?: string;
-            image?: string;
-            size?: string;
-            sex?: string;
-            place?: string;
-            /** Format: int32 */
-            date?: number;
-            category?: string;
-            /** Format: int64 */
-            price?: number;
-            /** Format: date-time */
-            createAt?: string;
-        };
-        JewelryResponseDto: {
-            /** Format: int64 */
-            id?: number;
-            title?: string;
-            description?: string;
-            image?: string;
-            size?: string;
-            sex?: string;
-            place?: string;
-            /** Format: int32 */
-            date?: number;
-            category?: string;
-            /** Format: int64 */
-            price?: number;
-            /** Format: date-time */
-            createAt?: string;
-        };
-        BottomsReponseDto: {
-            /** Format: int64 */
-            id?: number;
-            title?: string;
-            description?: string;
-            image?: string;
-            size?: string;
-            sex?: string;
-            place?: string;
-            /** Format: int32 */
-            date?: number;
-            category?: string;
-            /** Format: int64 */
-            price?: number;
-            /** Format: date-time */
-            createAt?: string;
-        };
+  schemas: {
+    /** @description 게시물 수정 요청 DTO */
+    BoardUpdateRequestDto: {
+      /**
+       * @description 게시물 제목
+       * @example 나이키 바람막이 L사이즈 빌려드려요!
+       */
+      title?: string;
+      /**
+       * @description 게시물 상세 설명
+       * @example 1회 실착 완전 새상품급입니다. 비 오는 날 입기 좋아요.
+       */
+      description?: string;
+      /** @description 게시물 이미지 파일 (여러 장 업로드 가능, 첨부 안 할 시 기존 이미지 유지됨) */
+      images?: string[];
+      /**
+       * @description 옷 사이즈 (예: S, M, L, XL, Free)
+       * @example L
+       */
+      size?: string;
+      /**
+       * @description 성별 (예: M, W, 공용)
+       * @example 공용
+       */
+      sex?: string;
+      /**
+       * Format: double
+       * @description 거래 장소 위도 (latitude)
+       * @example 35.1796
+       */
+      latitude?: number;
+      /**
+       * Format: double
+       * @description 거래 장소 경도 (longitude)
+       * @example 129.0756
+       */
+      longitude?: number;
+      /**
+       * Format: int64
+       * @description 대여 가격 (원 단위)
+       * @example 15000
+       */
+      price?: number;
+      /**
+       * Format: date
+       * @description 대여 시작일 (yyyy-MM-dd)
+       * @example 2026-05-01
+       */
+      startDate?: string;
+      /**
+       * Format: date
+       * @description 대여 종료일 (yyyy-MM-dd)
+       * @example 2026-05-07
+       */
+      endDate?: string;
+      /**
+       * @description 옷 카테고리 (top, bottom, outer, one piece, jewelry, shoes, bag 중 택 1)
+       * @example outer
+       */
+      category?: string;
     };
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+    /** @description 게시물 응답 DTO */
+    BoardCreateResponsetDto: {
+      /**
+       * Format: int64
+       * @description 게시물 ID
+       * @example 1
+       */
+      id?: number;
+      /**
+       * @description 게시물 제목
+       * @example 나이키 바람막이 L사이즈 빌려드려요!
+       */
+      title?: string;
+      /**
+       * @description 게시물 상세 설명
+       * @example 1회 실착 완전 새상품급입니다.
+       */
+      description?: string;
+      /** @description 의류 이미지 URL 목록 (여러 장) */
+      images?: string[];
+      /**
+       * @description 옷 사이즈
+       * @example L
+       */
+      size?: string;
+      /**
+       * @description 성별 (M / W / 공용)
+       * @example 공용
+       */
+      sex?: string;
+      /**
+       * Format: double
+       * @description 거래 장소 위도
+       * @example 35.1796
+       */
+      latitude?: number;
+      /**
+       * Format: double
+       * @description 거래 장소 경도
+       * @example 129.0756
+       */
+      longitude?: number;
+      /**
+       * Format: date
+       * @description 대여 시작일
+       * @example 2026-05-01
+       */
+      startDate?: string;
+      /**
+       * Format: date
+       * @description 대여 종료일
+       * @example 2026-05-07
+       */
+      endDate?: string;
+      /**
+       * @description 카테고리 (top / bottom / outer / one piece / jewelry / shoes / bag)
+       * @example outer
+       */
+      category?: string;
+      /**
+       * Format: int64
+       * @description 1일 대여 가격 (원)
+       * @example 3200
+       */
+      price?: number;
+      /**
+       * Format: int64
+       * @description 대여 일 수 (startDate ~ endDate 사이 일 수)
+       * @example 7
+       */
+      rentalDays?: number;
+      /**
+       * @description 상품 상태 (대여가능 / 예약중 / 대여중 / 대여완료)
+       * @example 대여가능
+       */
+      status?: string;
+      /**
+       * Format: int64
+       * @description 판매자(seller) ID
+       * @example 3
+       */
+      sellerId?: number;
+      /**
+       * @description 판매자 닉네임
+       * @example 홍길동
+       */
+      sellerNickname?: string;
+      /**
+       * Format: int64
+       * @description 구매자(buyer) ID (대여 전에는 null)
+       * @example 7
+       */
+      buyerId?: number;
+      /** @description 구매자 닉네임 (대여 전에는 null) */
+      buyerNickname?: string;
+      /**
+       * Format: date-time
+       * @description 게시물 생성일
+       */
+      createAt?: string;
+      isWished?: boolean;
+      isOwner?: boolean;
+      wished?: boolean;
+      owner?: boolean;
+    };
+    /** @description 비밀번호 변경 요청 DTO */
+    PasswordChangeRequestDto: {
+      /**
+       * @description 현재 비밀번호
+       * @example currentPassword123
+       */
+      currentPassword: string;
+      /**
+       * @description 새 비밀번호
+       * @example newPassword456
+       */
+      newPassword: string;
+    };
+    /** @description 게시물 검색 요청 DTO */
+    BoardSearchRequestDto: {
+      /**
+       * @description 검색 키워드 (제목에서 검색)
+       * @example 나이키
+       */
+      title?: string;
+      /**
+       * @description 검색 키워드 (설명에서 검색)
+       * @example 바람막이
+       */
+      description?: string;
+      /**
+       * @description 성별 필터 (M / W / 공용)
+       * @example M
+       */
+      sex?: string;
+      /**
+       * @description 사이즈 필터 (S / M / L / XL / FREE 등)
+       * @example L
+       */
+      size?: string;
+      /**
+       * @description 카테고리 필터 (top / bottom / outer / one piece / jewelry / shoes / bag)
+       * @example outer
+       */
+      category?: string;
+      /**
+       * Format: int64
+       * @description 최소 가격 필터 (원)
+       * @example 5000
+       */
+      minPrice?: number;
+      /**
+       * Format: int64
+       * @description 최대 가격 필터 (원)
+       * @example 30000
+       */
+      maxPrice?: number;
+    };
+    /** @description 검색 결과 개별 항목 DTO */
+    BoardSearchResponseDto: {
+      /**
+       * Format: int64
+       * @description 게시물 ID
+       * @example 1
+       */
+      id?: number;
+      /**
+       * @description 게시물 제목
+       * @example 나이키 바람막이 L사이즈
+       */
+      name?: string;
+      /**
+       * Format: int64
+       * @description 대여 기간 (일 수)
+       * @example 7
+       */
+      rentalPeriod?: number;
+      /**
+       * Format: int32
+       * @description 대여 가격 (원)
+       * @example 15000
+       */
+      rentalCost?: number;
+      /**
+       * Format: double
+       * @description 거래 장소 위도
+       * @example 35.1796
+       */
+      latitude?: number;
+      /**
+       * Format: double
+       * @description 거래 장소 경도
+       * @example 129.0756
+       */
+      longitude?: number;
+      /** @description 이미지 URL 목록 */
+      imageUrls?: string[];
+      /**
+       * Format: date
+       * @description 대여 시작일
+       * @example 2026-05-01
+       */
+      startDate?: string;
+      /**
+       * Format: date
+       * @description 대여 종료일
+       * @example 2026-05-07
+       */
+      endDate?: string;
+      /**
+       * Format: date-time
+       * @description 게시물 생성일
+       */
+      createdAt?: string;
+      /**
+       * @description 상품 상태 (대여가능 / 예약중 / 대여중 / 대여완료)
+       * @example 대여가능
+       */
+      status?: string;
+      /**
+       * @description 카테고리
+       * @example outer
+       */
+      category?: string;
+      /**
+       * @description 성별 (M / W / 공용)
+       * @example 공용
+       */
+      sex?: string;
+      /**
+       * @description 사이즈
+       * @example L
+       */
+      size?: string;
+      wished?: boolean;
+    };
+    /** @description 검색 결과 래퍼 DTO (총 갯수 + 결과 리스트) */
+    SearchResultResponseDto: {
+      /** @description 검색된 상품 목록 */
+      items?: components['schemas']['BoardSearchResponseDto'][];
+      /**
+       * Format: int64
+       * @description 총 검색 결과 수
+       * @example 42
+       */
+      totalCount?: number;
+    };
+    /** @description 채팅방 생성 요청 DTO */
+    ChatRoomCreateRequestDto: {
+      /**
+       * Format: int64
+       * @description 채팅을 걸 게시물 ID
+       * @example 1
+       */
+      boardId?: number;
+    };
+    /** @description 채팅방 목록 응답 DTO */
+    ChatRoomResponseDto: {
+      /**
+       * Format: int64
+       * @description 채팅방 ID
+       * @example 1
+       */
+      roomId?: number;
+      /**
+       * Format: int64
+       * @description 게시물 ID
+       * @example 5
+       */
+      boardId?: number;
+      /**
+       * @description 게시물 제목
+       * @example 나이키 바람막이 빌려드려요
+       */
+      boardTitle?: string;
+      /**
+       * @description 게시물 이미지
+       * @example https://opencloset.jihongeek.com/uploads/boards/1.jpg
+       */
+      boardImage?: string;
+      /**
+       * @description 상대방 닉네임
+       * @example 홍길동
+       */
+      opponentNickname?: string;
+      /** @description 상대방 프로필 이미지 */
+      opponentProfileImage?: string;
+      /**
+       * @description 마지막 메시지 내용
+       * @example 사이즈 어떻게 되나요?
+       */
+      lastMessage?: string;
+      /**
+       * Format: int32
+       * @description 안 읽은 메시지 수
+       * @example 3
+       */
+      unreadCount?: number;
+      /**
+       * Format: date-time
+       * @description 채팅방 생성일
+       */
+      createdAt?: string;
+    };
+    /** @description 게시물 생성 요청 DTO */
+    BoardCreateRequestDto: {
+      /**
+       * @description 게시물 제목
+       * @example 나이키 바람막이 L사이즈 빌려드려요!
+       */
+      title?: string;
+      /**
+       * @description 게시물 상세 설명
+       * @example 1회 실착 완전 새상품급입니다. 비 오는 날 입기 좋아요.
+       */
+      description?: string;
+      /** @description 게시물 이미지 파일 (여러 장 업로드 가능, 첨부 안 할 시 기본 이미지 등록됨) */
+      images?: string[];
+      /**
+       * @description 옷 사이즈 (예: S, M, L, XL, Free)
+       * @example L
+       */
+      size?: string;
+      /**
+       * @description 성별 (예: M, W, 공용)
+       * @example 공용
+       */
+      sex?: string;
+      /**
+       * Format: double
+       * @description 거래 장소 위도 (latitude)
+       * @example 35.1796
+       */
+      latitude?: number;
+      /**
+       * Format: double
+       * @description 거래 장소 경도 (longitude)
+       * @example 129.0756
+       */
+      longitude?: number;
+      /**
+       * Format: int64
+       * @description 대여 가격 (원 단위)
+       * @example 15000
+       */
+      price?: number;
+      /**
+       * Format: date
+       * @description 대여 시작일 (yyyy-MM-dd)
+       * @example 2026-05-01
+       */
+      startDate?: string;
+      /**
+       * Format: date
+       * @description 대여 종료일 (yyyy-MM-dd)
+       * @example 2026-05-07
+       */
+      endDate?: string;
+      /**
+       * @description 옷 카테고리 (top, bottom, outer, one piece, jewelry, shoes, bag 중 택 1)
+       * @example outer
+       */
+      category?: string;
+    };
+    /** @description 회원가입 요청 DTO */
+    UserCreateRequestDto: {
+      /**
+       * @description 사용자 이메일 주소(고유해야함)
+       * @example user@example.com
+       */
+      email: string;
+      /**
+       * @description 사용자 닉네임 (고유해야 함)
+       * @example 홍길동
+       */
+      nickname: string;
+      /**
+       * @description 사용자 비밀번호
+       * @example password123
+       */
+      password: string;
+      /**
+       * @description 사용자 주소
+       * @example 부산시 부산진구
+       */
+      address?: string;
+    };
+    /** @description 회원가입 응답 DTO */
+    UserResponeDto: {
+      /**
+       * @description 등록된 사용자 이메일
+       * @example user@example.com
+       */
+      email?: string;
+      /**
+       * @description 등록된 사용자 닉네임
+       * @example 김영진
+       */
+      nickname?: string;
+      /**
+       * @description 등록된 사용자 주소
+       * @example 부산시 부산진구
+       */
+      address?: string;
+      /**
+       * @description 등록된 사용자 프로필 이미지 경로
+       * @example https://opencloset.jihongeek.workers.dev/images/default_profile.png
+       */
+      profileImage?: string;
+    };
+    RefreshTokenRequestDto: {
+      refreshToken?: string;
+    };
+    TokenRefreshResponseDto: {
+      accessToken?: string;
+    };
+    PasswordResetRequestDto: {
+      email?: string;
+    };
+    LoginRequestDto: {
+      email?: string;
+      password?: string;
+    };
+    LoginResponseDto: {
+      email?: string;
+      nickname?: string;
+      message?: string;
+      accessToken?: string;
+      refreshToken?: string;
+      profileImage?: string;
+    };
+    /** @description 상품 목록 래퍼 DTO (총 개수 + 상품 리스트) */
+    BoardListResponseDto: {
+      /** @description 상품 목록 */
+      items?: components['schemas']['BoardCreateResponsetDto'][];
+      /**
+       * Format: int64
+       * @description 총 상품 수
+       * @example 22
+       */
+      totalCount?: number;
+    };
+    /** @description 마이페이지 프로필 조회 응답 DTO */
+    MyPageProfileResponseDto: {
+      /**
+       * @description 사용자 닉네임
+       * @example UserName
+       */
+      nickname?: string;
+      /**
+       * @description 사용자 주소
+       * @example 부산 진구 가야동
+       */
+      address?: string;
+      /**
+       * @description 사용자 이메일
+       * @example user@example.com
+       */
+      email?: string;
+      /**
+       * @description 프로필 이미지 경로
+       * @example /uploads/profiles/default.jpg
+       */
+      profileImage?: string;
+    };
+    /** @description 내 상품 목록 응답 DTO */
+    MyProductResponseDto: {
+      /**
+       * Format: int64
+       * @description 상품 ID
+       * @example 1
+       */
+      productId?: number;
+      /**
+       * @description 상품 제목
+       * @example 나이키 에어맥스 90
+       */
+      title?: string;
+      /**
+       * Format: int32
+       * @description 상품 가격
+       * @example 50000
+       */
+      price?: number;
+      /**
+       * @description 상품 상태 (대여가능, 예약중, 대여중, 대여완료)
+       * @example 대여가능
+       */
+      status?: string;
+      /** @description 상품 이미지 URL 목록 */
+      imageUrls?: string[];
+      /**
+       * @description 등록 일시
+       * @example 2026-03-19T10:00:00
+       */
+      createdAt?: string;
+    };
+    /** @description 채팅 메시지 응답 DTO */
+    ChatMessageResponseDto: {
+      /**
+       * Format: int64
+       * @description 메시지 ID
+       * @example 1
+       */
+      messageId?: number;
+      /**
+       * Format: int64
+       * @description 보낸 사람 ID
+       * @example 3
+       */
+      senderId?: number;
+      /**
+       * @description 보낸 사람 닉네임
+       * @example 홍길동
+       */
+      senderNickname?: string;
+      /** @description 보낸 사람 프로필 이미지 */
+      senderProfileImage?: string;
+      /**
+       * @description 메시지 내용
+       * @example 이 옷 사이즈 어떻게 되나요?
+       */
+      message?: string;
+      /**
+       * @description 읽음 여부
+       * @example false
+       */
+      isRead?: boolean;
+      /**
+       * Format: date-time
+       * @description 전송 시간
+       */
+      sentAt?: string;
+    };
+    /** @description 게시물에 채팅 건 wearer(빌리려는 사람) 목록 DTO */
+    WearerListResponseDto: {
+      /**
+       * Format: int64
+       * @description 채팅방 ID
+       * @example 1
+       */
+      roomId?: number;
+      /**
+       * Format: int64
+       * @description wearer(빌리려는 사람) 유저 ID
+       * @example 7
+       */
+      wearerId?: number;
+      /**
+       * @description wearer 닉네임
+       * @example 김철수
+       */
+      wearerNickname?: string;
+      /** @description wearer 프로필 이미지 */
+      wearerProfileImage?: string;
+    };
+    TopsResponseDto: {
+      /** Format: int64 */
+      id?: number;
+      title?: string;
+      description?: string;
+      images?: string[];
+      size?: string;
+      sex?: string;
+      /** Format: double */
+      latitude?: number;
+      /** Format: double */
+      longitude?: number;
+      /** Format: date */
+      startDate?: string;
+      /** Format: date */
+      endDate?: string;
+      category?: string;
+      /** Format: int64 */
+      price?: number;
+      status?: string;
+      /** Format: date-time */
+      createAt?: string;
+    };
+    ShoesResponseDto: {
+      /** Format: int64 */
+      id?: number;
+      title?: string;
+      description?: string;
+      images?: string[];
+      size?: string;
+      sex?: string;
+      /** Format: double */
+      latitude?: number;
+      /** Format: double */
+      longitude?: number;
+      /** Format: date */
+      startDate?: string;
+      /** Format: date */
+      endDate?: string;
+      category?: string;
+      /** Format: int64 */
+      price?: number;
+      status?: string;
+      /** Format: date-time */
+      createAt?: string;
+    };
+    OutherResponseDto: {
+      /** Format: int64 */
+      id?: number;
+      title?: string;
+      description?: string;
+      images?: string[];
+      size?: string;
+      sex?: string;
+      /** Format: double */
+      latitude?: number;
+      /** Format: double */
+      longitude?: number;
+      /** Format: date */
+      startDate?: string;
+      /** Format: date */
+      endDate?: string;
+      category?: string;
+      /** Format: int64 */
+      price?: number;
+      status?: string;
+      /** Format: date-time */
+      createAt?: string;
+    };
+    One_pieceResponseDto: {
+      /** Format: int64 */
+      id?: number;
+      title?: string;
+      description?: string;
+      images?: string[];
+      size?: string;
+      sex?: string;
+      /** Format: double */
+      latitude?: number;
+      /** Format: double */
+      longitude?: number;
+      /** Format: date */
+      startDate?: string;
+      /** Format: date */
+      endDate?: string;
+      category?: string;
+      /** Format: int64 */
+      price?: number;
+      status?: string;
+      /** Format: date-time */
+      createAt?: string;
+    };
+    JewelryResponseDto: {
+      /** Format: int64 */
+      id?: number;
+      title?: string;
+      description?: string;
+      images?: string[];
+      size?: string;
+      sex?: string;
+      /** Format: double */
+      latitude?: number;
+      /** Format: double */
+      longitude?: number;
+      /** Format: date */
+      startDate?: string;
+      /** Format: date */
+      endDate?: string;
+      category?: string;
+      /** Format: int64 */
+      price?: number;
+      status?: string;
+      /** Format: date-time */
+      createAt?: string;
+    };
+    BottomsReponseDto: {
+      /** Format: int64 */
+      id?: number;
+      title?: string;
+      description?: string;
+      images?: string[];
+      size?: string;
+      sex?: string;
+      /** Format: double */
+      latitude?: number;
+      /** Format: double */
+      longitude?: number;
+      /** Format: date */
+      startDate?: string;
+      /** Format: date */
+      endDate?: string;
+      category?: string;
+      /** Format: int64 */
+      price?: number;
+      status?: string;
+      /** Format: date-time */
+      createAt?: string;
+    };
+    BagsResponseDto: {
+      /** Format: int64 */
+      id?: number;
+      title?: string;
+      description?: string;
+      images?: string[];
+      size?: string;
+      sex?: string;
+      /** Format: double */
+      latitude?: number;
+      /** Format: double */
+      longitude?: number;
+      /** Format: date */
+      startDate?: string;
+      /** Format: date */
+      endDate?: string;
+      category?: string;
+      /** Format: int64 */
+      price?: number;
+      status?: string;
+      /** Format: date-time */
+      createAt?: string;
+    };
+  };
+  responses: never;
+  parameters: never;
+  requestBodies: never;
+  headers: never;
+  pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    changePassword: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["PasswordChangeRequestDto"];
-            };
-        };
-        responses: {
-            /** @description 비밀번호 변경 성공 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "비밀번호가 성공적으로 변경되었습니다."
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
-            /** @description 현재 비밀번호 불일치 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "status": 400,
-                     *       "error": "Bad Request",
-                     *       "message": "현재 비밀번호가 일치하지 않습니다."
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
-            /** @description 인증되지 않은 사용자 (토큰 없음 또는 만료) */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "Unauthorized"
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
-        };
+  getPost: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /**
+         * @description 게시물 ID
+         * @example 1
+         */
+        id: number;
+      };
+      cookie?: never;
     };
-    searchBoards: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description 게시물 조회 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["BoardSearchRequestDto"];
-            };
+        content: {
+          '*/*': components['schemas']['BoardCreateResponsetDto'];
         };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["BoardSearchResponseDto"][];
-                };
-            };
-        };
+      };
     };
-    logout: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description 로그아웃 성공 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "로그아웃 성공!"
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
-            /** @description 인증되지 않은 사용자 (토큰 없음 또는 만료) */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "Unauthorized"
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
-        };
+  };
+  updateBoard: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /**
+         * @description 수정할 게시물 ID
+         * @example 1
+         */
+        id: number;
+      };
+      cookie?: never;
     };
-    editProfile: {
-        parameters: {
-            query?: {
-                nickname?: string;
-                address?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "multipart/form-data": {
-                    /** Format: binary */
-                    profileImage?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description 프로필 수정 성공 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "프로필 정보가 성공적으로 수정되었습니다."
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
-            /** @description 잘못된 요청 또는 닉네임 중복 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "이미 사용 중인 닉네임입니다."
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
-            /** @description 인증되지 않은 사용자 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "Unauthorized"
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
-        };
+    requestBody?: {
+      content: {
+        'multipart/form-data': components['schemas']['BoardUpdateRequestDto'];
+      };
     };
-    createBoard: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description 게시물 수정 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: {
-            content: {
-                "multipart/form-data": components["schemas"]["BoardCreateRequestDto"];
-            };
+        content: {
+          '*/*': components['schemas']['BoardCreateResponsetDto'];
         };
-        responses: {
-            /** @description 게시물 생성 성공 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["BoardCreateResponsetDto"];
-                };
-            };
-        };
+      };
     };
-    registerUser: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UserCreateRequestDto"];
-            };
-        };
-        responses: {
-            /** @description 회원가입 성공 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UserResponeDto"];
-                };
-            };
-            /** @description 이미 존재하는 이메일 또는 닉네임 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
+  };
+  changePassword: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    refreshAccessToken: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["RefreshTokenRequestDto"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["TokenRefreshResponseDto"];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PasswordChangeRequestDto'];
+      };
     };
-    resetPassword: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description 비밀번호 변경 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["PasswordResetRequestDto"];
-            };
+        content: {
+          /**
+           * @example {
+           *       "message": "비밀번호가 성공적으로 변경되었습니다."
+           *     }
+           */
+          'application/json': unknown;
         };
-        responses: {
-            /** @description 임시 비밀번호 전송 성공 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "임시 비밀번호가 이메일로 전송되었습니다."
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
-            /** @description 등록되지 않은 이메일 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "status": 400,
-                     *       "error": "Bad Request",
-                     *       "message": "사용자를 찾을 수 없습니다."
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
+      };
+      /** @description 현재 비밀번호 불일치 */
+      400: {
+        headers: {
+          [name: string]: unknown;
         };
+        content: {
+          /**
+           * @example {
+           *       "status": 400,
+           *       "error": "Bad Request",
+           *       "message": "현재 비밀번호가 일치하지 않습니다."
+           *     }
+           */
+          'application/json': unknown;
+        };
+      };
+      /** @description 인증되지 않은 사용자 (토큰 없음 또는 만료) */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /**
+           * @example {
+           *       "message": "Unauthorized"
+           *     }
+           */
+          'application/json': unknown;
+        };
+      };
     };
-    loginUser: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["LoginRequestDto"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LoginResponseDto"];
-                };
-            };
-        };
+  };
+  toggleWishlist: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /**
+         * @description 찜할 게시물의 ID
+         * @example 1
+         */
+        boardId: number;
+      };
+      cookie?: never;
     };
-    getMyProfile: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description 찜 등록/취소 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description 프로필 조회 성공 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["MyPageProfileResponseDto"];
-                };
-            };
-            /** @description 인증되지 않은 사용자 (토큰 없음 또는 만료) */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "Unauthorized"
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
+        content: {
+          '*/*': {
+            [key: string]: Record<string, never>;
+          };
         };
+      };
     };
-    getMyProducts: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description 내 상품 목록 조회 완벽히 성공! */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example [
-                     *       {
-                     *         "productId": 25,
-                     *         "title": "나이키 바람막이 L사이즈 빌려드려요!",
-                     *         "price": 15000,
-                     *         "status": "판매중",
-                     *         "imageUrl": "https://opencloset.jihongeek.com/uploads/boards/17150123984_nike_windbreaker.jpg",
-                     *         "createdAt": "2026-03-24T18:30:11.123"
-                     *       },
-                     *       {
-                     *         "productId": 11,
-                     *         "title": "아디다스 츄리닝 바지",
-                     *         "price": 8000,
-                     *         "status": "예약중",
-                     *         "imageUrl": "https://opencloset.jihongeek.com/images/default_board.png",
-                     *         "createdAt": "2026-03-10T12:00:00.000"
-                     *       }
-                     *     ]
-                     */
-                    "application/json": components["schemas"]["MyProductResponseDto"][];
-                };
-            };
-            /** @description 로그인하지 않았거나 토큰이 만료됨 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "Unauthorized - 유효하지 않은 토큰입니다."
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
-        };
+  };
+  searchBoards: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    getPost: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["BoardCreateResponsetDto"];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['BoardSearchRequestDto'];
+      };
     };
-    getTops: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description 검색 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["TopsResponseDto"][];
-                };
-            };
+        content: {
+          '*/*': components['schemas']['BoardSearchResponseDto'][];
         };
+      };
     };
-    getShoes: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ShoesResponseDto"][];
-                };
-            };
-        };
+  };
+  advancedSearch: {
+    parameters: {
+      query?: {
+        /**
+         * @description 정렬 기준 (latest: 최신순, expensive: 비싼순, cheap: 싼순)
+         * @example latest
+         */
+        sort?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    getOuter: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["OutherResponseDto"][];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['BoardSearchRequestDto'];
+      };
     };
-    getOnePieces: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description 검색 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["One_pieceResponseDto"][];
-                };
-            };
+        content: {
+          '*/*': components['schemas']['SearchResultResponseDto'];
         };
+      };
     };
-    getJewelry: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["JewelryResponseDto"][];
-                };
-            };
-        };
+  };
+  logout: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    getBottoms: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description 로그아웃 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["BottomsReponseDto"][];
-                };
-            };
+        content: {
+          /**
+           * @example {
+           *       "message": "로그아웃 성공!"
+           *     }
+           */
+          'application/json': unknown;
         };
+      };
+      /** @description 인증되지 않은 사용자 (토큰 없음 또는 만료) */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /**
+           * @example {
+           *       "message": "Unauthorized"
+           *     }
+           */
+          'application/json': unknown;
+        };
+      };
     };
-    getPosts: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["BoardCreateResponsetDto"][];
-                };
-            };
-        };
+  };
+  editProfile: {
+    parameters: {
+      query?: {
+        nickname?: string;
+        address?: string;
+        password?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    getKakaoLoginUrl: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: {
+      content: {
+        'multipart/form-data': {
+          /** Format: binary */
+          profileImage?: string;
         };
-        requestBody?: never;
-        responses: {
-            /** @description 카카오 로그인 URL 반환 성공 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-        };
+      };
     };
-    kakaoCallback: {
-        parameters: {
-            query: {
-                /** @description 카카오에서 전달받은 인가 코드 */
-                code: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description 프로필 수정 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description 카카오 로그인 성공, JWT 토큰 반환 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LoginResponseDto"];
-                };
-            };
-            /** @description 카카오 로그인 처리 중 오류 발생 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LoginResponseDto"];
-                };
-            };
+        content: {
+          /**
+           * @example {
+           *       "message": "프로필 정보가 성공적으로 수정되었습니다."
+           *     }
+           */
+          'application/json': unknown;
         };
+      };
+      /** @description 잘못된 요청 또는 닉네임 중복 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /**
+           * @example {
+           *       "message": "이미 사용 중인 닉네임입니다."
+           *     }
+           */
+          'application/json': unknown;
+        };
+      };
+      /** @description 인증되지 않은 사용자 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /**
+           * @example {
+           *       "message": "Unauthorized"
+           *     }
+           */
+          'application/json': unknown;
+        };
+      };
     };
-    protectedEndpoint: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-        };
+  };
+  createRoom: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    deleteUser: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description 탈퇴를 위한 비밀번호 입력 */
-        requestBody: {
-            content: {
-                /**
-                 * @example {
-                 *       "password": "mySecret123!"
-                 *     }
-                 */
-                "application/json": {
-                    [key: string]: string;
-                };
-            };
-        };
-        responses: {
-            /** @description 회원 탈퇴 성공 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "회원탈퇴가 완료되었습니다."
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
-            /** @description 비밀번호 불일치 또는 누락 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "비밀번호가 일치하지 않습니다."
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
-            /** @description 인증되지 않은 사용자 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "Unauthorized"
-                     *     }
-                     */
-                    "application/json": unknown;
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ChatRoomCreateRequestDto'];
+      };
     };
+    responses: {
+      /** @description 채팅방 생성/조회 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ChatRoomResponseDto'];
+        };
+      };
+    };
+  };
+  createBoard: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        'multipart/form-data': components['schemas']['BoardCreateRequestDto'];
+      };
+    };
+    responses: {
+      /** @description 게시물 생성 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['BoardCreateResponsetDto'];
+        };
+      };
+    };
+  };
+  registerUser: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UserCreateRequestDto'];
+      };
+    };
+    responses: {
+      /** @description 회원가입 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['UserResponeDto'];
+        };
+      };
+      /** @description 잘못된 요청 (필수 필드 누락 또는 유효하지 않은 데이터) */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  refreshAccessToken: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['RefreshTokenRequestDto'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['TokenRefreshResponseDto'];
+        };
+      };
+    };
+  };
+  resetPassword: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PasswordResetRequestDto'];
+      };
+    };
+    responses: {
+      /** @description 임시 비밀번호 전송 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /**
+           * @example {
+           *       "message": "임시 비밀번호가 이메일로 전송되었습니다."
+           *     }
+           */
+          'application/json': unknown;
+        };
+      };
+      /** @description 등록되지 않은 이메일 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /**
+           * @example {
+           *       "status": 400,
+           *       "error": "Bad Request",
+           *       "message": "사용자를 찾을 수 없습니다."
+           *     }
+           */
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  loginUser: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['LoginRequestDto'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['LoginResponseDto'];
+        };
+      };
+    };
+  };
+  markAsRead: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /**
+         * @description 채팅방 ID
+         * @example 1
+         */
+        roomId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 읽음 처리 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  confirmDeal: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /**
+         * @description 게시물 ID
+         * @example 5
+         */
+        boardId: number;
+        /**
+         * @description buyer로 지정할 wearer의 유저 ID
+         * @example 7
+         */
+        wearerId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 거래 확정 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  updateStatus: {
+    parameters: {
+      query: {
+        /**
+         * @description 변경할 상태값 (대여가능 / 예약중 / 대여중 / 대여완료)
+         * @example 예약중
+         */
+        status: string;
+        /**
+         * @description 빌리는 사람(buyer)의 유저 ID. '예약중'일 때 필수
+         * @example 7
+         */
+        buyerId?: number;
+      };
+      header?: never;
+      path: {
+        /**
+         * @description 게시물 ID
+         * @example 1
+         */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 상태 변경 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['BoardCreateResponsetDto'];
+        };
+      };
+    };
+  };
+  getMyWishlist: {
+    parameters: {
+      query?: {
+        /**
+         * @description 상태 필터 (대여가능 / 예약중 / 대여중 / 대여완료). 비워두면 전체 조회
+         * @example 대여가능
+         */
+        status?: string;
+        /**
+         * @description 카테고리 필터 (top / bottom / outer / one piece / jewelry / shoes / bag). 비워두면 전체 조회
+         * @example outer
+         */
+        category?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 찜 목록 조회 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['BoardListResponseDto'];
+        };
+      };
+    };
+  };
+  getMyProfile: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 프로필 조회 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MyPageProfileResponseDto'];
+        };
+      };
+      /** @description 인증되지 않은 사용자 (토큰 없음 또는 만료) */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /**
+           * @example {
+           *       "message": "Unauthorized"
+           *     }
+           */
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  getMyProducts: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 내 상품 목록 조회 완벽히 성공! */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /**
+           * @example [
+           *       {
+           *         "productId": 25,
+           *         "title": "나이키 바람막이 L사이즈 빌려드려요!",
+           *         "price": 15000,
+           *         "status": "판매중",
+           *         "imageUrl": "https://opencloset.jihongeek.com/uploads/boards/17150123984_nike_windbreaker.jpg",
+           *         "createdAt": "2026-03-24T18:30:11.123"
+           *       },
+           *       {
+           *         "productId": 11,
+           *         "title": "아디다스 츄리닝 바지",
+           *         "price": 8000,
+           *         "status": "예약중",
+           *         "imageUrl": "https://opencloset.jihongeek.com/images/default_board.png",
+           *         "createdAt": "2026-03-10T12:00:00.000"
+           *       }
+           *     ]
+           */
+          'application/json': components['schemas']['MyProductResponseDto'][];
+        };
+      };
+      /** @description 로그인하지 않았거나 토큰이 만료됨 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /**
+           * @example {
+           *       "message": "Unauthorized - 유효하지 않은 토큰입니다."
+           *     }
+           */
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  getMyRooms: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 채팅방 목록 조회 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ChatRoomResponseDto'][];
+        };
+      };
+    };
+  };
+  getMessages: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /**
+         * @description 채팅방 ID
+         * @example 1
+         */
+        roomId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 메시지 내역 조회 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ChatMessageResponseDto'][];
+        };
+      };
+    };
+  };
+  getWearerList: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /**
+         * @description 게시물 ID
+         * @example 5
+         */
+        boardId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description wearer 리스트 조회 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['WearerListResponseDto'][];
+        };
+      };
+    };
+  };
+  getTops: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['TopsResponseDto'][];
+        };
+      };
+    };
+  };
+  getShoes: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ShoesResponseDto'][];
+        };
+      };
+    };
+  };
+  getOuter: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['OutherResponseDto'][];
+        };
+      };
+    };
+  };
+  getOnePieces: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['One_pieceResponseDto'][];
+        };
+      };
+    };
+  };
+  getMyBoardsByStatus: {
+    parameters: {
+      query?: {
+        /**
+         * @description 필터링할 상태값 (대여가능 / 예약중 / 대여중 / 대여완료). 비워두면 전체 조회
+         * @example 대여중
+         */
+        status?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 조회 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['BoardListResponseDto'];
+        };
+      };
+    };
+  };
+  getRenterBoards: {
+    parameters: {
+      query?: {
+        /**
+         * @description 상태 필터 (대여가능 / 예약중 / 대여중 / 대여완료). 비워두면 전체
+         * @example 대여중
+         */
+        status?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 조회 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['BoardListResponseDto'];
+        };
+      };
+    };
+  };
+  getOwnerBoards: {
+    parameters: {
+      query?: {
+        /**
+         * @description 상태 필터 (대여가능 / 예약중 / 대여중 / 대여완료). 비워두면 전체
+         * @example 대여중
+         */
+        status?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 조회 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['BoardListResponseDto'];
+        };
+      };
+    };
+  };
+  getJewelry: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['JewelryResponseDto'][];
+        };
+      };
+    };
+  };
+  getBottoms: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['BottomsReponseDto'][];
+        };
+      };
+    };
+  };
+  getBags: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['BagsResponseDto'][];
+        };
+      };
+    };
+  };
+  getPosts: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 게시물 목록 조회 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['BoardCreateResponsetDto'][];
+        };
+      };
+    };
+  };
+  getKakaoLoginUrl: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 카카오 로그인 URL 반환 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+    };
+  };
+  kakaoCallback: {
+    parameters: {
+      query: {
+        /** @description 카카오에서 전달받은 인가 코드 */
+        code: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 카카오 로그인 성공, JWT 토큰 반환 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['LoginResponseDto'];
+        };
+      };
+      /** @description 카카오 로그인 처리 중 오류 발생 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['LoginResponseDto'];
+        };
+      };
+    };
+  };
+  checkNickname: {
+    parameters: {
+      query: {
+        /**
+         * @description 중복 확인할 닉네임
+         * @example 홍길동
+         */
+        nickname: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 중복 확인 완료 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      /** @description 닉네임 파라미터 누락 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /**
+           * @example {
+           *       "available": false,
+           *       "message": "닉네임을 입력해주세요."
+           *     }
+           */
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  protectedEndpoint: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+    };
+  };
+  deleteUser: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description 탈퇴를 위한 비밀번호 입력 */
+    requestBody: {
+      content: {
+        /**
+         * @example {
+         *       "password": "mySecret123!"
+         *     }
+         */
+        'application/json': {
+          [key: string]: string;
+        };
+      };
+    };
+    responses: {
+      /** @description 회원 탈퇴 성공 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /**
+           * @example {
+           *       "message": "회원탈퇴가 완료되었습니다."
+           *     }
+           */
+          'application/json': unknown;
+        };
+      };
+      /** @description 비밀번호 불일치 또는 누락 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /**
+           * @example {
+           *       "message": "비밀번호가 일치하지 않습니다."
+           *     }
+           */
+          'application/json': unknown;
+        };
+      };
+      /** @description 인증되지 않은 사용자 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /**
+           * @example {
+           *       "message": "Unauthorized"
+           *     }
+           */
+          'application/json': unknown;
+        };
+      };
+    };
+  };
 }

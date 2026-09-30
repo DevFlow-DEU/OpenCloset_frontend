@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import NavBar from '../../../components/NavBar';
 import ProductList from '../components/ProductList';
+import { useProductSearch } from '../hooks';
 import styles from './SearchResult.module.css';
 import { Link, useParams } from 'react-router-dom';
 import {
@@ -8,20 +10,15 @@ import {
   Settings2Icon,
   Search as SearchIcon,
 } from 'lucide-react';
-import { useState } from 'react';
-import { useProducts } from '../hooks/useProducts';
+
 export default function SearchResult() {
-  const token = localStorage.getItem('token');
   let param = useParams();
   const [searchText, setSearchText] = useState(param.searchText);
   const onSearchInputChange = (e) => {
     setSearchText(e.target.value);
   };
-  const productsData = useProducts('search', token, {
-    method: 'POST',
-    body: JSON.stringify({
-      title: param.searchText,
-    }),
+  const { data: productsData = [] } = useProductSearch({
+    title: param.searchText,
   });
   return (
     <>
@@ -86,7 +83,7 @@ export default function SearchResult() {
               title: product.name,
               price: product.rentalCost,
               date: product.rentalPeriod,
-              image: product.imageUrl,
+              image: product.imageUrl ?? product.imageUrls?.[0],
             };
           })}
         />

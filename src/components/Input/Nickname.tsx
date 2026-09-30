@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { UseFormRegisterReturn, FieldError } from 'react-hook-form';
-import axios from 'axios';
+import { checkNickname } from '../../domains/auth/api';
+import { ApiError } from '../../api/http';
 import commonStyles from './common.module.css';
 import styles from './Nickname.module.css';
 
@@ -14,8 +15,8 @@ type Props = {
 };
 
 type CheckResult = {
-  available: boolean;
-  message: string;
+  available?: boolean;
+  message?: string;
 };
 
 export default function Nickname({
@@ -32,16 +33,15 @@ export default function Nickname({
 
   const handleNickCheck = async () => {
     try {
-      const res = await axios.get<CheckResult>(
-        `${import.meta.env.VITE_BACK_URL}/auth/check_nickname`,
-        { params: { nickname: inputValue } }
+      const data = await checkNickname(inputValue);
+      setCheckResult(
+        data ?? { available: false, message: '닉네임 확인에 실패했습니다.' }
       );
-      setCheckResult(res.data);
     } catch (err) {
-      const data = axios.isAxiosError(err) ? err.response?.data : null;
       setCheckResult({
         available: false,
-        message: data?.message ?? '닉네임 확인에 실패했습니다.',
+        message:
+          err instanceof ApiError ? err.message : '닉네임 확인에 실패했습니다.',
       });
     }
   };
@@ -72,7 +72,9 @@ export default function Nickname({
       </div>
       <div
         className={`${commonStyles.inputErrorBar}${
-          error || checkResult?.available === false ? ` ${commonStyles.error}` : ''
+          error || checkResult?.available === false
+            ? ` ${commonStyles.error}`
+            : ''
         }`}
       />
       {error && (
