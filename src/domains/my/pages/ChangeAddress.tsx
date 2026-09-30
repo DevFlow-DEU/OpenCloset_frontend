@@ -4,18 +4,48 @@ import {
   fetchKakaoAddressByCoords,
   loadKakaoMapSdk,
   renderKakaoMapWithMarker,
-} from '../../components/Map/getLocationMap';
-import styles from '../../domains/auth/pages/GetLocation.module.css';
+} from '../../../components/Map/getLocationMap';
+import '../../../components/share.css';
+import styles from './ChangeAddress.module.css';
 import { useNavigate } from 'react-router-dom';
-import PageHeader from '../../components/PageHeader';
-import BottomConfirmBar from '../../components/BottomConfirmBar';
-
+import Header from '../../../components/Header.tsx';
+import BottomConfirmBar from '../../../components/BottomConfirmBar';
+import { client } from '../../../api/client';
+import { useMutation } from '@tanstack/react-query';
 type Coordinates = {
   latitude: number | null;
   longitude: number | null;
 };
 
-export default function GetLocation() {
+export default function ChangeAddress() {
+  const token = localStorage.getItem('token');
+  const mutation = useMutation({
+    mutationFn: () =>
+      client.POST('/mypage/edit', {
+        query: {
+          address: addressText,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    onError: (error) => {
+      alert(`에러 발생\n\n${error}`);
+    },
+    onSuccess: async (data) => {
+      if (data.response.status === 200) {
+        alert('주소 수정에 성공했습니다. 마이페이지로 이동합니다.');
+        navigate('/MyPage');
+      } else if (data.response.status === 400) {
+        const errorBody = data.error as { message?: string };
+        alert(errorBody?.message ?? '요청이 올바르지 않습니다.');
+      } else if (data.response.status === 401) {
+        alert('주소를 수정할 권한이 없습니다.');
+      } else {
+        alert('현재 주소 수정을 이용할 수 없습니다. 잠시후 이용해주세요.');
+      }
+    },
+  });
   const navigate = useNavigate();
   const [coordinates, setCoordinates] = useState<Coordinates>({
     latitude: null,
@@ -49,6 +79,9 @@ export default function GetLocation() {
     updateLocation();
   }, [updateLocation]);
 
+  useEffect(() => {
+    if (!token) navigate('/login');
+  }, [token, navigate]);
   useEffect(() => {
     const { latitude, longitude } = coordinates;
 
@@ -97,7 +130,7 @@ export default function GetLocation() {
 
   return (
     <div className={styles.page}>
-      <PageHeader title="위치 정보 설정" />
+      <Header title="주소 변경" />
       <main className={styles.content}>
         <section className={styles.mapSection}>
           <div ref={mapRef} className={styles.mapContainer} />
@@ -109,16 +142,18 @@ export default function GetLocation() {
         </section>
 
         <section className={styles.addressSection}>
+          <p className="SHinput-tittle">현재 위치 주소</p>
           <input
-            className={styles.addressInput}
+            className="SHinput"
             type="text"
             value={addressText}
             readOnly
             aria-label="현재 위치 주소"
           />
+          <div className="SHinput-bar"></div>
           <button
             type="button"
-            className={styles.resetButton}
+            className={`SHsubmit check ${styles.resetButton}`}
             onClick={updateLocation}
           >
             <MdGpsFixed className={styles.resetIcon} />
@@ -129,12 +164,12 @@ export default function GetLocation() {
       <BottomConfirmBar>
         <button
           type="button"
-          className={styles.confirmButton}
+          className="SHsubmit check"
           onClick={() => {
-            navigate(-1);
+            mutation.mutate();
           }}
         >
-          확인
+          주소 변경
         </button>
       </BottomConfirmBar>
     </div>
