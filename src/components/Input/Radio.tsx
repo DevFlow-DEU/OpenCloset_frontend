@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { UseFormRegisterReturn, FieldError } from 'react-hook-form';
 import commonStyles from './common.module.css';
 import styles from './Radio.module.css';
@@ -15,11 +15,22 @@ type Props = {
   options: Option[];
   register: UseFormRegisterReturn;
   error?: FieldError;
+  value?: string;
 };
 
-export default function Radio({ label, options, register, error }: Props) {
-  const [selectedValue, setSelectedValue] = useState('');
+export default function Radio({
+  label,
+  options,
+  register,
+  error,
+  value,
+}: Props) {
+  const [selectedValue, setSelectedValue] = useState(value ?? '');
   const { onChange: registerOnChange, ...restRegister } = register;
+
+  useEffect(() => {
+    if (value !== undefined) setSelectedValue(value);
+  }, [value]);
 
   return (
     <div className={styles.inputRadio}>

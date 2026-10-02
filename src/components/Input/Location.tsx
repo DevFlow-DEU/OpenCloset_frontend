@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { UseFormRegisterReturn, FieldError } from 'react-hook-form';
 import { Button } from '../Button/Button';
 import { MdGpsFixed } from 'react-icons/md';
@@ -16,6 +16,7 @@ type Props = {
   coordRegister?: UseFormRegisterReturn;
   map: LocationDrawer;
   error?: FieldError;
+  value?: string;
 };
 
 export default function Location({
@@ -25,10 +26,15 @@ export default function Location({
   coordRegister,
   map,
   error,
+  value,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const [displayValue, setDisplayValue] = useState('');
+  const [displayValue, setDisplayValue] = useState(value ?? '');
   const { onChange: registerOnChange, ...restRegister } = register;
+
+  useEffect(() => {
+    if (value !== undefined) setDisplayValue(value);
+  }, [value]);
   const coordRegisterOnChange = coordRegister?.onChange;
 
   const handleSelect = (text: string) => {

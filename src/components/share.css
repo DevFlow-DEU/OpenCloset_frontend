@@ -163,6 +163,7 @@ textarea::placeholder {
     padding: 0 16px;
     background-color: #ffffff;
     display: flex;
+    z-index: 10;
 }
 
 .button-space>*:first-child {
