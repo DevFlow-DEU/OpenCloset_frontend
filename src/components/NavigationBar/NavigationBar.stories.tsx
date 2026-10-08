@@ -1,36 +1,59 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import type { ComponentType, ReactElement } from 'react';
-import { MemoryRouter } from 'react-router-dom';
 import NavigationBar from './NavigationBar';
 
-const atPath =
-  (path: string) =>
-  (Story: ComponentType): ReactElement => (
-    <MemoryRouter initialEntries={[path]}>
-      <Story />
-    </MemoryRouter>
+function PageBackdrop() {
+  return (
+    <div
+      style={{
+        padding: '16px 12px 100px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 12,
+      }}
+    >
+      {Array.from({ length: 8 }, (_, i) => (
+        <div
+          key={i}
+          style={{
+            height: 120,
+            borderRadius: 10,
+            background: '#f3f4f6',
+            border: '1px solid #e5e7eb',
+          }}
+        />
+      ))}
+    </div>
   );
+}
 
 const meta = {
   title: 'Components/NavigationBar',
   component: NavigationBar,
+  // 네비게이션 바는 fixed + safe-area(padding-bottom 34px) 실기기 위젯이라,
+  // 배경 콘텐츠 위에 얹어야 실제 배치감이 보인다.
+  render: (args) => (
+    <>
+      <PageBackdrop />
+      <NavigationBar {...args} />
+    </>
+  ),
 } satisfies Meta<typeof NavigationBar>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Home: Story = {
-  decorators: [atPath('/')],
+  parameters: { initialPath: '/' },
 };
 
 export const Chat: Story = {
-  decorators: [atPath('/chat')],
+  parameters: { initialPath: '/chat' },
 };
 
 export const Save: Story = {
-  decorators: [atPath('/save')],
+  parameters: { initialPath: '/save' },
 };
 
 export const MyPage: Story = {
-  decorators: [atPath('/MyPage')],
+  parameters: { initialPath: '/MyPage' },
 };

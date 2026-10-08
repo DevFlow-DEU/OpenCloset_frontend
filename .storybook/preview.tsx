@@ -7,10 +7,18 @@ import './storybook.css';
 
 const preview: Preview = {
   decorators: [
-    (Story) => (
-      <MemoryRouter initialEntries={['/']}>
+    // Single global router — stories must not nest their own <Router>.
+    // Use `parameters: { initialPath: '/...' }` to control the route instead.
+    (Story, context) => (
+      <MemoryRouter
+        initialEntries={[
+          (context.parameters?.initialPath as string | undefined) ?? '/',
+        ]}
+      >
         <div className="sb-mobile-viewport">
-          <Story />
+          <div className="sb-mobile-scroll">
+            <Story />
+          </div>
         </div>
       </MemoryRouter>
     ),
