@@ -16,7 +16,7 @@ const preview: Preview = {
     ),
   ],
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
     viewport: {
       viewports: {
         mobile: {

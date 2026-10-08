@@ -1,13 +1,15 @@
-/* Letterbox canvas: gray backdrop behind the device frame */
-body {
+/* Letterbox canvas — uniform gray backdrop behind the device column */
+html,
+body,
+#root {
   background: #e9ebef !important;
 }
 
-/* Mobile device viewport — 393 x 852 (iPhone 15), letterboxed */
+/* Mobile viewport — responsive width (capped at 393px), full-height,
+   393 x 852 with the "Mobile 393×852" toolbar preset */
 .sb-mobile-viewport {
-  width: 393px;
-  max-width: 393px;
-  height: 852px;
+  width: min(393px, 100%);
+  height: 100dvh;
   overflow-y: auto;
   overflow-x: hidden;
   margin: 0 auto;
@@ -17,5 +19,4 @@ body {
   /* transform makes fixed/sticky descendants (Alert, Drawer, Header…)
      resolve against the frame instead of the whole canvas */
   transform: translate(0);
-  border: 1px solid #d0d5dd;
 }
