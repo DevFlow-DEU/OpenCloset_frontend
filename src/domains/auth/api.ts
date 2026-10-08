@@ -10,6 +10,15 @@ export async function login(body: components['schemas']['LoginRequestDto']) {
   return data;
 }
 
+export async function kakaoCallback(code: string) {
+  const { data, error, response } = await fetchClient.GET(
+    '/auth/kakao/callback',
+    { params: { query: { code } } }
+  );
+  if (!response.ok) throw new ApiError(response.status, error ?? null);
+  return data;
+}
+
 export async function registerUser(
   body: components['schemas']['UserCreateRequestDto']
 ) {

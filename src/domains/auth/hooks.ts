@@ -16,3 +16,7 @@ export function usePasswordReset() {
 export function useKakaoSignUp() {
   return useMutation(authQueries.kakaoSignUp());
 }
+
+export function useKakaoCallback() {
+  return useMutation(authQueries.kakaoCallback());
+}

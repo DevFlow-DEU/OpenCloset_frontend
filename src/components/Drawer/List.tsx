@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { DrawerProps } from './types';
 import styles from './List.module.css';
 
@@ -8,12 +9,19 @@ const LIST_OPTIONS: Record<ListType, string[]> = {
   status: ['대여가능', '예약중', '대여중', '반납완료'],
 };
 
-type Props = DrawerProps & { type: ListType };
+type Props = DrawerProps & { type: ListType; topContent?: ReactNode };
 
-export default function List({ type, selected, onSelect, onClose }: Props) {
+export default function List({
+  type,
+  selected,
+  onSelect,
+  onClose,
+  topContent,
+}: Props) {
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.container} onClick={(e) => e.stopPropagation()}>
+        {topContent}
         {LIST_OPTIONS[type].map((opt) => (
           <button
             key={opt}

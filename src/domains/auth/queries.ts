@@ -1,6 +1,7 @@
 import { mutationOptions } from '@tanstack/react-query';
 import {
   completeKakaoSignUp,
+  kakaoCallback,
   login,
   registerUser,
   requestPasswordReset,
@@ -15,4 +16,5 @@ export const authQueries = {
         requestPasswordReset(values.email),
     }),
   kakaoSignUp: () => mutationOptions({ mutationFn: completeKakaoSignUp }),
+  kakaoCallback: () => mutationOptions({ mutationFn: kakaoCallback }),
 };

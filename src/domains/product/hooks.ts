@@ -2,8 +2,8 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import type { components } from '../../api/api';
 import { productQueries } from './queries';
 
-export function useProductDetail(id: string | number) {
-  return useQuery(productQueries.detail(id));
+export function useProductDetail(id: string | number, enabled = true) {
+  return useQuery({ ...productQueries.detail(id), enabled });
 }
 
 export function useProductSearch(
