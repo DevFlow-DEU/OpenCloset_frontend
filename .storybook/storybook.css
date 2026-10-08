@@ -1,0 +1,21 @@
+/* Letterbox canvas: gray backdrop behind the device frame */
+body {
+  background: #e9ebef !important;
+}
+
+/* Mobile device viewport — 393 x 852 (iPhone 15), letterboxed */
+.sb-mobile-viewport {
+  width: 393px;
+  max-width: 393px;
+  height: 852px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0 auto;
+  background: #ffffff;
+  box-sizing: border-box;
+  position: relative;
+  /* transform makes fixed/sticky descendants (Alert, Drawer, Header…)
+     resolve against the frame instead of the whole canvas */
+  transform: translate(0);
+  border: 1px solid #d0d5dd;
+}

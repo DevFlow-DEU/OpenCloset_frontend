@@ -13,7 +13,9 @@
     "typecheck": "tsc -b --noEmit",
     "preview": "npm run build && wrangler dev",
     "deploy": "npm run build && wrangler deploy",
-    "prepare": "husky"
+    "prepare": "husky",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -39,6 +41,9 @@
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.29.1",
     "@eslint/js": "^9.21.0",
+    "@storybook/addon-a11y": "^10.6.1",
+    "@storybook/addon-mcp": "^10.6.1",
+    "@storybook/react-vite": "^10.6.1",
     "@tsconfig/vite-react": "^7.0.2",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
@@ -48,11 +53,13 @@
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
+    "eslint-plugin-storybook": "^10.6.1",
     "globals": "^15.15.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.4",
     "openapi-typescript": "^7.13.0",
     "playwright": "^1.63.0",
+    "storybook": "^10.6.1",
     "typescript-eslint": "^8.70.1",
     "vite": "^6.2.0",
     "vite-plugin-svgr": "^4.3.0",
@@ -67,5 +74,11 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "npx prettier --write"
+  },
+  "allowScripts": {
+    "esbuild@0.25.12": true,
+    "esbuild@0.27.3": true,
+    "msw@2.12.13": true,
+    "workerd@1.20260317.1": true
   }
 }
