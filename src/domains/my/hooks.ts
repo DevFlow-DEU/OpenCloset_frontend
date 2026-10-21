@@ -25,6 +25,10 @@ export function useDeleteAccount() {
   return useMutation(myQueries.deleteAccount());
 }
 
+export function useMyBoards(status?: string) {
+  return useQuery(myQueries.myBoards(status));
+}
+
 export function useOwnerBoards(status?: string) {
   return useQuery(myQueries.ownerBoards(status));
 }

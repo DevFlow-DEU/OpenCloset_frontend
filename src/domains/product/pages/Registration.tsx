@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { format } from 'date-fns';
+import type { DateRange as DateRangeValue } from 'react-day-picker';
 import { FiCamera } from 'react-icons/fi';
 import Header from '../../../components/Header/Header';
 import { Button } from '../../../components/Button/Button';
@@ -11,6 +13,7 @@ import Radio from '../../../components/Input/Radio';
 import Select from '../../../components/Input/Select';
 import Textarea from '../../../components/Input/Textarea';
 import Location from '../../../components/Input/Location';
+import DateRangeInput from '../../../components/Input/DateRange';
 import commonStyles from '../../../components/Input/common.module.css';
 import CancelIcon from '../../../assets/icon/Cancel.svg?react';
 import { useCreateBoard } from '../hooks';
@@ -21,24 +24,24 @@ import styles from './Registration.module.css';
 const RegistrationSchema = z.object({
   title: z.string().trim().min(1, '상품명을 입력해주세요.'),
   price: z.string().trim().min(1, '가격을 입력해주세요.'),
-  date: z.string().trim().min(1, '대여 기간을 입력해주세요.'),
   category: z.string().trim().min(1, '카테고리를 선택해주세요.'),
   size: z.string().trim().min(1, '사이즈를 선택해주세요.'),
   sex: z.string().trim().min(1, '성별을 선택해주세요.'),
   description: z.string().trim().min(1, '상세 설명을 입력해주세요.'),
   place: z.string().trim().min(1, '거래 장소를 입력해주세요.'),
+  coord: z.string().trim().min(1, '거래 장소를 입력해주세요.'),
 });
 
 type RegistrationFormValues = z.infer<typeof RegistrationSchema>;
 
 const CATEGORY_LABEL_TO_KEY: Record<string, string> = {
-  상의: 'tops',
+  상의: 'top',
   하의: 'bottom',
-  아우터: 'outher',
+  아우터: 'outer',
   원피스: 'onepiece',
   신발: 'shoes',
   가방: 'bag',
-  악세사리: 'accessory',
+  악세사리: 'jewelry',
 };
 
 const SEX_LABEL_TO_KEY: Record<string, string> = {
@@ -47,12 +50,20 @@ const SEX_LABEL_TO_KEY: Record<string, string> = {
   공용: '공용',
 };
 
+type ImageItem = {
+  id: string;
+  url: string;
+  file: File;
+};
+
 export default function Registration() {
   const navigate = useNavigate();
   const createBoard = useCreateBoard();
 
-  const [image, setImage] = useState<{ url: string; file: File } | null>(null);
+  const [images, setImages] = useState<ImageItem[]>([]);
   const [imageError, setImageError] = useState('');
+  const [dateRange, setDateRange] = useState<DateRangeValue | undefined>();
+  const [dateError, setDateError] = useState('');
 
   const submitting = createBoard.isPending;
   const submitError = createBoard.isError
@@ -70,44 +81,60 @@ export default function Registration() {
     defaultValues: {
       title: '',
       price: '',
-      date: '',
       category: '',
       size: '',
       sex: '',
       description: '',
       place: '',
+      coord: '',
     },
     mode: 'onChange',
   });
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setImage({ url: URL.createObjectURL(file), file });
+    if (!e.target.files) return;
+    const newItems = Array.from(e.target.files).map((file) => ({
+      id: `${Date.now()}-${Math.random()}`,
+      url: URL.createObjectURL(file),
+      file,
+    }));
+    setImages((prev) => [...prev, ...newItems]);
     setImageError('');
     e.target.value = '';
   };
 
-  const removeImage = () => setImage(null);
+  const removeImage = (id: string) => {
+    setImages((prev) => prev.filter((item) => item.id !== id));
+  };
 
   const onSubmit = (values: RegistrationFormValues) => {
-    if (!image) {
+    if (images.length === 0) {
       setImageError('사진을 추가해주세요.');
       return;
     }
+    if (!dateRange?.from || !dateRange?.to) {
+      setDateError('대여 기간을 선택해주세요.');
+      return;
+    }
     setImageError('');
+    setDateError('');
+
+    const [latitude, longitude] = values.coord.split(',').map(Number);
 
     createBoard.mutate(
       {
         title: values.title,
         description: values.description,
-        price: values.price.replace(/,/g, ''),
-        date: values.date,
+        images: images.map((item) => item.file),
         category: CATEGORY_LABEL_TO_KEY[values.category] ?? values.category,
         size: values.size,
         sex: SEX_LABEL_TO_KEY[values.sex] ?? values.sex,
-        place: values.place,
-        image: image.file,
+        latitude,
+        longitude,
+        detailAddress: values.place,
+        price: Number(values.price.replace(/,/g, '')),
+        startDate: format(dateRange.from, 'yyyy-MM-dd'),
+        endDate: format(dateRange.to, 'yyyy-MM-dd'),
       },
       {
         onSuccess: (saved) => {
@@ -118,7 +145,8 @@ export default function Registration() {
   };
 
   const priceValue = watch('price');
-  const canSubmit = isValid && Boolean(image);
+  const canSubmit =
+    isValid && images.length > 0 && Boolean(dateRange?.from && dateRange?.to);
 
   return (
     <>
@@ -137,23 +165,24 @@ export default function Registration() {
               <input
                 type="file"
                 accept="image/*"
+                multiple
                 onChange={handleImageUpload}
                 hidden
               />
             </label>
 
-            {image && (
-              <div className={styles.thumbnail}>
-                <img src={image.url} alt="상품 이미지" />
+            {images.map((item) => (
+              <div className={styles.thumbnail} key={item.id}>
+                <img src={item.url} alt="상품 이미지" />
                 <button
                   type="button"
                   className={styles.removeButton}
-                  onClick={removeImage}
+                  onClick={() => removeImage(item.id)}
                 >
                   <CancelIcon width={16} height={16} />
                 </button>
               </div>
-            )}
+            ))}
           </div>
           {imageError && (
             <p className={commonStyles.inputErrorMessage}>{imageError}</p>
@@ -192,12 +221,15 @@ export default function Registration() {
 
           <div className="space-28px" />
 
-          <Input
+          <DateRangeInput
             label="대여 기간"
             placeholder="대여 기간 선택"
-            type="number"
-            register={register('date')}
-            error={errors.date}
+            value={dateRange}
+            onChange={(range) => {
+              setDateRange(range);
+              setDateError('');
+            }}
+            error={dateError}
           />
 
           <div className="space-28px" />
@@ -245,6 +277,7 @@ export default function Registration() {
             label="거래 장소"
             placeholder="거래 장소 입력"
             register={register('place')}
+            coordRegister={register('coord')}
             map="detailedMap"
             error={errors.place}
           />
