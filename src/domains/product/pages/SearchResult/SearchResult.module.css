@@ -1,0 +1,60 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: white;
+}
+.headerTop {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-inline: 16px;
+}
+.backButton {
+  display: flex;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+}
+.searchForm {
+  flex: 1;
+  min-width: 0;
+  padding-right: 16px;
+}
+.searchForm > div {
+  width: 100%;
+}
+.container {
+  padding-bottom: 132.92px;
+}
+.resultBar {
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 16px;
+}
+.count {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray3);
+  font-weight: var(--font-weight-medium);
+}
+.sortButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray3);
+  font-weight: var(--font-weight-medium);
+}
+.empty {
+  padding-top: 80px;
+  text-align: center;
+  color: var(--color-gray3);
+  font-size: var(--font-size-m);
+}
