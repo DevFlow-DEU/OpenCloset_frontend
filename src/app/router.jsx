@@ -47,6 +47,10 @@ const router = createBrowserRouter([
     element: <Registration />,
   },
   {
+    path: '/product/:id/edit',
+    element: <Registration />,
+  },
+  {
     path: '/kakaocheck',
     element: <KakaoCheck />,
   },

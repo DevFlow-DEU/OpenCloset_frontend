@@ -5,13 +5,15 @@ import { ApiError } from '../../api/http';
 export type CreateBoardForm = {
   title: string;
   description: string;
-  price: string;
-  date: string;
-  category: string;
+  images: File[];
   size: string;
   sex: string;
-  place: string;
-  image: File;
+  latitude: number;
+  longitude: number;
+  price: number;
+  startDate: string;
+  endDate: string;
+  category: string;
 };
 
 export type UpdateBoardForm = {
@@ -33,13 +35,15 @@ export const productApi = {
     const formData = new FormData();
     formData.append('title', form.title);
     formData.append('description', form.description);
-    formData.append('price', form.price);
-    formData.append('date', form.date);
-    formData.append('category', form.category);
+    form.images.forEach((image) => formData.append('images', image));
     formData.append('size', form.size);
     formData.append('sex', form.sex);
-    formData.append('place', form.place);
-    formData.append('image', form.image);
+    formData.append('latitude', String(form.latitude));
+    formData.append('longitude', String(form.longitude));
+    formData.append('price', String(form.price));
+    formData.append('startDate', form.startDate);
+    formData.append('endDate', form.endDate);
+    formData.append('category', form.category);
 
     const { data, error, response } = await fetchClient.POST('/board/create', {
       body: formData as unknown as components['schemas']['BoardCreateRequestDto'],

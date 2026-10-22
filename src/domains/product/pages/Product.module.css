@@ -157,6 +157,15 @@
     color: var(--color-gray3);
 }
 
+.footer {
+    padding-top: 12px;
+    padding-bottom: 40px;
+}
+
+.footer > *:first-child {
+    margin-top: 0 !important;
+}
+
 .likeButton {
     width: 48px;
     height: 48px;
@@ -176,5 +185,5 @@
 }
 
 .bottomSpacer {
-    height: 100px;
+    height: 124px;
 }

@@ -4,4 +4,6 @@
     border-radius: var(--border-radius);
     overflow: hidden;
     background-color: var(--color-gray1);
+    position: relative;
+    isolation: isolate;
 }

@@ -4,6 +4,7 @@ import Header from '../../../components/Header/Header';
 import { Button } from '../../../components/Button/Button';
 import StaticMap from '../../../components/Map/StaticMap';
 import List from '../../../components/Drawer/List';
+import listStyles from '../../../components/Drawer/List.module.css';
 import {
   fetchKakaoAddressByCoords,
   loadKakaoMapSdk,
@@ -106,19 +107,12 @@ export default function Product() {
   const handleStatusSelect = (status: string) => {
     setStatusDrawerOpen(false);
 
-    if (status === '예약중') {
+    if (data?.status === '대여가능') {
       navigate('/chat');
       return;
     }
 
-    updateStatus.mutate(
-      { status },
-      {
-        onError: (err) => {
-          alert(getApiErrorMessage(err, '상태 변경에 실패했습니다.'));
-        },
-      }
-    );
+    updateStatus.mutate({ status });
   };
 
   if (isPending) return <div>로딩 중...</div>;
@@ -231,7 +225,7 @@ export default function Product() {
         <div className={styles.bottomSpacer} />
       </div>
 
-      <div className="button-space">
+      <div className={`button-space ${styles.footer}`}>
         <button
           type="button"
           className={styles.likeButton}
@@ -270,6 +264,15 @@ export default function Product() {
           selected={data.status}
           onSelect={handleStatusSelect}
           onClose={() => setStatusDrawerOpen(false)}
+          topContent={
+            <button
+              type="button"
+              className={listStyles.item}
+              onClick={() => navigate(`/product/${id}/edit`)}
+            >
+              게시물 수정
+            </button>
+          }
         />
       )}
     </div>
