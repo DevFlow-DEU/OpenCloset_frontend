@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { UseFormRegisterReturn, FieldError } from 'react-hook-form';
 import { SlArrowLeft } from 'react-icons/sl';
 import Size from '../Drawer/Size';
@@ -14,6 +14,7 @@ type Props = {
   register: UseFormRegisterReturn;
   drawer: DrawerType;
   error?: FieldError;
+  value?: string;
 };
 
 export default function Select({
@@ -22,10 +23,15 @@ export default function Select({
   register,
   drawer,
   error,
+  value,
 }: Props) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValue, setSelectedValue] = useState(value ?? '');
   const { onChange: registerOnChange, ...restRegister } = register;
+
+  useEffect(() => {
+    if (value !== undefined) setSelectedValue(value);
+  }, [value]);
 
   const drawerProps = {
     selected: selectedValue,

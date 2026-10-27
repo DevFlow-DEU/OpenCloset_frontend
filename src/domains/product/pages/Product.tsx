@@ -223,7 +223,9 @@ export default function Product() {
           latitude={data.latitude ?? 0}
           longitude={data.longitude ?? 0}
         />
-        <p className={styles.placeAddress}>{address}</p>
+        <p className={styles.placeAddress}>
+          {[address, data.detailAddress].filter(Boolean).join(' ')}
+        </p>
 
         <div className={styles.gap20} />
         <div className={styles.divider} />

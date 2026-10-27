@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -16,7 +16,7 @@ import Location from '../../../components/Input/Location';
 import DateRangeInput from '../../../components/Input/DateRange';
 import commonStyles from '../../../components/Input/common.module.css';
 import CancelIcon from '../../../assets/icon/Cancel.svg?react';
-import { useCreateBoard } from '../hooks';
+import { useCreateBoard, useProductDetail, useUpdateBoard } from '../hooks';
 import { getApiErrorMessage } from '../../../api/http';
 import '../../../components/share.css';
 import styles from './Registration.module.css';
@@ -44,31 +44,54 @@ const CATEGORY_LABEL_TO_KEY: Record<string, string> = {
   악세사리: 'jewelry',
 };
 
+const CATEGORY_KEY_TO_LABEL: Record<string, string> = Object.fromEntries(
+  Object.entries(CATEGORY_LABEL_TO_KEY).map(([label, key]) => [key, label])
+);
+
 const SEX_LABEL_TO_KEY: Record<string, string> = {
   남성: 'M',
   여성: 'W',
   공용: '공용',
 };
 
+const SEX_KEY_TO_LABEL: Record<string, string> = Object.fromEntries(
+  Object.entries(SEX_LABEL_TO_KEY).map(([label, key]) => [key, label])
+);
+
 type ImageItem = {
   id: string;
   url: string;
-  file: File;
+  file?: File;
 };
 
 export default function Registration() {
+  const { id } = useParams();
+  const isEdit = Boolean(id);
   const navigate = useNavigate();
+
+  const { data: existing } = useProductDetail(id ?? '', isEdit);
   const createBoard = useCreateBoard();
+  const updateBoard = useUpdateBoard(id ?? '');
 
   const [images, setImages] = useState<ImageItem[]>([]);
   const [imageError, setImageError] = useState('');
   const [dateRange, setDateRange] = useState<DateRangeValue | undefined>();
   const [dateError, setDateError] = useState('');
+  const [prefill, setPrefill] = useState<{
+    category: string;
+    size: string;
+    sex: string;
+    place: string;
+  } | null>(null);
 
-  const submitting = createBoard.isPending;
-  const submitError = createBoard.isError
-    ? getApiErrorMessage(createBoard.error, '등록에 실패했습니다.')
-    : '';
+  const submitting = isEdit ? updateBoard.isPending : createBoard.isPending;
+  const submitError = isEdit
+    ? updateBoard.isError
+      ? getApiErrorMessage(updateBoard.error, '수정에 실패했습니다.')
+      : ''
+    : createBoard.isError
+      ? getApiErrorMessage(createBoard.error, '등록에 실패했습니다.')
+      : '';
 
   const {
     register,
@@ -91,6 +114,52 @@ export default function Registration() {
     mode: 'onChange',
   });
 
+  useEffect(() => {
+    if (!existing) return;
+
+    const categoryLabel = CATEGORY_KEY_TO_LABEL[existing.category ?? ''] ?? '';
+    const sexLabel = SEX_KEY_TO_LABEL[existing.sex ?? ''] ?? '';
+    const placeLabel = existing.detailAddress ?? '';
+
+    setValue('title', existing.title ?? '');
+    setValue(
+      'price',
+      String(existing.price ?? '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    );
+    setValue('category', categoryLabel);
+    setValue('size', existing.size ?? '');
+    setValue('sex', sexLabel);
+    setValue('description', existing.description ?? '');
+    setValue('place', placeLabel);
+
+    if (existing.latitude != null && existing.longitude != null) {
+      setValue('coord', `${existing.latitude},${existing.longitude}`);
+    }
+
+    setPrefill({
+      category: categoryLabel,
+      size: existing.size ?? '',
+      sex: sexLabel,
+      place: placeLabel,
+    });
+
+    if (existing.startDate && existing.endDate) {
+      setDateRange({
+        from: new Date(existing.startDate),
+        to: new Date(existing.endDate),
+      });
+    }
+
+    if (existing.images?.length) {
+      setImages(
+        existing.images.map((url, index) => ({
+          id: `existing-${index}`,
+          url,
+        }))
+      );
+    }
+  }, [existing, setValue]);
+
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const newItems = Array.from(e.target.files).map((file) => ({
@@ -108,7 +177,11 @@ export default function Registration() {
   };
 
   const onSubmit = (values: RegistrationFormValues) => {
-    if (images.length === 0) {
+    const newFiles = images
+      .filter((item): item is ImageItem & { file: File } => Boolean(item.file))
+      .map((item) => item.file);
+
+    if (!isEdit && newFiles.length === 0) {
       setImageError('사진을 추가해주세요.');
       return;
     }
@@ -120,39 +193,50 @@ export default function Registration() {
     setDateError('');
 
     const [latitude, longitude] = values.coord.split(',').map(Number);
+    const categoryKey = CATEGORY_LABEL_TO_KEY[values.category] ?? values.category;
+    const sexKey = SEX_LABEL_TO_KEY[values.sex] ?? values.sex;
 
-    createBoard.mutate(
-      {
-        title: values.title,
-        description: values.description,
-        images: images.map((item) => item.file),
-        category: CATEGORY_LABEL_TO_KEY[values.category] ?? values.category,
-        size: values.size,
-        sex: SEX_LABEL_TO_KEY[values.sex] ?? values.sex,
-        latitude,
-        longitude,
-        detailAddress: values.place,
-        price: Number(values.price.replace(/,/g, '')),
-        startDate: format(dateRange.from, 'yyyy-MM-dd'),
-        endDate: format(dateRange.to, 'yyyy-MM-dd'),
-      },
-      {
-        onSuccess: (saved) => {
-          navigate(saved?.id != null ? `/product/${saved.id}` : '/');
-        },
-      }
-    );
+    const basePayload = {
+      title: values.title,
+      description: values.description,
+      category: categoryKey,
+      size: values.size,
+      sex: sexKey,
+      latitude,
+      longitude,
+      detailAddress: values.place,
+      price: Number(values.price.replace(/,/g, '')),
+      startDate: format(dateRange.from, 'yyyy-MM-dd'),
+      endDate: format(dateRange.to, 'yyyy-MM-dd'),
+    };
+
+    if (isEdit) {
+      updateBoard.mutate(
+        { ...basePayload, ...(newFiles.length ? { images: newFiles } : {}) },
+        { onSuccess: () => navigate(`/product/${id}`) }
+      );
+    } else {
+      createBoard.mutate(
+        { ...basePayload, images: newFiles },
+        {
+          onSuccess: (saved) =>
+            navigate(saved?.id != null ? `/product/${saved.id}` : '/'),
+        }
+      );
+    }
   };
 
   const priceValue = watch('price');
   const canSubmit =
-    isValid && images.length > 0 && Boolean(dateRange?.from && dateRange?.to);
+    isValid &&
+    Boolean(dateRange?.from && dateRange?.to) &&
+    (isEdit || images.length > 0);
 
   return (
     <>
       <Header.Root hasNotch hasCamera>
         <Header.BackButton />
-        <Header.CenterTitle title="상품 등록하기" />
+        <Header.CenterTitle title={isEdit ? '게시물 수정' : '상품 등록하기'} />
       </Header.Root>
 
       <form id="registrationForm" onSubmit={handleSubmit(onSubmit)}>
@@ -174,13 +258,15 @@ export default function Registration() {
             {images.map((item) => (
               <div className={styles.thumbnail} key={item.id}>
                 <img src={item.url} alt="상품 이미지" />
-                <button
-                  type="button"
-                  className={styles.removeButton}
-                  onClick={() => removeImage(item.id)}
-                >
-                  <CancelIcon width={16} height={16} />
-                </button>
+                {item.file && (
+                  <button
+                    type="button"
+                    className={styles.removeButton}
+                    onClick={() => removeImage(item.id)}
+                  >
+                    <CancelIcon width={16} height={16} />
+                  </button>
+                )}
               </div>
             ))}
           </div>
@@ -240,6 +326,7 @@ export default function Registration() {
             drawer="category"
             register={register('category')}
             error={errors.category}
+            value={prefill?.category}
           />
 
           <div className="space-28px" />
@@ -250,6 +337,7 @@ export default function Registration() {
             drawer="size"
             register={register('size')}
             error={errors.size}
+            value={prefill?.size}
           />
 
           <div className="space-28px" />
@@ -259,6 +347,7 @@ export default function Registration() {
             options={['남성', '여성', '공용']}
             register={register('sex')}
             error={errors.sex}
+            value={prefill?.sex}
           />
 
           <div className="space-28px" />
@@ -280,6 +369,7 @@ export default function Registration() {
             coordRegister={register('coord')}
             map="detailedMap"
             error={errors.place}
+            value={prefill?.place}
           />
 
           <div className="space-40px" />
@@ -293,7 +383,7 @@ export default function Registration() {
             type="submit"
             disabled={!canSubmit || submitting}
           >
-            {submitting ? '처리 중...' : '등록하기'}
+            {submitting ? '처리 중...' : isEdit ? '수정하기' : '등록하기'}
           </Button>
 
           <div className="space-40px" />
