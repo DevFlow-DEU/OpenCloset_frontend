@@ -3,7 +3,7 @@ import Home from '../domains/product/pages/Home';
 import Product from '../domains/product/pages/Product';
 import Search from '../domains/product/pages/Search';
 import Login from '../domains/auth/pages/Login';
-import SearchResult from '../domains/product/pages/SearchResult';
+import SearchResult from '../domains/product/pages/SearchResult/SearchResult';
 import Registration from '../domains/product/pages/Registration';
 import KakaoCheck from '../domains/auth/pages/KakaoCheck';
 import Error from '../routes/pages/Error';
