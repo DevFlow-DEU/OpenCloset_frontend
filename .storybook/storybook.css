@@ -1,0 +1,30 @@
+/* Letterbox canvas — uniform gray backdrop behind the device column */
+html,
+body,
+#root {
+  background: #e9ebef !important;
+}
+
+/* Mobile viewport — responsive width (capped at 393px), full-height,
+   393 x 852 with the "Mobile 393×852" toolbar preset */
+.sb-mobile-viewport {
+  width: min(393px, 100%);
+  height: 100dvh;
+  margin: 0 auto;
+  background: #ffffff;
+  box-sizing: border-box;
+  position: relative;
+  /* transform makes fixed/sticky descendants (Alert, Drawer, Header…)
+     resolve against the frame instead of the whole canvas.
+     Scrolling lives in .sb-mobile-scroll (a child layer), so those
+     fixed elements stay anchored while content scrolls under them */
+  transform: translate(0);
+  border-left: 1px solid #d0d5dd;
+  border-right: 1px solid #d0d5dd;
+}
+
+.sb-mobile-scroll {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
