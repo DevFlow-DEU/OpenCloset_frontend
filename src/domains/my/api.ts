@@ -67,6 +67,14 @@ export async function deleteAccount(password: string) {
   return data;
 }
 
+export async function getMyBoards(status?: string) {
+  const { data, error, response } = await fetchClient.GET('/board/my', {
+    params: { query: { status } },
+  });
+  if (!response.ok) throw new ApiError(response.status, error ?? null);
+  return data?.items ?? [];
+}
+
 export async function getOwnerBoards(status?: string) {
   const { data, error, response } = await fetchClient.GET('/board/my/owner', {
     params: { query: { status } },

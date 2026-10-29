@@ -5,7 +5,7 @@ import RadioFilter from '../../../components/Filter/RadioFilter';
 import ManageItem from '../../product/components/ManageItem';
 import Alert from '../../../components/Alert/Alert';
 import type { StateType } from '../../../components/State/State';
-import { useOwnerBoards, useRenterBoards } from '../hooks';
+import { useMyBoards, useRenterBoards } from '../hooks';
 import { ApiError } from '../../../api/http';
 import styles from './ProductManage.module.css';
 
@@ -19,7 +19,7 @@ export default function ProductManage() {
   const [renterFilter, setRenterFilter] = useState('전체');
   const [showAuthAlert, setShowAuthAlert] = useState(false);
 
-  const ownerQuery = useOwnerBoards();
+  const ownerQuery = useMyBoards();
   const renterQuery = useRenterBoards();
 
   const ownerItems = ownerQuery.data ?? [];
@@ -91,6 +91,7 @@ export default function ProductManage() {
                   ? (item.status as StateType)
                   : undefined
               }
+              onClick={() => navigate(`/product/${item.id}`)}
               onEdit={() => navigate(`/product/${item.id}/edit`)}
             />
           ))}

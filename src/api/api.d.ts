@@ -778,6 +778,11 @@ export interface components {
        */
       longitude?: number;
       /**
+       * @description 상세 주소 (유저가 직접 입력)
+       * @example 101동 1203호
+       */
+      detailAddress?: string;
+      /**
        * Format: int64
        * @description 대여 가격 (원 단위)
        * @example 15000
@@ -843,6 +848,11 @@ export interface components {
        * @example 129.0756
        */
       longitude?: number;
+      /**
+       * @description 상세 주소 (유저가 직접 입력)
+       * @example 101동 1203호
+       */
+      detailAddress?: string;
       /**
        * Format: date
        * @description 대여 시작일
@@ -1141,6 +1151,11 @@ export interface components {
        * @example 129.0756
        */
       longitude?: number;
+      /**
+       * @description 상세 주소 (유저가 직접 입력)
+       * @example 101동 1203호
+       */
+      detailAddress?: string;
       /**
        * Format: int64
        * @description 대여 가격 (원 단위)

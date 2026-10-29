@@ -16,10 +16,6 @@ import Location from '../../../components/Input/Location';
 import DateRangeInput from '../../../components/Input/DateRange';
 import commonStyles from '../../../components/Input/common.module.css';
 import CancelIcon from '../../../assets/icon/Cancel.svg?react';
-import {
-  fetchKakaoAddressByCoords,
-  loadKakaoMapSdk,
-} from '../../../components/Map/kakao';
 import { useCreateBoard, useProductDetail, useUpdateBoard } from '../hooks';
 import { getApiErrorMessage } from '../../../api/http';
 import '../../../components/share.css';
@@ -41,8 +37,8 @@ type RegistrationFormValues = z.infer<typeof RegistrationSchema>;
 const CATEGORY_LABEL_TO_KEY: Record<string, string> = {
   상의: 'top',
   하의: 'bottom',
-  원피스: 'onepiece',
   아우터: 'outer',
+  원피스: 'onepiece',
   신발: 'shoes',
   가방: 'bag',
   악세사리: 'jewelry',
@@ -88,6 +84,15 @@ export default function Registration() {
     place: string;
   } | null>(null);
 
+  const submitting = isEdit ? updateBoard.isPending : createBoard.isPending;
+  const submitError = isEdit
+    ? updateBoard.isError
+      ? getApiErrorMessage(updateBoard.error, '수정에 실패했습니다.')
+      : ''
+    : createBoard.isError
+      ? getApiErrorMessage(createBoard.error, '등록에 실패했습니다.')
+      : '';
+
   const {
     register,
     handleSubmit,
@@ -114,6 +119,7 @@ export default function Registration() {
 
     const categoryLabel = CATEGORY_KEY_TO_LABEL[existing.category ?? ''] ?? '';
     const sexLabel = SEX_KEY_TO_LABEL[existing.sex ?? ''] ?? '';
+    const placeLabel = existing.detailAddress ?? '';
 
     setValue('title', existing.title ?? '');
     setValue(
@@ -124,12 +130,17 @@ export default function Registration() {
     setValue('size', existing.size ?? '');
     setValue('sex', sexLabel);
     setValue('description', existing.description ?? '');
+    setValue('place', placeLabel);
+
+    if (existing.latitude != null && existing.longitude != null) {
+      setValue('coord', `${existing.latitude},${existing.longitude}`);
+    }
 
     setPrefill({
       category: categoryLabel,
       size: existing.size ?? '',
       sex: sexLabel,
-      place: '',
+      place: placeLabel,
     });
 
     if (existing.startDate && existing.endDate) {
@@ -146,23 +157,6 @@ export default function Registration() {
           url,
         }))
       );
-    }
-
-    const { latitude, longitude } = existing;
-    if (latitude != null && longitude != null) {
-      setValue('coord', `${latitude},${longitude}`);
-
-      (async () => {
-        try {
-          await loadKakaoMapSdk();
-          const address = await fetchKakaoAddressByCoords(latitude, longitude);
-          const text = address ?? '주소를 확인할 수 없습니다.';
-          setValue('place', text);
-          setPrefill((prev) => (prev ? { ...prev, place: text } : prev));
-        } catch {
-          setValue('place', '주소를 확인할 수 없습니다.');
-        }
-      })();
     }
   }, [existing, setValue]);
 
@@ -205,21 +199,22 @@ export default function Registration() {
     setImageError('');
     setDateError('');
 
+    const [latitude, longitude] = values.coord.split(',').map(Number);
     const categoryKey = CATEGORY_LABEL_TO_KEY[values.category] ?? values.category;
     const sexKey = SEX_LABEL_TO_KEY[values.sex] ?? values.sex;
-    const [latitude, longitude] = values.coord.split(',').map(Number);
 
     const basePayload = {
       title: values.title,
       description: values.description,
+      category: categoryKey,
       size: values.size,
       sex: sexKey,
       latitude,
       longitude,
+      detailAddress: values.place,
       price: Number(values.price.replace(/,/g, '')),
       startDate: format(dateRange.from, 'yyyy-MM-dd'),
       endDate: format(dateRange.to, 'yyyy-MM-dd'),
-      category: categoryKey,
     };
 
     if (isEdit) {
@@ -239,14 +234,6 @@ export default function Registration() {
   };
 
   const priceValue = watch('price');
-  const submitting = isEdit ? updateBoard.isPending : createBoard.isPending;
-  const submitError = isEdit
-    ? updateBoard.isError
-      ? getApiErrorMessage(updateBoard.error, '수정에 실패했습니다.')
-      : ''
-    : createBoard.isError
-      ? getApiErrorMessage(createBoard.error, '등록에 실패했습니다.')
-      : '';
   const canSubmit =
     isValid &&
     Boolean(dateRange?.from && dateRange?.to) &&

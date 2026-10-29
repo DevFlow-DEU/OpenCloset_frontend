@@ -10,6 +10,7 @@ export type CreateBoardForm = {
   sex: string;
   latitude: number;
   longitude: number;
+  detailAddress: string;
   price: number;
   startDate: string;
   endDate: string;
@@ -24,6 +25,7 @@ export type UpdateBoardForm = {
   sex?: string;
   latitude?: number;
   longitude?: number;
+  detailAddress?: string;
   price?: number;
   startDate?: string;
   endDate?: string;
@@ -40,6 +42,7 @@ export const productApi = {
     formData.append('sex', form.sex);
     formData.append('latitude', String(form.latitude));
     formData.append('longitude', String(form.longitude));
+    formData.append('detailAddress', form.detailAddress);
     formData.append('price', String(form.price));
     formData.append('startDate', form.startDate);
     formData.append('endDate', form.endDate);
@@ -65,6 +68,9 @@ export const productApi = {
     }
     if (form.longitude !== undefined) {
       formData.append('longitude', String(form.longitude));
+    }
+    if (form.detailAddress !== undefined) {
+      formData.append('detailAddress', form.detailAddress);
     }
     if (form.price !== undefined) formData.append('price', String(form.price));
     if (form.startDate !== undefined) {

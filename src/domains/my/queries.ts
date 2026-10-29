@@ -7,6 +7,7 @@ import {
   changePassword,
   deleteAccount,
   editProfile,
+  getMyBoards,
   getOwnerBoards,
   getRenterBoards,
   logout,
@@ -33,6 +34,11 @@ export const myQueries = {
     }),
   changePassword: () => mutationOptions({ mutationFn: changePassword }),
   deleteAccount: () => mutationOptions({ mutationFn: deleteAccount }),
+  myBoards: (status?: string) =>
+    queryOptions({
+      queryKey: ['board-my', 'all', { status }],
+      queryFn: () => getMyBoards(status),
+    }),
   ownerBoards: (status?: string) =>
     queryOptions({
       queryKey: ['board-my', 'owner', { status }],
