@@ -46,8 +46,8 @@ export default function NavigationBar({ className }: Props) {
         <MdAddCircleOutline {...ICON_SIZE} />
         상품등록
       </Link>
-      <Link to={'/save'}>
-        {pathname === '/save' ? (
+      <Link to={'/wishlist'}>
+        {pathname === '/wishlist' ? (
           <SaveIcon {...ICON_SIZE} />
         ) : (
           <SaveIconOutline {...ICON_SIZE} />

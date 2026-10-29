@@ -4,6 +4,7 @@ import Product from '../domains/product/pages/Product';
 import Search from '../domains/product/pages/Search';
 import Login from '../domains/auth/pages/Login';
 import SearchResult from '../domains/product/pages/SearchResult/SearchResult';
+import Wishlist from '../domains/product/pages/Wishlist/Wishlist';
 import Registration from '../domains/product/pages/Registration';
 import KakaoCheck from '../domains/auth/pages/KakaoCheck';
 import Error from '../routes/pages/Error';
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
   {
     path: '/search/result/:searchText',
     element: <SearchResult />,
+  },
+  {
+    path: '/wishlist',
+    element: <Wishlist />,
   },
   {
     path: '/add_product',
