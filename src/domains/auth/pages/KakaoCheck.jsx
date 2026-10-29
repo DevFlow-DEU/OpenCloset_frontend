@@ -1,12 +1,19 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getMyProfile } from '../../my/api';
 import { setTokens } from '../../../api/token';
+import { useKakaoCallback } from '../hooks';
+import { getApiErrorMessage } from '../../../api/http';
 
 export default function KakaoCallback() {
   const navigate = useNavigate();
+  const kakaoCallback = useKakaoCallback();
+  const hasRun = useRef(false);
 
   useEffect(() => {
+    if (hasRun.current) return;
+    hasRun.current = true;
+
     const currentUrl = new URL(window.location.href);
     const code = currentUrl.searchParams.get('code');
     const error = currentUrl.searchParams.get('error');
@@ -33,41 +40,20 @@ export default function KakaoCallback() {
       return;
     }
 
-    (async () => {
-      try {
-        const backCodeUrl = import.meta.env.VITE_BACK_CODE_URL;
-        if (!backCodeUrl) {
-          throw new Error('환경변수 문제');
+    kakaoCallback.mutate(code, {
+      onSuccess: async (data) => {
+        if (!data?.accessToken) {
+          navigate('/error', {
+            replace: true,
+            state: {
+              error: '토큰 에러',
+              errorDesc: 'accessToken이 응답에 없음',
+            },
+          });
+          return;
         }
 
-        const backendUrl = new URL(backCodeUrl);
-        backendUrl.searchParams.set('code', code);
-
-        console.log(backendUrl);
-
-        const res = await fetch(backendUrl.toString(), {
-          method: 'GET',
-          headers: { Accept: 'application/json' },
-        });
-        // console.log("backendUrl:", backendUrl.toString());
-
-        const text = await res.text(); // 에러 메시지 확인용으로 먼저 text로 받기
-
-        if (!res.ok) {
-          throw new Error(`opencloset 서버 오류: ${res.status} ${text}`);
-        }
-
-        // 성공이면 JSON 파싱
-        const data = JSON.parse(text);
-
-        const Token = data?.accessToken;
-        const refreshToken = data?.refreshToken;
-
-        if (!Token) {
-          throw new Error('토큰 에러: accessToken이 응답에 없음');
-        }
-
-        setTokens(Token, refreshToken);
+        setTokens(data.accessToken, data.refreshToken);
 
         // code 제거(재진입/오류 예방)
         window.history.replaceState({}, document.title, '/kakaocheck');
@@ -83,14 +69,18 @@ export default function KakaoCallback() {
         }
 
         navigate('/', { replace: true });
-      } catch (e) {
+      },
+      onError: (err) => {
         navigate('/error', {
           replace: true,
-          state: { error: '로그인 실패', errorDesc: String(e?.message || e) },
+          state: {
+            error: '로그인 실패',
+            errorDesc: getApiErrorMessage(err, '로그인에 실패했습니다.'),
+          },
         });
-      }
-    })();
-  }, [navigate]);
+      },
+    });
+  }, [navigate, kakaoCallback]);
 
   return <div>카카오 로그인 처리 중...</div>;
 }

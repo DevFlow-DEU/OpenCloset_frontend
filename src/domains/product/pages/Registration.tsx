@@ -160,26 +160,33 @@ export default function Registration() {
     }
   }, [existing, setValue]);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    const newItems = Array.from(e.target.files).map((file) => ({
+  const addFiles = (files: File[]) => {
+    const newItems = files.map((file) => ({
       id: `${Date.now()}-${Math.random()}`,
       url: URL.createObjectURL(file),
       file,
     }));
-    setImages((prev) => [...prev, ...newItems]);
+    setImages((prev) => {
+      const hasOnlyExisting = prev.length > 0 && prev.every((img) => !img.file);
+      return hasOnlyExisting ? newItems : [...prev, ...newItems];
+    });
     setImageError('');
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    addFiles(Array.from(e.target.files));
     e.target.value = '';
   };
 
-  const removeImage = (id: string) => {
-    setImages((prev) => prev.filter((item) => item.id !== id));
+  const removeImage = (imageId: string) => {
+    setImages((prev) => prev.filter((item) => item.id !== imageId));
   };
 
   const onSubmit = (values: RegistrationFormValues) => {
     const newFiles = images
-      .filter((item): item is ImageItem & { file: File } => Boolean(item.file))
-      .map((item) => item.file);
+      .filter((img): img is ImageItem & { file: File } => Boolean(img.file))
+      .map((img) => img.file);
 
     if (!isEdit && newFiles.length === 0) {
       setImageError('사진을 추가해주세요.');
@@ -374,9 +381,7 @@ export default function Registration() {
 
           <div className="space-40px" />
 
-          {submitError && (
-            <p className="SHinput-error errorMSG">{submitError}</p>
-          )}
+          {submitError && <p className="SHinput-error errorMSG">{submitError}</p>}
 
           <Button
             variant="primary"
