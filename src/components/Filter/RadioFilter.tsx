@@ -22,16 +22,23 @@ type Props = {
   type: RadioFilterType;
   value: string;
   onChange: (value: string) => void;
+  variant?: 'pill' | 'tab';
 };
 
-export default function RadioFilter({ type, value, onChange }: Props) {
+export default function RadioFilter({
+  type,
+  value,
+  onChange,
+  variant = 'pill',
+}: Props) {
+  const isTab = variant === 'tab';
   return (
-    <div className={styles.bar}>
+    <div className={`${styles.bar}${isTab ? ` ${styles.tabBar}` : ''}`}>
       {OPTIONS[type].map((opt) => (
         <button
           key={opt}
           type="button"
-          className={`${styles.item}${value === opt ? ` ${styles.active}` : ''}`}
+          className={`${styles.item}${isTab ? ` ${styles.tabItem}` : ''}${value === opt ? ` ${styles.active}` : ''}`}
           onClick={() => onChange(opt)}
         >
           {opt}
