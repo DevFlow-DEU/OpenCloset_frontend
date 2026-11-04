@@ -2,6 +2,10 @@ import './Drawer.css';
 
 export type DrawerType = 'size' | 'location' | 'category';
 
+
+// 사용되지 않는 컴포넌트
+
+
 type Props = {
   type: DrawerType;
   selected?: string;

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../../../components/Header/Header';
 import RadioFilter from '../../../components/Filter/RadioFilter';
 import ManageItem from '../../product/components/ManageItem';
+import ManageItemSkeleton from '../../product/components/ManageItemSkeleton';
+import PullToRefresh from '../../../components/PullToRefresh/PullToRefresh';
 import Alert from '../../../components/Alert/Alert';
 import type { StateType } from '../../../components/State/State';
 import { useMyBoards, useRenterBoards } from '../hooks';
@@ -43,6 +45,7 @@ export default function ProductManage() {
   );
 
   const currentItems = tab === 'owner' ? filterOwner : filterRenter;
+  const isPending = tab === 'owner' ? ownerQuery.isPending : renterQuery.isPending;
 
   return (
     <>
@@ -77,25 +80,32 @@ export default function ProductManage() {
 
         <p className={styles.count}>상품 {currentItems.length}</p>
 
-        <div className={styles.list}>
-          {currentItems.map((item, index) => (
-            <ManageItem
-              key={item.id ?? index}
-              image={item.images?.[0] ?? ''}
-              name={item.title ?? ''}
-              dateStart={item.startDate ?? ''}
-              dateEnd={item.endDate ?? ''}
-              price={item.price ?? 0}
-              state={
-                item.status && item.status !== '대여가능'
-                  ? (item.status as StateType)
-                  : undefined
-              }
-              onClick={() => navigate(`/product/${item.id}`)}
-              onEdit={() => navigate(`/product/${item.id}/edit`)}
-            />
-          ))}
-        </div>
+        <PullToRefresh
+          className={styles.list}
+          onRefresh={tab === 'owner' ? ownerQuery.refetch : renterQuery.refetch}
+        >
+          {isPending
+            ? Array.from({ length: 3 }).map((_, index) => (
+                <ManageItemSkeleton key={index} />
+              ))
+            : currentItems.map((item, index) => (
+                <ManageItem
+                  key={item.id ?? index}
+                  image={item.images?.[0] ?? ''}
+                  name={item.title ?? ''}
+                  dateStart={item.startDate ?? ''}
+                  dateEnd={item.endDate ?? ''}
+                  price={item.price ?? 0}
+                  state={
+                    item.status && item.status !== '대여가능'
+                      ? (item.status as StateType)
+                      : undefined
+                  }
+                  onClick={() => navigate(`/product/${item.id}`)}
+                  onEdit={() => navigate(`/product/${item.id}/edit`)}
+                />
+              ))}
+        </PullToRefresh>
       </div>
 
       {showAuthAlert && (
