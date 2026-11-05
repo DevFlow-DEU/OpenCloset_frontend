@@ -11,6 +11,7 @@ import {
 } from '../../../components/Map/kakao';
 import LikeRedHeartIcon from '../../../assets/icon/Like_red_heart.svg?react';
 import LikeGrayHeartIcon from '../../../assets/icon/Like_gray_heart.svg?react';
+import ProductDetailSkeleton from '../components/ProductDetailSkeleton';
 import { useProductDetail, useUpdateBoardStatus } from '../hooks';
 import { getApiErrorMessage } from '../../../api/http';
 import '../../../components/share.css';
@@ -115,7 +116,6 @@ export default function Product() {
     updateStatus.mutate({ status });
   };
 
-  if (isPending) return <div>로딩 중...</div>;
   if (isError) {
     return (
       <div>
@@ -123,7 +123,19 @@ export default function Product() {
       </div>
     );
   }
-  if (!data) return <div>로딩 중...</div>;
+  if (isPending || !data) {
+    return (
+      <div>
+        <Header.Root hasNotch hasCamera>
+          <Header.BackButton />
+          <Header.LinkGroup>
+            <Header.SearchLink />
+          </Header.LinkGroup>
+        </Header.Root>
+        <ProductDetailSkeleton />
+      </div>
+    );
+  }
 
   return (
     <div>

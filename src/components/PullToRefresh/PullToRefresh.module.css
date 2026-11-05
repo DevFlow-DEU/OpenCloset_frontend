@@ -1,0 +1,11 @@
+.wrapper {
+  overscroll-behavior-y: contain;
+}
+
+.indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: height 0.2s ease-out, opacity 0.2s ease-out;
+}

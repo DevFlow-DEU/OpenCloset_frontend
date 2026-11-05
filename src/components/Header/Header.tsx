@@ -81,6 +81,9 @@ function Root({ hasNotch, hasCamera, children, hasDivider = true }: RootProps) {
 
         {hasDivider ? <div className={styles.headerDivider} /> : null}
       </div>
+      {/* headerBody가 position: fixed라 실제 문서 흐름엔 공간이 안 생겨서
+          여기서 대신 비워줌. 노치 제거 시(앱 전환 시) 이 값도 같이 수정. */}
+      <div className={styles.headerSpace} />
     </>
   );
 }

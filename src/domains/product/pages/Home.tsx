@@ -3,6 +3,7 @@ import NavigationBar from '../../../components/NavigationBar/NavigationBar';
 import Header from '../../../components/Header/Header';
 import CategoryLink from '../components/CategoryLink';
 import ProductItem from '../components/ProductItem';
+import PullToRefresh from '../../../components/PullToRefresh/PullToRefresh';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
@@ -27,6 +28,8 @@ const categories: clothType[] = [
   'accessory',
 ];
 
+// bannerImages/mockProducts는 실제 API 연동 전 임시 데이터.
+// 연동 시 쿼리의 isPending으로 BannerSkeleton/ProductItemSkeleton(같은 폴더)과 전환.
 const bannerImages = [
   'https://picsum.photos/seed/banner1/600/300',
   'https://picsum.photos/seed/banner2/600/300',
@@ -100,6 +103,11 @@ const mockProducts = [
 
 export default function Home() {
   const location = '가야동';
+
+  // 지금은 배너/상품이 목업이라 다시 불러올 게 없음.
+  // 실제 쿼리 연동 시 그 쿼리의 refetch로 교체.
+  const handleRefresh = () => {};
+
   return (
     <>
       <Header.Root hasNotch>
@@ -109,33 +117,39 @@ export default function Home() {
         </div>
         <Header.SearchLink />
       </Header.Root>
-      <div className={styles.container}>
-        <Swiper>
-          {bannerImages.map((url, index) => (
-            <SwiperSlide key={index}>
-              <img
-                src={url}
-                alt={`배너 ${index + 1}`}
-                className={styles.bannerImage}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-        <div className="category-list">
-          <div className={styles.categoryHeader}>카테고리</div>
-          <div className={styles.categoryContainer}>
-            {categories.map((category) => (
-              <CategoryLink to={category} key={category} clothType={category} />
+      <PullToRefresh onRefresh={handleRefresh}>
+        <div className={styles.container}>
+          <Swiper>
+            {bannerImages.map((url, index) => (
+              <SwiperSlide key={index}>
+                <img
+                  src={url}
+                  alt={`배너 ${index + 1}`}
+                  className={styles.bannerImage}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <div className="category-list">
+            <div className={styles.categoryHeader}>카테고리</div>
+            <div className={styles.categoryContainer}>
+              {categories.map((category) => (
+                <CategoryLink
+                  to={category}
+                  key={category}
+                  clothType={category}
+                />
+              ))}
+            </div>
+          </div>
+          <h2 className={styles.itemListHeader}>추천 상품</h2>
+          <div className={styles.itemList}>
+            {mockProducts.map((product) => (
+              <ProductItem key={product.id} {...product} />
             ))}
           </div>
         </div>
-        <h2 className={styles.itemListHeader}>추천 상품</h2>
-        <div className={styles.itemList}>
-          {mockProducts.map((product) => (
-            <ProductItem key={product.id} {...product} />
-          ))}
-        </div>
-      </div>
+      </PullToRefresh>
       <NavigationBar />
     </>
   );

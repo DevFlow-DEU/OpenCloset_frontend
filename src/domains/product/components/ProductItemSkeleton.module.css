@@ -1,0 +1,33 @@
+.item {
+  width: 175px;
+}
+
+.thumbnail {
+  height: 210px;
+  width: 175px;
+  border-radius: 20px;
+}
+
+.descriptionContainer {
+  padding: 8px 4px 12px 8px;
+}
+
+.nameLine {
+  height: 14px;
+  width: 100%;
+  border-radius: 4px;
+}
+
+.nameLineShort {
+  height: 14px;
+  width: 60%;
+  border-radius: 4px;
+  margin-top: 6px;
+}
+
+.costLine {
+  height: 14px;
+  width: 45%;
+  border-radius: 4px;
+  margin-top: 16px;
+}

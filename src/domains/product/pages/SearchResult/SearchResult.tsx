@@ -7,6 +7,7 @@ import SearchInput from '../../../../components/Input/SearchInput';
 import SearchFilter from '../../../../components/Filter/SearchFilter';
 import { type FilterValue } from '../../../../components/Drawer/Filter';
 import NavigationBar from '../../../../components/NavigationBar/NavigationBar';
+import PullToRefresh from '../../../../components/PullToRefresh/PullToRefresh';
 import ProductList from '../../components/ProductList';
 import { type ProductItemProps } from '../../components/ProductItem';
 import { useSearchAdvanced } from '../../hooks';
@@ -71,7 +72,7 @@ export default function SearchResult() {
     setSearchText(routeSearchText);
   }, [routeSearchText]);
 
-  const { data } = useSearchAdvanced(
+  const { data, refetch } = useSearchAdvanced(
     toSearchBody(routeSearchText, filter),
     sort.value
   );
@@ -118,25 +119,27 @@ export default function SearchResult() {
         <SearchFilter value={filter} onChange={setFilter} />
       </div>
 
-      <div className={styles.container}>
-        <div className={styles.resultBar}>
-          <span className={styles.count}>상품 {products.length}</span>
-          <button
-            type="button"
-            className={styles.sortButton}
-            onClick={handleSortClick}
-          >
-            {sort.label}
-            <ArrowUpDown size={12} />
-          </button>
-        </div>
+      <PullToRefresh onRefresh={refetch}>
+        <div className={styles.container}>
+          <div className={styles.resultBar}>
+            <span className={styles.count}>상품 {products.length}</span>
+            <button
+              type="button"
+              className={styles.sortButton}
+              onClick={handleSortClick}
+            >
+              {sort.label}
+              <ArrowUpDown size={12} />
+            </button>
+          </div>
 
-        {products.length > 0 ? (
-          <ProductList products={products} />
-        ) : (
-          <p className={styles.empty}>검색 결과가 없습니다.</p>
-        )}
-      </div>
+          {products.length > 0 ? (
+            <ProductList products={products} />
+          ) : (
+            <p className={styles.empty}>검색 결과가 없습니다.</p>
+          )}
+        </div>
+      </PullToRefresh>
 
       <NavigationBar />
     </>
