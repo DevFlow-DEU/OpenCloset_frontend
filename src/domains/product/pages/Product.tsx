@@ -13,6 +13,7 @@ import LikeRedHeartIcon from '../../../assets/icon/Like_red_heart.svg?react';
 import LikeGrayHeartIcon from '../../../assets/icon/Like_gray_heart.svg?react';
 import ProductDetailSkeleton from '../components/ProductDetailSkeleton';
 import { useProductDetail, useUpdateBoardStatus } from '../hooks';
+import { useCreateChatRoom } from '../../chat/hooks';
 import { getApiErrorMessage } from '../../../api/http';
 import '../../../components/share.css';
 import styles from './Product.module.css';
@@ -44,6 +45,16 @@ export default function Product() {
 
   const { data, isPending, isError, error } = useProductDetail(id ?? '');
   const updateStatus = useUpdateBoardStatus(id ?? '');
+  const createRoom = useCreateChatRoom(id ?? '');
+
+  const handleChatClick = async () => {
+    try {
+      const room = await createRoom.mutateAsync();
+      if (room?.roomId) navigate(`/chat/${room.roomId}`);
+    } catch (err) {
+      alert(getApiErrorMessage(err));
+    }
+  };
 
   const [liked, setLiked] = useState(false);
   const [address, setAddress] = useState('');
@@ -261,11 +272,7 @@ export default function Product() {
               변경하기
             </Button>
           ) : (
-            <Button
-              variant="primary"
-              type="button"
-              onClick={() => navigate('/chat')}
-            >
+            <Button variant="primary" type="button" onClick={handleChatClick}>
               채팅하기
             </Button>
           )}

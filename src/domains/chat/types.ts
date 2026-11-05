@@ -1,3 +1,7 @@
+import type { components } from '../../api/api';
+
+export type ChatRoomItem = components['schemas']['ChatRoomResponseDto'];
+
 export interface Photo {
   uuid: string;
   file: File;

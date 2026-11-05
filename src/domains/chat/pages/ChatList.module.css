@@ -1,0 +1,19 @@
+.page {
+  padding-top: 101px;
+  padding-bottom: 96px;
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+}
+
+.empty {
+  margin: 40px 0;
+  text-align: center;
+  font-size: var(--font-size-m);
+  color: var(--color-gray3);
+}

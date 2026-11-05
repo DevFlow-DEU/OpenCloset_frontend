@@ -6,7 +6,7 @@ export type ListType = 'category' | 'status';
 
 const LIST_OPTIONS: Record<ListType, string[]> = {
   category: ['상의', '하의', '원피스', '아우터', '신발', '가방', '악세사리'],
-  status: ['대여가능', '예약중', '대여중', '반납완료'],
+  status: ['대여가능', '예약중', '대여중', '대여완료'],
 };
 
 type Props = DrawerProps & { type: ListType; topContent?: ReactNode };

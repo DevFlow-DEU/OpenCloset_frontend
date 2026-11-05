@@ -1,3 +1,4 @@
+import State, { type StateType } from '../../../components/State/State';
 import styles from './ChatItem.module.css';
 
 type Props = {
@@ -7,6 +8,7 @@ type Props = {
   message: string;
   time: string;
   unread: number;
+  status?: StateType;
   onClick?: () => void;
   className?: string;
 };
@@ -18,6 +20,7 @@ export default function ChatItem({
   message,
   time,
   unread,
+  status,
   onClick,
   className,
 }: Props) {
@@ -34,7 +37,10 @@ export default function ChatItem({
       </div>
       <div className={styles.content}>
         <div className={styles.text}>
-          <span className={styles.name}>{name}</span>
+          <div className={styles.nameRow}>
+            <span className={styles.name}>{name}</span>
+            {status && <State state={status} />}
+          </div>
           <span className={styles.message}>{message}</span>
         </div>
         <div className={styles.meta}>

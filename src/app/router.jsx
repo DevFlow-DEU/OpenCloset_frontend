@@ -22,6 +22,8 @@ import AccountSettings from '../domains/my/pages/AccountSettings';
 import InformationEdit from '../domains/my/pages/InformationEdit';
 import Test from '../routes/pages/Test';
 import KakaoSignUp from '../domains/auth/pages/KakaoSignUp';
+import ChatList from '../domains/chat/pages/ChatList';
+import ChatRoom from '../domains/chat/pages/ChatRoom';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -110,6 +112,14 @@ const router = createBrowserRouter([
   {
     path: 'test',
     element: <Test />,
+  },
+  {
+    path: '/chat',
+    element: <ChatList />,
+  },
+  {
+    path: '/chat/:roomId',
+    element: <ChatRoom />,
   },
   {
     path: '/sign-up',

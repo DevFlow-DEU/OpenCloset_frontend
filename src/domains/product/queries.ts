@@ -63,6 +63,7 @@ export const productQueries = {
         productApi.updateStatus(id, variables.status, variables.buyerId),
       onSuccess: (updated) => {
         queryClient.setQueryData(productQueries.detail(id).queryKey, updated);
+        queryClient.invalidateQueries({ queryKey: ['board-my'] });
       },
     }),
   toggleWishlist: (boardId: string | number) =>
