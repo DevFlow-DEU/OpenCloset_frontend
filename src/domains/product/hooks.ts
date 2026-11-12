@@ -6,6 +6,10 @@ export function useProductDetail(id: string | number, enabled = true) {
   return useQuery({ ...productQueries.detail(id), enabled });
 }
 
+export function useAllProducts() {
+  return useQuery(productQueries.all());
+}
+
 export function useProductSearch(
   body: components['schemas']['BoardSearchRequestDto']
 ) {

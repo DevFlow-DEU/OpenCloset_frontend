@@ -4,7 +4,8 @@
 
 .bannerImage {
   width: 100%;
-  height: auto;
+  aspect-ratio: 2 / 1;
+  object-fit: cover;
   display: block;
 }
 .headerGroup {
@@ -48,4 +49,10 @@
   column-gap: 12px;
   display: grid;
   grid-template-columns: 175px 175px;
+}
+.empty {
+  padding-top: 80px;
+  text-align: center;
+  color: var(--color-gray3);
+  font-size: var(--font-size-m);
 }

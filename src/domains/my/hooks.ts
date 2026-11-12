@@ -1,8 +1,8 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { myQueries } from './queries';
 
-export function useMyProfile() {
-  return useQuery(myQueries.profile());
+export function useMyProfile(enabled = true) {
+  return useQuery({ ...myQueries.profile(), enabled });
 }
 
 export function useEditProfile() {
