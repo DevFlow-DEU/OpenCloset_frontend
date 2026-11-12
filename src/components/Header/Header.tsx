@@ -1,5 +1,5 @@
 import styles from './Header.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { type ReactNode } from 'react';
 import ProfileIcon from '../../assets/header_profile.svg?react';
@@ -38,11 +38,12 @@ function CenterLogo() {
 }
 
 function BackButton() {
+  const navigate = useNavigate();
   return (
     <span className={styles.backButton}>
-      <Link to={'..'}>
+      <button type="button" onClick={() => navigate(-1)}>
         <BackIcon width={'12px'} height={'24px'} />
-      </Link>
+      </button>
     </span>
   );
 }
