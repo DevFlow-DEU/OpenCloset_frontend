@@ -18,7 +18,7 @@ export async function getMyRooms() {
 export async function getChatMessages(roomId: string | number) {
   const { data, error, response } = await fetchClient.GET(
     '/chat/room/{roomId}/messages',
-    { params: { path: { roomId: Number(roomId) } } }
+    { params: { path: { roomId: String(roomId) } } }
   );
   if (!response.ok) throw new ApiError(response.status, error ?? null);
   return data;
@@ -27,7 +27,7 @@ export async function getChatMessages(roomId: string | number) {
 export async function getWearerList(boardId: string | number) {
   const { data, error, response } = await fetchClient.GET(
     '/chat/board/{boardId}/wearers',
-    { params: { path: { boardId: Number(boardId) } } }
+    { params: { path: { boardId: String(boardId) } } }
   );
   if (!response.ok) throw new ApiError(response.status, error ?? null);
   return data;
@@ -36,7 +36,7 @@ export async function getWearerList(boardId: string | number) {
 export async function markRoomAsRead(roomId: string | number) {
   const { error, response } = await fetchClient.PATCH(
     '/chat/room/{roomId}/read',
-    { params: { path: { roomId: Number(roomId) } } }
+    { params: { path: { roomId: String(roomId) } } }
   );
   if (!response.ok) throw new ApiError(response.status, error ?? null);
 }
@@ -49,7 +49,7 @@ export async function confirmDeal(
     '/chat/board/{boardId}/confirm/{wearerId}',
     {
       params: {
-        path: { boardId: Number(boardId), wearerId: Number(wearerId) },
+        path: { boardId: String(boardId), wearerId: String(wearerId) },
       },
     }
   );
