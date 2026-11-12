@@ -63,3 +63,10 @@
 .backButton {
   height: 24px;
 }
+
+.backButton button {
+  display: flex;
+  padding: 0;
+  border: none;
+  background: none;
+}

@@ -1,3 +1,6 @@
+/* 한글: Noto Sans KR (@import는 다른 규칙보다 먼저 와야 함) */
+@import url('//fonts.googleapis.com/earlyaccess/notosanskr.css');
+
 @font-face {
     font-family: 'Godo';
     src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoB.woff2') format('woff2'),
@@ -9,9 +12,6 @@
    font-family: 'Godo', sans-serif;
    font-weight: 700;
 }
-
-/* 한글: Noto Sans KR */
-@import url('//fonts.googleapis.com/earlyaccess/notosanskr.css');
 
 /* @font-face {
   font-family: 'basic_font';
@@ -28,37 +28,6 @@
   font-style: normal;
   unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF;
 } */
-
-@font-face {
-  font-family: 'basic_font';
-  src: local('Noto Sans KR');
-  font-weight: 400;
-  font-style: normal;
-  unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF;
-}
-
-@font-face {
-  font-family: 'basic_font';
-  src: local('Noto Sans KR');
-  font-weight: 500;
-  font-style: normal;
-  unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF;
-}
-
-@font-face {
-  font-family: 'basic_font';
-  src: local('Noto Sans KR');
-  font-weight: 600;
-  font-style: normal;
-  unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF;
-}
-@font-face {
-  font-family: 'basic_font';
-  src: local('Noto Sans KR');
-  font-weight: 700;
-  font-style: normal;
-  unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF;
-}
 
 /* 영문/숫자/기호: Pretendard */
 /* @font-face {
@@ -115,6 +84,6 @@
 }
 
 * {
-  font-family: 'basic_font', sans-serif;
+  font-family: 'basic_font', 'Noto Sans KR', sans-serif;
   font-weight: 500;
 }
