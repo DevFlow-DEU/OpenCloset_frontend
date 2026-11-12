@@ -14,25 +14,28 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 type clothType =
-  | 'top'
-  | 'pants'
-  | 'outer'
-  | 'bag'
-  | 'jewelry'
-  | 'onepiece'
-  | 'shoes'
-  | 'accessory';
+  'top' | 'pants' | 'outer' | 'bag' | 'onepiece' | 'shoes' | 'accessory';
 
 const categories: clothType[] = [
   'top',
   'pants',
   'outer',
   'bag',
-  'jewelry',
   'onepiece',
   'shoes',
   'accessory',
 ];
+
+// 검색 필터의 카테고리 라벨과 맞춤(악세사리 = 백엔드 jewelry).
+const categoryFilterLabel: Record<clothType, string> = {
+  top: '상의',
+  pants: '하의',
+  outer: '아우터',
+  bag: '가방',
+  onepiece: '원피스',
+  shoes: '신발',
+  accessory: '악세사리',
+};
 
 const BANNER_COUNT = 3;
 const SKELETON_COUNT = 4;
@@ -101,7 +104,7 @@ export default function Home() {
             <div className={styles.categoryContainer}>
               {categories.map((category) => (
                 <CategoryLink
-                  to={category}
+                  to={`/search/result?category=${encodeURIComponent(categoryFilterLabel[category])}`}
                   key={category}
                   clothType={category}
                 />

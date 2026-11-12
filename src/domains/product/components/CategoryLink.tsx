@@ -28,7 +28,7 @@ const clothTypeLabelMap = {
   jewelry: '쥬얼리',
   onepiece: '원피스',
   shoes: '신발',
-  accessory: '액세서리',
+  accessory: '악세사리',
 } as const;
 
 interface Props {
