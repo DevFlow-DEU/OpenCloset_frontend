@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { ArrowUpDown } from 'lucide-react';
 import type { components } from '../../../../api/api';
 import BackIcon from '../../../../assets/header_back.svg?react';
@@ -52,7 +52,7 @@ const toSearchBody = (
   title: string,
   filter: FilterValue
 ): BoardSearchRequest => ({
-  title,
+  title: title || undefined,
   sex: GENDER_CODE[filter.gender],
   category: CATEGORY_CODE[filter.category],
   size: filter.sizes[0],
@@ -63,8 +63,12 @@ const toSearchBody = (
 export default function SearchResult() {
   const navigate = useNavigate();
   const { searchText: routeSearchText = '' } = useParams();
+  const [searchParams] = useSearchParams();
   const [searchText, setSearchText] = useState(routeSearchText);
-  const [filter, setFilter] = useState<FilterValue>(EMPTY_FILTER);
+  const [filter, setFilter] = useState<FilterValue>(() => ({
+    ...EMPTY_FILTER,
+    category: searchParams.get('category') ?? '',
+  }));
   const [sortIndex, setSortIndex] = useState(0);
   const sort = SORT_OPTIONS[sortIndex];
 

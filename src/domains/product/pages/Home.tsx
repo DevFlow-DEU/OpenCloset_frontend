@@ -3,139 +3,108 @@ import NavigationBar from '../../../components/NavigationBar/NavigationBar';
 import Header from '../../../components/Header/Header';
 import CategoryLink from '../components/CategoryLink';
 import ProductItem from '../components/ProductItem';
+import BannerSkeleton from '../components/BannerSkeleton';
+import ProductItemSkeleton from '../components/ProductItemSkeleton';
 import PullToRefresh from '../../../components/PullToRefresh/PullToRefresh';
+import { getAccessToken } from '../../../api/token';
+import { useAllProducts } from '../hooks';
+import { toProductItemProps } from '../mappers';
+import { useMyProfile } from '../../my/hooks';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 type clothType =
-  | 'top'
-  | 'pants'
-  | 'outer'
-  | 'bag'
-  | 'jewelry'
-  | 'onepiece'
-  | 'shoes'
-  | 'accessory';
+  'top' | 'pants' | 'outer' | 'bag' | 'onepiece' | 'shoes' | 'accessory';
 
 const categories: clothType[] = [
   'top',
   'pants',
   'outer',
   'bag',
-  'jewelry',
   'onepiece',
   'shoes',
   'accessory',
 ];
 
-// bannerImages/mockProducts는 실제 API 연동 전 임시 데이터.
-// 연동 시 쿼리의 isPending으로 BannerSkeleton/ProductItemSkeleton(같은 폴더)과 전환.
-const bannerImages = [
+// 검색 필터의 카테고리 라벨과 맞춤(악세사리 = 백엔드 jewelry).
+const categoryFilterLabel: Record<clothType, string> = {
+  top: '상의',
+  pants: '하의',
+  outer: '아우터',
+  bag: '가방',
+  onepiece: '원피스',
+  shoes: '신발',
+  accessory: '악세사리',
+};
+
+const BANNER_COUNT = 3;
+const SKELETON_COUNT = 4;
+
+// 배너로 쓸 상품 이미지가 없을 때 보여주는 기본 배너(2:1).
+const defaultBannerImages = [
   'https://picsum.photos/seed/banner1/600/300',
   'https://picsum.photos/seed/banner2/600/300',
   'https://picsum.photos/seed/banner3/600/300',
 ];
 
-const mockProducts = [
-  {
-    id: 1,
-    imageUrls: [],
-    name: '검정 정장 재킷',
-    rentalCost: 15000,
-    rentalPeriod: 3,
-    wished: false,
-    status: '대여가능' as const,
-    startDate: '2026-06-20',
-    endDate: '2026-06-22',
-  },
-  {
-    id: 2,
-    imageUrls: [],
-    name: '흰색 블라우스',
-    rentalCost: 10000,
-    rentalPeriod: 3,
-    wished: true,
-    status: '예약중' as const,
-    startDate: '2026-06-25',
-    endDate: '2026-06-27',
-  },
-  {
-    id: 3,
-    imageUrls: [],
-    name: '네이비 슬랙스',
-    rentalCost: 12000,
-    rentalPeriod: 3,
-    wished: false,
-    status: '대여가능' as const,
-  },
-  {
-    id: 4,
-    imageUrls: [],
-    name: '베이지 코트',
-    rentalCost: 25000,
-    rentalPeriod: 5,
-    wished: false,
-    status: '대여중' as const,
-    startDate: '2026-06-18',
-    endDate: '2026-06-22',
-  },
-  {
-    id: 5,
-    imageUrls: [],
-    name: '플리츠 스커트',
-    rentalCost: 8000,
-    rentalPeriod: 3,
-    wished: true,
-    status: '대여가능' as const,
-    startDate: '2026-07-01',
-    endDate: '2026-07-03',
-  },
-  {
-    id: 6,
-    imageUrls: [],
-    name: '스트라이프 셔츠',
-    rentalCost: 9000,
-    rentalPeriod: 3,
-    wished: false,
-    status: '반납가능' as const,
-  },
-];
-
 export default function Home() {
-  const location = '가야동';
+  // 홈은 비로그인으로도 열람 가능. /mypage/profile은 인증이 필요해서
+  // 토큰 있을 때만 조회(그렇지 않으면 401 → middleware가 /login으로 보냄).
+  const isLoggedIn = Boolean(getAccessToken());
+  const productsQuery = useAllProducts();
+  const profileQuery = useMyProfile(isLoggedIn);
 
-  // 지금은 배너/상품이 목업이라 다시 불러올 게 없음.
-  // 실제 쿼리 연동 시 그 쿼리의 refetch로 교체.
-  const handleRefresh = () => {};
+  const location = profileQuery.data?.address ?? '';
+
+  const products = (productsQuery.data?.items ?? []).map(toProductItemProps);
+  // 배너 전용 API가 없어서 당장은 실제 상품 사진으로 배너를 채움.
+  const bannerImages = products
+    .map((product) => product.imageUrls[0])
+    .filter((url): url is string => Boolean(url))
+    .slice(0, BANNER_COUNT);
+
+  // 당겨서 새로고침 = 상품(로그인돼 있으면 프로필도) 쿼리 refetch.
+  const handleRefresh = () =>
+    Promise.all([
+      productsQuery.refetch(),
+      isLoggedIn ? profileQuery.refetch() : Promise.resolve(),
+    ]);
 
   return (
     <>
       <Header.Root hasNotch>
         <div className={styles.headerGroup}>
           <Header.Logo />
-          <span className={styles.locationText}>{location}</span>
+          {location && <span className={styles.locationText}>{location}</span>}
         </div>
         <Header.SearchLink />
       </Header.Root>
       <PullToRefresh onRefresh={handleRefresh}>
         <div className={styles.container}>
-          <Swiper>
-            {bannerImages.map((url, index) => (
-              <SwiperSlide key={index}>
-                <img
-                  src={url}
-                  alt={`배너 ${index + 1}`}
-                  className={styles.bannerImage}
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
+          {productsQuery.isPending ? (
+            <BannerSkeleton />
+          ) : (
+            <Swiper>
+              {(bannerImages.length > 0
+                ? bannerImages
+                : defaultBannerImages
+              ).map((url, index) => (
+                <SwiperSlide key={`${url}-${index}`}>
+                  <img
+                    src={url}
+                    alt={`배너 ${index + 1}`}
+                    className={styles.bannerImage}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          )}
           <div className="category-list">
             <div className={styles.categoryHeader}>카테고리</div>
             <div className={styles.categoryContainer}>
               {categories.map((category) => (
                 <CategoryLink
-                  to={category}
+                  to={`/search/result?category=${encodeURIComponent(categoryFilterLabel[category])}`}
                   key={category}
                   clothType={category}
                 />
@@ -143,11 +112,25 @@ export default function Home() {
             </div>
           </div>
           <h2 className={styles.itemListHeader}>추천 상품</h2>
-          <div className={styles.itemList}>
-            {mockProducts.map((product) => (
-              <ProductItem key={product.id} {...product} />
-            ))}
-          </div>
+          {productsQuery.isPending ? (
+            <div className={styles.itemList}>
+              {Array.from({ length: SKELETON_COUNT }, (_, index) => (
+                <ProductItemSkeleton key={index} />
+              ))}
+            </div>
+          ) : products.length > 0 ? (
+            <div className={styles.itemList}>
+              {products.map((product) => (
+                <ProductItem key={product.id} {...product} />
+              ))}
+            </div>
+          ) : (
+            <p className={styles.empty}>
+              {productsQuery.isError
+                ? '상품을 불러오지 못했습니다.'
+                : '아직 등록된 상품이 없습니다.'}
+            </p>
+          )}
         </div>
       </PullToRefresh>
       <NavigationBar />

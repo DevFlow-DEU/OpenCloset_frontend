@@ -159,7 +159,31 @@ export interface paths {
     put?: never;
     /**
      * 채팅방 생성 (또는 기존 방 반환) (로직 구현됨 ✅)
-     * @description 특정 게시물에 대해 채팅방을 생성합니다. 이미 해당 게시물에 대한 채팅방이 존재하면 기존 방을 반환합니다. seller는 게시물 작성자, wearer는 로그인한 유저로 자동 지정됩니다. (토큰 인증 필수)
+     * @description 특정 상품의 옷 주인과 로그인한 문의자의 1:1 채팅방을 생성합니다.
+     *     같은 boardId + 문의자 조합의 방이 있으면 기존 방을 반환합니다.
+     *     seller는 상품 작성자, wearer는 로그인 사용자로 지정되며 본인 상품에는 문의할 수 없습니다.
+     *     응답의 roomId를 대화 조회와 실시간 구독에 사용합니다. JWT 토큰이 필요합니다.
+     *
+     *     #### 채팅방 생성 후 실시간 연결
+     *     Swagger의 Try it out에서는 위 REST 요청을 실행할 수 있습니다. 메시지 전송·수신은 별도의 STOMP 클라이언트를 사용합니다.
+     *
+     *     1. WebSocket `/ws/chat`에 연결합니다. 운영 주소는 `wss://opencloset.jihongeek.com/ws/chat`, 로컬 주소는 `ws://localhost:8080/ws/chat`입니다.
+     *        SockJS 클라이언트는 같은 경로의 `https://` 또는 `http://` 주소를 사용합니다.
+     *     2. **STOMP CONNECT 헤더**에 `Authorization: Bearer <accessToken>`을 설정합니다. Swagger의 Authorize는 REST 요청에만 적용됩니다.
+     *     3. `/topic/chat/{roomId}`와 개인 오류 채널 `/user/queue/chat/errors`를 구독한 뒤 메시지 내역 조회 API를 호출합니다.
+     *     4. `/app/chat/send`에 아래 JSON을 `content-type: application/json`으로 전송합니다.
+     *
+     *     ```json
+     *     {"roomId": 1, "message": "이 옷 사이즈 어떻게 되나요?"}
+     *     ```
+     *
+     *     전송 본문은 `ChatSendRequestDto`, 수신 본문은 `ChatMessageResponseDto` 스키마를 참고합니다.
+     *     발신자는 JWT 사용자로 결정하며 senderId는 보내지 않아도 됩니다. 메시지는 공백이 아닌 1~1000자여야 합니다.
+     *     방 참여자만 전송·구독할 수 있으며 와일드카드 구독과 `/topic/...` 직접 전송은 허용하지 않습니다.
+     *
+     *     내용 검증 실패는 개인 오류 채널에 `ChatError` (`code: INVALID_MESSAGE`)로 전달하며 연결을 유지합니다.
+     *     인증·권한·요청 오류는 STOMP ERROR의 message 헤더와 본문에 `UNAUTHORIZED` (토큰 오류), `FORBIDDEN` (접근 금지),
+     *     `INVALID_REQUEST` (요청 오류), `CHAT_UNAVAILABLE` (방 없음·처리 실패)를 전달한 뒤 연결을 종료합니다.
      */
     post: operations['createRoom'];
     delete?: never;
@@ -179,7 +203,7 @@ export interface paths {
     put?: never;
     /**
      * 새 게시물 생성
-     * @description 새로운 옷 대여 게시물을 작성. 작성자가 seller(판매자)로 자동 등록됨. (토큰 인증 필수)
+     * @description 새로운 옷 대여 게시물을 작성합니다. 작성자는 로그인 사용자(seller)로 지정됩니다. 판매자의 프로필에 내 동네가 등록되어 있어야 하며, 미등록 시 이미지·게시글 저장 전에 400을 반환합니다. 상품 폼의 detailAddress, latitude, longitude는 상품별 거래 장소이며 프로필 주소를 대체하지 않습니다. (토큰 인증 필수)
      */
     post: operations['createBoard'];
     delete?: never;
@@ -275,7 +299,7 @@ export interface paths {
     head?: never;
     /**
      * 메시지 읽음 처리 (로직 구현됨 ✅)
-     * @description 특정 채팅방의 안 읽은 메시지를 모두 읽음 처리합니다. (토큰 인증 필수)
+     * @description 해당 방에서 상대방이 보낸 안 읽은 메시지를 모두 읽음 처리합니다. 본인이 보낸 메시지는 변경하지 않습니다. 사용자가 현재 대화를 실제로 보고 있을 때 호출합니다. 성공 시 응답 본문은 없으며 반복 호출할 수 있습니다. 읽음 여부와 안 읽은 수는 대화 내역·방 목록 재조회로 갱신하며 실시간 읽음 알림은 보내지 않습니다. JWT 토큰이 필요합니다.
      */
     patch: operations['markAsRead'];
     trace?: never;
@@ -295,7 +319,7 @@ export interface paths {
     head?: never;
     /**
      * 거래 확정 — buyer 지정 (로직 구현됨 ✅)
-     * @description seller가 특정 wearer를 buyer로 확정합니다. 확정 시 게시물 상태가 '대여가능' → '예약중'으로 변경됩니다. (토큰 인증 필수)
+     * @description 상품 작성자가 실제 해당 상품의 채팅에 참여한 문의자를 대여 상대로 확정합니다. 상품이 '대여가능' 상태여야 하며, 성공하면 buyer를 지정하고 상태를 '예약중'으로 변경합니다. 상품 작성자·상태·문의자 검증 실패는 기존 구현에 따라 400을 반환합니다. 성공 시 응답 본문은 없습니다. JWT 토큰이 필요합니다.
      */
     patch: operations['confirmDeal'];
     trace?: never;
@@ -391,7 +415,7 @@ export interface paths {
     };
     /**
      * 내 채팅방 목록 조회 (로직 구현됨 ✅)
-     * @description 로그인한 유저가 참여한 모든 채팅방 목록을 조회합니다. 마지막 메시지, 안 읽은 메시지 수 포함. (토큰 인증 필수)
+     * @description 로그인 사용자가 옷 주인 또는 문의자로 참여한 방을 조회합니다. 상대방 정보, 상품 정보, 마지막 메시지와 상대방이 보낸 안 읽은 메시지 수를 반환합니다. 대화가 없으면 lastMessage는 null이며, 참여한 방이 없으면 빈 배열입니다. JWT 토큰이 필요합니다.
      */
     get: operations['getMyRooms'];
     put?: never;
@@ -411,7 +435,7 @@ export interface paths {
     };
     /**
      * 채팅 메시지 내역 조회 (로직 구현됨 ✅)
-     * @description 특정 채팅방의 과거 대화 내역을 조회합니다. (토큰 인증 필수)
+     * @description 참여한 방의 대화 전체를 전송 시각 오름차순으로 반환하며, 시각이 같으면 messageId 순으로 정렬합니다. 대화가 없으면 빈 배열입니다. 조회만으로 읽음 처리되지 않으며 별도의 PATCH 읽음 처리 API를 호출해야 합니다. 실시간 수신 메시지와 같은 응답 형식입니다. 재연결 시 방을 다시 구독한 뒤 이 API로 누락된 대화를 조회하고 messageId 기준으로 중복을 제거합니다. 실시간 전달에 실패해도 DB에 저장된 메시지는 조회할 수 있습니다. JWT 토큰이 필요합니다.
      */
     get: operations['getMessages'];
     put?: never;
@@ -431,7 +455,7 @@ export interface paths {
     };
     /**
      * 게시물별 채팅 유저(wearer) 리스트 조회 (로직 구현됨 ✅)
-     * @description seller(옷 주인)가 자신의 게시물에 대해 채팅을 건 wearer(빌리려는 사람) 목록을 조회합니다. 이 목록에서 buyer를 선택하여 거래를 확정할 수 있습니다. (토큰 인증 필수)
+     * @description 상품 작성자가 해당 상품에 문의한 사람들의 채팅방 ID와 사용자 정보를 조회합니다. 이 응답의 wearerId를 거래 확정 API에 사용합니다. 문의자가 없으면 빈 배열입니다. 기존 구현에 따라 작성자가 아닌 사용자의 요청은 400으로 반환합니다. JWT 토큰이 필요합니다.
      */
     get: operations['getWearerList'];
     put?: never;
@@ -629,8 +653,8 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 전체 게시물 목록 조회
-     * @description 모든 게시물을 최신순으로 조회합니다. 로그인 상태이면 같은 주소(address) 기반으로 필터링된 게시물을 반환하며, 찜 여부(isWished)와 본인 게시글 여부(isOwner)가 매핑됩니다. 비로그인 시 전체 게시물을 반환합니다.
+     * 상품 목록 커서 조회
+     * @description 로그인 사용자의 프로필 주소와 같은 판매자의 상품을 수정일 내림차순·ID 내림차순으로 조회합니다. size는 기본 20, 최대 100이며 첫 요청에서는 cursor를 생략합니다. 다음 요청에 nextCursor를 그대로 전달하고 hasNext가 false이면 중단합니다. 응답은 기존 배열에서 items, nextCursor, hasNext 객체로 변경되었습니다. 전체 개수는 집계하지 않습니다. 조회 중 상품이 수정되면 정렬 위치가 바뀌어 누락·중복될 수 있으므로 새로고침 시 cursor를 초기화합니다. (토큰 인증 필수)
      */
     get: operations['getPosts'];
     put?: never;
@@ -741,6 +765,46 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
+    /**
+     * @description STOMP SEND /app/chat/send JSON 본문. CONNECT에서 JWT 인증 후 전송하며 발신자는 서버가 결정합니다.
+     * @example {
+     *       "roomId": 1,
+     *       "message": "이 옷 사이즈 어떻게 되나요?"
+     *     }
+     */
+    ChatSendRequestDto: {
+      /**
+       * Format: int64
+       * @description 본인이 참여한 채팅방 ID
+       * @example 1
+       */
+      roomId: number;
+      /**
+       * Format: int64
+       * @deprecated
+       * @description 호환용 필드. 무시하며 JWT의 로그인 사용자를 발신자로 사용합니다.
+       */
+      senderId?: number;
+      /**
+       * @description 메시지 내용 (1~1000자, 공백만 있는 메시지는 불가)
+       * @example 이 옷 사이즈 어떻게 되나요?
+       */
+      message: string;
+    };
+    /** @description 메시지 내용 검증 실패 시 /user/queue/chat/errors로 수신하는 개인 오류. 연결은 유지됩니다. */
+    ChatError: {
+      /**
+       * @description 입력 검증 오류 코드
+       * @example INVALID_MESSAGE
+       * @enum {string}
+       */
+      code?: 'INVALID_MESSAGE';
+      /**
+       * @description 오류 안내
+       * @example 메시지는 공백이 아닌 1~1000자여야 합니다.
+       */
+      message?: string;
+    };
     /** @description 게시물 수정 요청 DTO */
     BoardUpdateRequestDto: {
       /**
@@ -778,7 +842,7 @@ export interface components {
        */
       longitude?: number;
       /**
-       * @description 상세 주소 (유저가 직접 입력)
+       * @description 거래 장소 상세 주소
        * @example 101동 1203호
        */
       detailAddress?: string;
@@ -849,7 +913,7 @@ export interface components {
        */
       longitude?: number;
       /**
-       * @description 상세 주소 (유저가 직접 입력)
+       * @description 거래 장소 상세 주소
        * @example 101동 1203호
        */
       detailAddress?: string;
@@ -1062,10 +1126,10 @@ export interface components {
     ChatRoomCreateRequestDto: {
       /**
        * Format: int64
-       * @description 채팅을 걸 게시물 ID
-       * @example 1
+       * @description 문의할 상품 ID. 상품 작성자와 로그인 사용자의 채팅방을 생성하거나 기존 방을 반환합니다.
+       * @example 5
        */
-      boardId?: number;
+      boardId: number;
     };
     /** @description 채팅방 목록 응답 DTO */
     ChatRoomResponseDto: {
@@ -1096,22 +1160,26 @@ export interface components {
        * @example 홍길동
        */
       opponentNickname?: string;
-      /** @description 상대방 프로필 이미지 */
+      /**
+       * @description 상대방 프로필 이미지
+       * @example https://opencloset.jihongeek.com/images/default_profile.png
+       */
       opponentProfileImage?: string;
       /**
-       * @description 마지막 메시지 내용
+       * @description 마지막 메시지 내용. 대화가 없으면 null
        * @example 사이즈 어떻게 되나요?
        */
       lastMessage?: string;
       /**
        * Format: int32
-       * @description 안 읽은 메시지 수
+       * @description 로그인 사용자가 아직 읽지 않은 상대방 메시지 수. 본인이 보낸 메시지는 제외
        * @example 3
        */
       unreadCount?: number;
       /**
        * Format: date-time
-       * @description 채팅방 생성일
+       * @description 채팅방 생성 시각 (시간대 오프셋 없는 서버 LocalDateTime)
+       * @example 2026-11-11T10:00:00
        */
       createdAt?: string;
     };
@@ -1152,7 +1220,7 @@ export interface components {
        */
       longitude?: number;
       /**
-       * @description 상세 주소 (유저가 직접 입력)
+       * @description 거래 장소 상세 주소
        * @example 101동 1203호
        */
       detailAddress?: string;
@@ -1313,18 +1381,18 @@ export interface components {
        */
       createdAt?: string;
     };
-    /** @description 채팅 메시지 응답 DTO */
+    /** @description REST 대화 내역의 항목 및 /topic/chat/{roomId}로 수신하는 실시간 메시지. messageId로 중복 제거합니다. */
     ChatMessageResponseDto: {
       /**
        * Format: int64
-       * @description 메시지 ID
-       * @example 1
+       * @description 저장된 메시지 고유 ID. 내역 조회와 실시간 수신을 합칠 때 중복 제거 기준
+       * @example 10
        */
       messageId?: number;
       /**
        * Format: int64
-       * @description 보낸 사람 ID
-       * @example 3
+       * @description JWT로 인증한 실제 발신자 ID. 요청의 senderId는 사용하지 않습니다.
+       * @example 7
        */
       senderId?: number;
       /**
@@ -1332,7 +1400,10 @@ export interface components {
        * @example 홍길동
        */
       senderNickname?: string;
-      /** @description 보낸 사람 프로필 이미지 */
+      /**
+       * @description 보낸 사람 프로필 이미지
+       * @example https://opencloset.jihongeek.com/images/default_profile.png
+       */
       senderProfileImage?: string;
       /**
        * @description 메시지 내용
@@ -1340,13 +1411,14 @@ export interface components {
        */
       message?: string;
       /**
-       * @description 읽음 여부
+       * @description 상대방의 읽음 여부. PATCH 읽음 처리 후 내역 재조회로 갱신하며 실시간 읽음 알림은 없습니다.
        * @example false
        */
       isRead?: boolean;
       /**
        * Format: date-time
-       * @description 전송 시간
+       * @description 전송 시각 (시간대 오프셋 없는 서버 LocalDateTime)
+       * @example 2026-11-11T10:01:00
        */
       sentAt?: string;
     };
@@ -1360,7 +1432,7 @@ export interface components {
       roomId?: number;
       /**
        * Format: int64
-       * @description wearer(빌리려는 사람) 유저 ID
+       * @description 문의자 사용자 ID. 거래 확정 API의 wearerId로 사용
        * @example 7
        */
       wearerId?: number;
@@ -1369,7 +1441,10 @@ export interface components {
        * @example 김철수
        */
       wearerNickname?: string;
-      /** @description wearer 프로필 이미지 */
+      /**
+       * @description wearer 프로필 이미지
+       * @example https://opencloset.jihongeek.com/images/default_profile.png
+       */
       wearerProfileImage?: string;
     };
     TopsResponseDto: {
@@ -1532,6 +1607,18 @@ export interface components {
       status?: string;
       /** Format: date-time */
       createAt?: string;
+    };
+    /** @description 수정일 내림차순·ID 내림차순 상품 목록. 전체 개수는 집계하지 않습니다. */
+    BoardCursorResponseDto: {
+      /** @description 현재 목록의 상품 (기본 20개, 최대 100개) */
+      items?: components['schemas']['BoardCreateResponsetDto'][];
+      /** @description 다음 요청의 cursor에 그대로 전달하는 값. 마지막·빈 목록이면 null */
+      nextCursor?: string | null;
+      /**
+       * @description 다음 목록 존재 여부
+       * @example true
+       */
+      hasNext?: boolean;
     };
   };
   responses: never;
@@ -1849,19 +1936,44 @@ export interface operations {
       path?: never;
       cookie?: never;
     };
+    /** @description 문의할 상품 ID */
     requestBody: {
       content: {
+        /**
+         * @example {
+         *       "boardId": 5
+         *     }
+         */
         'application/json': components['schemas']['ChatRoomCreateRequestDto'];
       };
     };
     responses: {
-      /** @description 채팅방 생성/조회 성공 */
+      /** @description 채팅방 생성 또는 기존 방 조회 성공 */
       200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          '*/*': components['schemas']['ChatRoomResponseDto'];
+          'application/json': components['schemas']['ChatRoomResponseDto'];
+        };
+      };
+      /** @description 유효하지 않거나 없는 상품, 본인 상품에 대한 문의 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      /** @description 토큰 누락·오류·만료 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /** @example Unauthorized: Full authentication is required to access this resource */
+          'text/plain': string;
         };
       };
     };
@@ -1885,7 +1997,16 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          '*/*': components['schemas']['BoardCreateResponsetDto'];
+          'application/json': components['schemas']['BoardCreateResponsetDto'];
+        };
+      };
+      /** @description 판매자의 프로필 동네 미등록 등 잘못된 등록 요청 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
         };
       };
     };
@@ -2022,21 +2143,75 @@ export interface operations {
       header?: never;
       path: {
         /**
-         * @description 채팅방 ID
+         * @description 본인이 참여한 채팅방 ID
          * @example 1
          */
-        roomId: number;
+        roomId: string;
       };
       cookie?: never;
     };
     requestBody?: never;
     responses: {
-      /** @description 읽음 처리 성공 */
+      /** @description 읽음 처리 성공 (응답 본문 없음) */
       200: {
         headers: {
           [name: string]: unknown;
         };
         content?: never;
+      };
+      /** @description 유효하지 않은 방 ID */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /**
+           * @example {
+           *       "status": 400,
+           *       "error": "Bad Request",
+           *       "message": "유효한 채팅방 ID가 필요합니다.",
+           *       "timestamp": "2026-11-11T10:00:00"
+           *     }
+           */
+          'application/json': unknown;
+        };
+      };
+      /** @description 토큰 누락·오류·만료 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /** @example Unauthorized: Full authentication is required to access this resource */
+          'text/plain': string;
+        };
+      };
+      /** @description 해당 방의 참여자가 아님 */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /** @example Access Denied: 본인이 참여한 채팅방만 접근할 수 있습니다. */
+          'text/plain': string;
+        };
+      };
+      /** @description 존재하지 않는 채팅방 */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /**
+           * @example {
+           *       "timestamp": "2026-11-11T01:00:00.000+00:00",
+           *       "status": 404,
+           *       "error": "Not Found",
+           *       "path": "/chat/room/999/read"
+           *     }
+           */
+          'application/json': unknown;
+        };
       };
     };
   };
@@ -2046,26 +2221,45 @@ export interface operations {
       header?: never;
       path: {
         /**
-         * @description 게시물 ID
+         * @description 본인이 등록한 상품 ID
          * @example 5
          */
-        boardId: number;
+        boardId: string;
         /**
-         * @description buyer로 지정할 wearer의 유저 ID
+         * @description 문의자 목록에서 선택한 wearerId
          * @example 7
          */
-        wearerId: number;
+        wearerId: string;
       };
       cookie?: never;
     };
     requestBody?: never;
     responses: {
-      /** @description 거래 확정 성공 */
+      /** @description 거래 확정 성공 (응답 본문 없음) */
       200: {
         headers: {
           [name: string]: unknown;
         };
         content?: never;
+      };
+      /** @description ID 오류, 없는 상품, 작성자가 아님, 잘못된 상품 상태 또는 채팅하지 않은 상대 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      /** @description 토큰 누락·오류·만료 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /** @example Unauthorized: Full authentication is required to access this resource */
+          'text/plain': string;
+        };
       };
     };
   };
@@ -2234,13 +2428,23 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      /** @description 채팅방 목록 조회 성공 */
+      /** @description 내 채팅방 목록 조회 성공 */
       200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          '*/*': components['schemas']['ChatRoomResponseDto'][];
+          'application/json': components['schemas']['ChatRoomResponseDto'][];
+        };
+      };
+      /** @description 토큰 누락·오류·만료 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /** @example Unauthorized: Full authentication is required to access this resource */
+          'text/plain': string;
         };
       };
     };
@@ -2251,10 +2455,10 @@ export interface operations {
       header?: never;
       path: {
         /**
-         * @description 채팅방 ID
+         * @description 본인이 참여한 채팅방 ID
          * @example 1
          */
-        roomId: number;
+        roomId: string;
       };
       cookie?: never;
     };
@@ -2266,7 +2470,61 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          '*/*': components['schemas']['ChatMessageResponseDto'][];
+          'application/json': components['schemas']['ChatMessageResponseDto'][];
+        };
+      };
+      /** @description 유효하지 않은 방 ID */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /**
+           * @example {
+           *       "status": 400,
+           *       "error": "Bad Request",
+           *       "message": "유효한 채팅방 ID가 필요합니다.",
+           *       "timestamp": "2026-11-11T10:00:00"
+           *     }
+           */
+          'application/json': unknown;
+        };
+      };
+      /** @description 토큰 누락·오류·만료 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /** @example Unauthorized: Full authentication is required to access this resource */
+          'text/plain': string;
+        };
+      };
+      /** @description 해당 방의 참여자가 아님 */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /** @example Access Denied: 본인이 참여한 채팅방만 접근할 수 있습니다. */
+          'text/plain': string;
+        };
+      };
+      /** @description 존재하지 않는 채팅방 */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /**
+           * @example {
+           *       "timestamp": "2026-11-11T01:00:00.000+00:00",
+           *       "status": 404,
+           *       "error": "Not Found",
+           *       "path": "/chat/room/999/messages"
+           *     }
+           */
+          'application/json': unknown;
         };
       };
     };
@@ -2277,22 +2535,41 @@ export interface operations {
       header?: never;
       path: {
         /**
-         * @description 게시물 ID
+         * @description 본인이 등록한 상품 ID
          * @example 5
          */
-        boardId: number;
+        boardId: string;
       };
       cookie?: never;
     };
     requestBody?: never;
     responses: {
-      /** @description wearer 리스트 조회 성공 */
+      /** @description 상품별 문의자 목록 조회 성공 */
       200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          '*/*': components['schemas']['WearerListResponseDto'][];
+          'application/json': components['schemas']['WearerListResponseDto'][];
+        };
+      };
+      /** @description 없는 상품 또는 상품 작성자가 아닌 사용자 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      /** @description 토큰 누락·오류·만료 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /** @example Unauthorized: Full authentication is required to access this resource */
+          'text/plain': string;
         };
       };
     };
@@ -2517,20 +2794,54 @@ export interface operations {
   };
   getPosts: {
     parameters: {
-      query?: never;
+      query?: {
+        /** @description 직전 응답의 nextCursor. 첫 요청은 생략 */
+        cursor?: string;
+        /**
+         * @description 조회 개수 (1~100, 기본 20)
+         * @example 20
+         */
+        size?: number;
+      };
       header?: never;
       path?: never;
       cookie?: never;
     };
     requestBody?: never;
     responses: {
-      /** @description 게시물 목록 조회 성공 */
+      /** @description 상품 목록 조회 성공 */
       200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          '*/*': components['schemas']['BoardCreateResponsetDto'][];
+          'application/json': components['schemas']['BoardCursorResponseDto'];
+        };
+      };
+      /** @description 잘못된 커서 또는 조회 개수 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          /**
+           * @example {
+           *       "status": 400,
+           *       "error": "Bad Request",
+           *       "message": "상품 조회 개수는 1~100개여야 합니다.",
+           *       "timestamp": "2026-11-11T10:00:00"
+           *     }
+           */
+          'application/json': unknown;
+        };
+      };
+      /** @description 토큰 누락·오류·만료 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['BoardCursorResponseDto'];
         };
       };
     };

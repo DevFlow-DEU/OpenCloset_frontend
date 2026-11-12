@@ -7,11 +7,11 @@ export const chatQueries = {
   rooms: () => $api.queryOptions('get', '/chat/rooms'),
   messages: (roomId: string | number) =>
     $api.queryOptions('get', '/chat/room/{roomId}/messages', {
-      params: { path: { roomId: Number(roomId) } },
+      params: { path: { roomId: String(roomId) } },
     }),
   wearers: (boardId: string | number) =>
     $api.queryOptions('get', '/chat/board/{boardId}/wearers', {
-      params: { path: { boardId: Number(boardId) } },
+      params: { path: { boardId: String(boardId) } },
     }),
   createRoom: (boardId: string | number) =>
     mutationOptions({
