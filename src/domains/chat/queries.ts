@@ -1,6 +1,7 @@
 import { mutationOptions } from '@tanstack/react-query';
 import { $api } from '../../api/client';
 import { queryClient } from '../../api/queryClient';
+import { productQueries } from '../product/queries';
 import { confirmDeal, createChatRoom, markRoomAsRead } from './api';
 
 export const chatQueries = {
@@ -34,17 +35,29 @@ export const chatQueries = {
         });
       },
     }),
-  confirmDeal: (boardId: string | number, wearerId: string | number) =>
+  confirmDeal: () =>
     mutationOptions({
-      mutationFn: () => confirmDeal(boardId, wearerId),
-      onSuccess: () => {
+      mutationFn: ({
+        boardId,
+        wearerId,
+      }: {
+        boardId: string | number;
+        wearerId: string | number;
+      }) => confirmDeal(boardId, wearerId),
+      onSuccess: (_data, { boardId }) => {
         queryClient.invalidateQueries({
           queryKey: chatQueries.wearers(boardId).queryKey,
         });
         queryClient.invalidateQueries({
           queryKey: chatQueries.rooms().queryKey,
         });
-        queryClient.invalidateQueries({ queryKey: ['get', '/board/All'] });
+        queryClient.invalidateQueries({
+          queryKey: productQueries.detail(boardId).queryKey,
+        });
+        queryClient.invalidateQueries({ queryKey: ['board-my'] });
+        queryClient.invalidateQueries({
+          queryKey: productQueries.all().queryKey,
+        });
       },
     }),
 };

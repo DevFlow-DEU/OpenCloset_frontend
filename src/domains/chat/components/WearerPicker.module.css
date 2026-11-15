@@ -1,0 +1,75 @@
+.overlay {
+  composes: overlay from '../../../components/Drawer/common.module.css';
+  background: rgba(0, 0, 0, 0.4);
+  justify-content: flex-end;
+}
+
+.container {
+  composes: container from '../../../components/Drawer/common.module.css';
+  max-height: 65vh;
+  overflow-y: auto;
+  padding: 16px 0 40px;
+}
+
+.title {
+  margin: 0;
+  padding: 8px 40px 16px;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray4);
+  text-align: center;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 40px;
+  border: none;
+  background: none;
+  font-size: var(--font-size-lg);
+  color: var(--color-gray4);
+  cursor: pointer;
+  text-align: left;
+}
+
+.row:hover:not(:disabled) {
+  background: var(--color-gray1);
+}
+
+.row:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.nickname {
+  flex: 1;
+}
+
+.badge {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand2);
+}
+
+.placeholder {
+  padding: 32px 40px;
+  text-align: center;
+  color: var(--color-gray3);
+  font-size: var(--font-size-m);
+}
+
+.error {
+  padding: 8px 40px;
+  text-align: center;
+  color: var(--color-red);
+  font-size: var(--font-size-m);
+}
