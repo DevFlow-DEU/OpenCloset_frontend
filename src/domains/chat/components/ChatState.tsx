@@ -13,6 +13,7 @@ type Props = {
   status?: ChatStatus;
   onClick?: () => void;
   onStatusChange?: (status: string) => void;
+  canChangeStatus?: boolean;
 };
 
 export default function ChatState({
@@ -22,6 +23,7 @@ export default function ChatState({
   status = '대여가능',
   onClick,
   onStatusChange,
+  canChangeStatus = true,
 }: Props) {
   const [listOpen, setListOpen] = useState(false);
 
@@ -40,16 +42,18 @@ export default function ChatState({
             <span className={styles.perDay}>1Day</span>
           </div>
         </div>
-        <button
-          type="button"
-          className={styles.arrowButton}
-          onClick={(e) => {
-            e.stopPropagation();
-            setListOpen(true);
-          }}
-        >
-          <SlArrowDown size={20} />
-        </button>
+        {canChangeStatus && (
+          <button
+            type="button"
+            className={styles.arrowButton}
+            onClick={(e) => {
+              e.stopPropagation();
+              setListOpen(true);
+            }}
+          >
+            <SlArrowDown size={20} />
+          </button>
+        )}
       </div>
 
       {listOpen && (
@@ -57,8 +61,9 @@ export default function ChatState({
           type="status"
           selected={status}
           onSelect={(s) => {
-            onStatusChange?.(s);
             setListOpen(false);
+            if (s === status) return;
+            onStatusChange?.(s);
           }}
           onClose={() => setListOpen(false)}
         />

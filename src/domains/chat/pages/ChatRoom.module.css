@@ -29,3 +29,34 @@
   display: block;
   padding-right: 9px;
 }
+
+.socketState {
+  padding: 8px 16px;
+  background: var(--color-gray1);
+  color: var(--color-gray3);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+.statusError {
+  padding: 8px 16px;
+  background: var(--color-brand1);
+  color: var(--color-red);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+.notice {
+  position: fixed;
+  left: 50%;
+  bottom: 140px;
+  transform: translateX(-50%);
+  z-index: 90;
+  max-width: 80vw;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  font-size: var(--font-size-m);
+  text-align: center;
+}
