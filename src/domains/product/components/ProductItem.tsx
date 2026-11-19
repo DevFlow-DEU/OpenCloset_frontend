@@ -1,8 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './ProductItem.module.css';
 import LikeGrayHeartIcon from '../../../assets/icon/Like_gray_heart.svg?react';
 import LikeRedHeartIcon from '../../../assets/icon/Like_red_heart.svg?react';
 import ItemNoImage from '../../../assets/item_no_image.svg';
+import { getAccessToken } from '../../../api/token';
+import { useWishlistToggle } from '../hooks';
 export interface ProductItemProps {
   id: number;
   imageUrls: string[];
@@ -43,15 +45,33 @@ export default function ProductItem({
   status,
   onSaveButtonClick,
 }: ProductItemProps) {
+  const navigate = useNavigate();
+  const toggle = useWishlistToggle(id);
   const image = imageUrls?.[0];
   const parsedStartDate = startDate ? parseDate(startDate) : null;
   const parsedEndDate = endDate ? parseDate(endDate) : null;
+
+  // onSaveButtonClick이 없으면(Home/SearchResult 등 리스트) 기본 토글 동작 사용.
+  // wished의 낙관적 반영/롤백은 productQueries.toggleWishlist에서 처리.
+  const handleToggleWishlist = () => {
+    // 비로그인 시 기존 프로젝트 패턴대로 로그인 페이지로 이동.
+    if (!getAccessToken()) {
+      navigate('/login');
+      return;
+    }
+    toggle.mutate();
+  };
 
   return (
     <>
       <div className={styles.item}>
         <div className={styles.itemThumbnail}>
-          <button className={styles.saveButton} onClick={onSaveButtonClick}>
+          <button
+            className={styles.saveButton}
+            type="button"
+            aria-label={wished ? '좋아요 취소' : '좋아요'}
+            onClick={onSaveButtonClick ?? handleToggleWishlist}
+          >
             {wished ? (
               <LikeRedHeartIcon width={'28px'} height={'28px'} />
             ) : (

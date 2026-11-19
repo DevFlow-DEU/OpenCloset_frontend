@@ -7,7 +7,7 @@ import { SlArrowRight } from 'react-icons/sl';
 export default function AccountSettings() {
   return (
     <>
-      <Header.Root hasNotch hasCamera>
+      <Header.Root>
         <Header.BackButton />
         <Header.CenterTitle title="내 정보 관리" />
       </Header.Root>

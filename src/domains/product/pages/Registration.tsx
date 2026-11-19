@@ -200,7 +200,8 @@ export default function Registration() {
     setDateError('');
 
     const [latitude, longitude] = values.coord.split(',').map(Number);
-    const categoryKey = CATEGORY_LABEL_TO_KEY[values.category] ?? values.category;
+    const categoryKey =
+      CATEGORY_LABEL_TO_KEY[values.category] ?? values.category;
     const sexKey = SEX_LABEL_TO_KEY[values.sex] ?? values.sex;
 
     const basePayload = {
@@ -241,7 +242,7 @@ export default function Registration() {
 
   return (
     <>
-      <Header.Root hasNotch hasCamera>
+      <Header.Root>
         <Header.BackButton />
         <Header.CenterTitle title={isEdit ? '게시물 수정' : '상품 등록하기'} />
       </Header.Root>
@@ -381,7 +382,9 @@ export default function Registration() {
 
           <div className="space-40px" />
 
-          {submitError && <p className="SHinput-error errorMSG">{submitError}</p>}
+          {submitError && (
+            <p className="SHinput-error errorMSG">{submitError}</p>
+          )}
 
           <Button
             variant="primary"
