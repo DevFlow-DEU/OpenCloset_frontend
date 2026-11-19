@@ -209,7 +209,7 @@ export default function ChatRoom() {
 
   return (
     <>
-      <Header.Root hasNotch hasCamera>
+      <Header.Root hasNotch hasCamera hasDivider={false}>
         <Header.BackButton />
         <Header.CenterTitle title={room?.opponentNickname ?? ''} />
       </Header.Root>
