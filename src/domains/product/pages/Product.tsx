@@ -61,6 +61,7 @@ export default function Product() {
   const [statusDrawerOpen, setStatusDrawerOpen] = useState(false);
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isFullscreenOpen, setIsFullscreenOpen] = useState(false);
   const touchStartX = useRef(0);
   const isMouseDown = useRef(false);
 
@@ -163,6 +164,7 @@ export default function Product() {
         onTouchEnd={handleTouchEnd}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
+        onClick={() => setIsFullscreenOpen(true)}
       >
         <div
           className={styles.sliderTrack}
@@ -179,6 +181,42 @@ export default function Product() {
           ))}
         </div>
       </div>
+
+      {isFullscreenOpen && (
+        <div
+          className={styles.fullscreenOverlay}
+          onClick={() => setIsFullscreenOpen(false)}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
+        >
+          <button
+            type="button"
+            className={styles.fullscreenClose}
+            onClick={() => setIsFullscreenOpen(false)}
+          >
+            ✕
+          </button>
+          <div className={styles.fullscreenViewport}>
+            <div
+              className={styles.fullscreenTrack}
+              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            >
+              {images.map((src, index) => (
+                <div key={index} className={styles.fullscreenSlide}>
+                  <img
+                    src={src}
+                    alt={`상품 이미지 ${index + 1}`}
+                    draggable={false}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className={styles.userSection}>
         <img

@@ -55,14 +55,12 @@ export async function checkNickname(nickname: string) {
 export async function completeKakaoSignUp(input: {
   nickname: string;
   password: string;
+  passwordConfirm: string;
   address: string;
 }) {
-  const formData = new FormData();
-  formData.append('nickname', input.nickname);
-  formData.append('password', input.password);
-  formData.append('address', input.address);
-  return apiFetch<unknown>('/수정해야함', {
+  return apiFetch<unknown>('/auth/kakao/register', {
     method: 'POST',
-    body: formData,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(input),
   });
 }

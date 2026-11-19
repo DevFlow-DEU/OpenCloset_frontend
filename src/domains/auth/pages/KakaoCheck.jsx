@@ -58,6 +58,15 @@ export default function KakaoCallback() {
         // code 제거(재진입/오류 예방)
         window.history.replaceState({}, document.title, '/kakaocheck');
 
+        // signupRequired가 응답에 있으면 그걸로 최초가입 여부를 판단
+        if (typeof data.signupRequired === 'boolean') {
+          navigate(data.signupRequired ? '/KakaoSignUp' : '/', {
+            replace: true,
+          });
+          return;
+        }
+
+        // signupRequired가 없으면 주소 미입력 여부로 대신 판단
         try {
           const profile = await getMyProfile();
           if (!profile?.address) {

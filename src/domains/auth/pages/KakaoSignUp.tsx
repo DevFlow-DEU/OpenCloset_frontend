@@ -45,6 +45,7 @@ export default function KakaoSignUp() {
       {
         nickname: data.nickname,
         password: data.password,
+        passwordConfirm: data.passwordConfirm,
         address: data.address,
       },
       {
@@ -56,7 +57,7 @@ export default function KakaoSignUp() {
   return (
     <div>
       <Header.Root hasNotch hasCamera>
-        <Header.CenterTitle title="회원가입" />
+        <Header.CenterTitle title="카카오 회원가입" />
       </Header.Root>
 
       <div className="SHcontainer">
