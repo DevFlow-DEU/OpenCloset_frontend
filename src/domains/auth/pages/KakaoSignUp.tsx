@@ -56,10 +56,8 @@ export default function KakaoSignUp() {
 
   return (
     <div>
-feat/Kakao_Register
-      <Header.Root hasNotch hasCamera>
+      <Header.Root>
         <Header.CenterTitle title="카카오 회원가입" />
-
       </Header.Root>
 
       <div className="SHcontainer">
