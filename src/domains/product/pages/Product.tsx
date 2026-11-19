@@ -137,7 +137,7 @@ export default function Product() {
   if (isPending || !data) {
     return (
       <div>
-        <Header.Root hasNotch hasCamera>
+        <Header.Root>
           <Header.BackButton />
           <Header.LinkGroup>
             <Header.SearchLink />
@@ -150,7 +150,7 @@ export default function Product() {
 
   return (
     <div>
-      <Header.Root hasNotch hasCamera>
+      <Header.Root>
         <Header.BackButton />
         <Header.LinkGroup>
           <Header.SearchLink />

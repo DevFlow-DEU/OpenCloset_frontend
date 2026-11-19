@@ -55,7 +55,7 @@ export default function KakaoSignUp() {
 
   return (
     <div>
-      <Header.Root hasNotch hasCamera>
+      <Header.Root>
         <Header.CenterTitle title="회원가입" />
       </Header.Root>
 

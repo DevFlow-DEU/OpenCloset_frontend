@@ -67,7 +67,7 @@ export default function Home() {
 
   return (
     <>
-      <Header.Root hasNotch>
+      <Header.Root>
         <div className={styles.headerGroup}>
           <Header.Logo />
           {location && <span className={styles.locationText}>{location}</span>}

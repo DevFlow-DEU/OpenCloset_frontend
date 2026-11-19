@@ -73,7 +73,7 @@ export default function InformationEdit() {
 
   return (
     <>
-      <Header.Root hasNotch hasCamera>
+      <Header.Root>
         <Header.BackButton />
         <Header.CenterTitle title="내 정보 수정" />
       </Header.Root>
