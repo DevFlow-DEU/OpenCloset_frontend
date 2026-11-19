@@ -38,7 +38,8 @@
     width: 100%;
 }
 
-.menu-item a {
+.menu-item a,
+.menu-item button {
     align-items: center;
     padding: 0 16px 0 16px;
     display: flex;
@@ -48,7 +49,12 @@
     /* 링크의 밑줄 제거 */
     font-size: 18px;
     height: 100%;
-
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    background: none;
+    font-family: inherit;
+    cursor: pointer;
 }
 
 .article-bar {
@@ -57,7 +63,8 @@
     background-color: #D0CFD4;
 }
 
-.menu-item a span svg {
+.menu-item a span svg,
+.menu-item button span svg {
     display: flex;
     align-items: center;
 

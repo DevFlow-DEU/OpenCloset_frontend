@@ -17,7 +17,7 @@
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
-  padding-bottom: calc(120px + env(safe-area-inset-bottom));
+  padding-bottom: calc(120px + var(--native-safe-bottom, env(safe-area-inset-bottom)));
   overflow-y: auto;
   box-sizing: border-box;
 }

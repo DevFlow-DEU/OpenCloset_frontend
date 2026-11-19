@@ -30,6 +30,7 @@ export const myQueries = {
       mutationFn: logout,
       onSettled: () => {
         clearTokens();
+        queryClient.clear();
       },
     }),
   changePassword: () => mutationOptions({ mutationFn: changePassword }),

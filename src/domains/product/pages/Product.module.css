@@ -235,5 +235,5 @@
 }
 
 .bottomSpacer {
-    height: 124px;
+    height: calc(124px + var(--native-safe-bottom, env(safe-area-inset-bottom)));
 }
