@@ -24,7 +24,7 @@ export default function MyPage() {
 
   return (
     <div>
-      <Header.Root hasNotch hasCamera>
+      <Header.Root>
         <Header.MainTitle title="내 정보" />
       </Header.Root>
       <section>

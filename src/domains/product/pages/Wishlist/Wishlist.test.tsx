@@ -2,15 +2,18 @@ import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 import { render } from 'vitest-browser-react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { ApiError } from '../../../../api/http';
-import { useMyWishlist } from '../../hooks';
+import { useMyWishlist, useWishlistToggle } from '../../hooks';
 import Wishlist from './Wishlist';
+
+const mockedToggleMutate = vi.fn();
 
 vi.mock('../../hooks', () => ({
   useMyWishlist: vi.fn(),
-  useWishlistToggle: vi.fn(() => ({ mutate: vi.fn() })),
+  useWishlistToggle: vi.fn(() => ({ mutate: mockedToggleMutate })),
 }));
 
 const mockedUseMyWishlist = vi.mocked(useMyWishlist);
+const mockedUseWishlistToggle = vi.mocked(useWishlistToggle);
 
 const ITEMS = [
   {
@@ -107,4 +110,12 @@ test('401 응답이면 로그인 페이지로 이동한다', async () => {
   } as unknown as ReturnType<typeof useMyWishlist>);
   const screen = await renderPage();
   await expect.element(screen.getByText('로그인 페이지')).toBeInTheDocument();
+});
+
+test('하트를 누르면 찜 토글 뮤테이션이 실행된다', async () => {
+  const screen = await renderPage();
+  await screen.getByRole('button', { name: '좋아요 취소' }).first().click();
+
+  expect(mockedUseWishlistToggle).toHaveBeenCalledWith(1);
+  expect(mockedToggleMutate).toHaveBeenCalledTimes(1);
 });
