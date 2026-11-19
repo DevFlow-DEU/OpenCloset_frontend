@@ -1,13 +1,3 @@
-.notchArea {
-  height: 44px;
-  justify-items: center;
-}
-.cameraArea {
-  width: 40%;
-  background-color: black;
-  border-radius: 0 0 1100px 1100px;
-  height: 24px;
-}
 .headerContent {
   height: 56px;
   display: flex;
@@ -38,8 +28,8 @@
   width: 100%;
   background-color: var(--color-gray2);
 }
-/* 노치 영역(44px) + 헤더 본문(56px) + 구분선(1px) = 101px (index.css --app-header-height).
-   노치 제거 시(앱 전환 시) index.css의 이 변수 값도 같이 수정해야 함. */
+/* 헤더 본문(56px) + 구분선(1px) = 57px (index.css --app-header-height).
+   노치/notchArea 제거로 헤더 최상단이 화면 맨 위에 붙는다. */
 .headerSpace {
   height: var(--app-header-height);
   width: 100%;

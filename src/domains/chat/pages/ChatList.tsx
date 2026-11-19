@@ -51,7 +51,7 @@ export default function ChatList() {
 
   return (
     <>
-      <Header.Root hasNotch>
+      <Header.Root>
         <Header.MainTitle title="채팅" />
       </Header.Root>
 

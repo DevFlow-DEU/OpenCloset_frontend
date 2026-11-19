@@ -51,7 +51,7 @@ export default function PasswordChange() {
 
   return (
     <>
-      <Header.Root hasNotch hasCamera>
+      <Header.Root>
         <Header.BackButton />
         <Header.CenterTitle title="비밀번호 변경" />
       </Header.Root>

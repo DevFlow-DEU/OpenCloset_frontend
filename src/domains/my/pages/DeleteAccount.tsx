@@ -45,7 +45,7 @@ export default function DeleteAccount() {
 
   return (
     <>
-      <Header.Root hasNotch hasCamera>
+      <Header.Root>
         <Header.BackButton />
         <Header.CenterTitle title="회원 탈퇴" />
       </Header.Root>

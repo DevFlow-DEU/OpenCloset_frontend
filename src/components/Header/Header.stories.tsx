@@ -15,7 +15,7 @@ type Story = StoryObj<typeof meta>;
 export const Home: Story = {
   render: () => (
     <Header>
-      <Header.Root hasNotch>
+      <Header.Root>
         <Header.LinkGroup>
           <Header.Logo />
         </Header.LinkGroup>
@@ -28,7 +28,7 @@ export const Home: Story = {
 export const MainTitle: Story = {
   render: () => (
     <Header>
-      <Header.Root hasNotch hasCamera>
+      <Header.Root>
         <Header.MainTitle title="내 정보" />
       </Header.Root>
     </Header>
@@ -38,7 +38,7 @@ export const MainTitle: Story = {
 export const CenterTitle: Story = {
   render: () => (
     <Header>
-      <Header.Root hasNotch>
+      <Header.Root>
         <Header.BackButton />
         <Header.CenterTitle title="검색" />
       </Header.Root>
