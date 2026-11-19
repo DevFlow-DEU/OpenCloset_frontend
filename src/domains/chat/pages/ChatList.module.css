@@ -1,6 +1,6 @@
 .page {
   padding-top: 101px;
-  padding-bottom: 96px;
+  padding-bottom: 62px; /* 네비게이션 바 전체 높이 */
   box-sizing: border-box;
   min-height: 100vh;
 }

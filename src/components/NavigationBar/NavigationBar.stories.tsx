@@ -29,7 +29,7 @@ function PageBackdrop() {
 const meta = {
   title: 'Components/NavigationBar',
   component: NavigationBar,
-  // 네비게이션 바는 fixed + safe-area(padding-bottom 34px) 실기기 위젯이라,
+  // 네비게이션 바는 화면 하단에 고정되는 fixed 위젯이라(safe-area 여백 제거 — JIH-12),
   // 배경 콘텐츠 위에 얹어야 실제 배치감이 보인다.
   render: (args) => (
     <>
