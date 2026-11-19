@@ -73,9 +73,9 @@ export default function ProductItem({
             onClick={onSaveButtonClick ?? handleToggleWishlist}
           >
             {wished ? (
-              <LikeRedHeartIcon width={'16'} height={'14px'} />
+              <LikeRedHeartIcon width={'28px'} height={'28px'} />
             ) : (
-              <LikeGrayHeartIcon width={'16px'} height={'14px'} />
+              <LikeGrayHeartIcon width={'28px'} height={'28px'} />
             )}
           </button>
           <Link to={`/product/${id}`}>

@@ -24,6 +24,60 @@
     display: block;
 }
 
+.fullscreenOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.85);
+    padding: 32px;
+    touch-action: none;
+}
+
+.fullscreenViewport {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.fullscreenClose {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 1;
+    border: none;
+    background: none;
+    color: #fff;
+    font-size: 24px;
+    line-height: 1;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.fullscreenTrack {
+    display: flex;
+    height: 100%;
+    transition: transform 0.3s ease-out;
+}
+
+.fullscreenSlide {
+    position: relative;
+    width: 100%;
+    min-width: 100%;
+    height: 100%;
+    flex-shrink: 0;
+}
+
+.fullscreenSlide img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
 .userSection {
     height: 58px;
     display: flex;
@@ -158,12 +212,7 @@
 }
 
 .footer {
-    padding-top: 12px;
     padding-bottom: 40px;
-}
-
-.footer > *:first-child {
-    margin-top: 0 !important;
 }
 
 .likeButton {
@@ -182,6 +231,7 @@
 .chatButtonWrap {
     flex: 1;
     margin-left: 16px;
+    margin-top: 12px;
 }
 
 .bottomSpacer {
