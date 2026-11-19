@@ -13,6 +13,8 @@ import { useMyProfile } from '../../my/hooks';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
+import bannerGreen from '../../../assets/banner/banner-green.svg';
+import bannerDeepGreen from '../../../assets/banner/banner-deep-green.svg';
 type clothType =
   'top' | 'pants' | 'outer' | 'bag' | 'onepiece' | 'shoes' | 'accessory';
 
@@ -37,14 +39,12 @@ const categoryFilterLabel: Record<clothType, string> = {
   accessory: '악세사리',
 };
 
-const BANNER_COUNT = 3;
 const SKELETON_COUNT = 4;
 
-// 배너로 쓸 상품 이미지가 없을 때 보여주는 기본 배너(2:1).
-const defaultBannerImages = [
-  'https://picsum.photos/seed/banner1/600/300',
-  'https://picsum.photos/seed/banner2/600/300',
-  'https://picsum.photos/seed/banner3/600/300',
+// 홈 배너는 상품 데이터와 무관한 정적 자산(2:1)만 사용한다.
+const banners = [
+  { src: bannerGreen, alt: 'OpenCloset 그린 배너' },
+  { src: bannerDeepGreen, alt: 'OpenCloset 딥그린 배너' },
 ];
 
 export default function Home() {
@@ -57,11 +57,6 @@ export default function Home() {
   const location = profileQuery.data?.address ?? '';
 
   const products = (productsQuery.data?.items ?? []).map(toProductItemProps);
-  // 배너 전용 API가 없어서 당장은 실제 상품 사진으로 배너를 채움.
-  const bannerImages = products
-    .map((product) => product.imageUrls[0])
-    .filter((url): url is string => Boolean(url))
-    .slice(0, BANNER_COUNT);
 
   // 당겨서 새로고침 = 상품(로그인돼 있으면 프로필도) 쿼리 refetch.
   const handleRefresh = () =>
@@ -85,14 +80,11 @@ export default function Home() {
             <BannerSkeleton />
           ) : (
             <Swiper>
-              {(bannerImages.length > 0
-                ? bannerImages
-                : defaultBannerImages
-              ).map((url, index) => (
-                <SwiperSlide key={`${url}-${index}`}>
+              {banners.map((banner) => (
+                <SwiperSlide key={banner.src}>
                   <img
-                    src={url}
-                    alt={`배너 ${index + 1}`}
+                    src={banner.src}
+                    alt={banner.alt}
                     className={styles.bannerImage}
                   />
                 </SwiperSlide>
