@@ -1,7 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ProductList from './ProductList';
 import type { ProductItemProps } from './ProductItem';
 import productImage from '../../../assets/Default_Profile.png';
+
+const queryClient = new QueryClient();
 
 const products: ProductItemProps[] = [
   {
@@ -52,6 +55,14 @@ const meta = {
   args: {
     products,
   },
+  // ProductItem 내부의 기본 찜 토글(useWishlistToggle)용 Provider.
+  decorators: [
+    (Story) => (
+      <QueryClientProvider client={queryClient}>
+        <Story />
+      </QueryClientProvider>
+    ),
+  ],
 } satisfies Meta<Props>;
 
 export default meta;
