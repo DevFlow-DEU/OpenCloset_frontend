@@ -1,14 +1,18 @@
 import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 import { render } from 'vitest-browser-react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { useSearchAdvanced } from '../../hooks';
+import { useSearchAdvanced, useWishlistToggle } from '../../hooks';
 import SearchResult from './SearchResult';
+
+const mockedToggleMutate = vi.fn();
 
 vi.mock('../../hooks', () => ({
   useSearchAdvanced: vi.fn(),
+  useWishlistToggle: vi.fn(() => ({ mutate: mockedToggleMutate })),
 }));
 
 const mockedUseSearchAdvanced = vi.mocked(useSearchAdvanced);
+const mockedUseWishlistToggle = vi.mocked(useWishlistToggle);
 const SEARCH_TEXT = '오픈클로셋';
 
 const ITEMS = [
@@ -101,4 +105,14 @@ test('정렬 버튼을 누르면 정렬 기준이 다음 값으로 바뀐다', a
     expect.anything(),
     'cheap'
   );
+});
+
+test('상품 하트 버튼을 누르면 찜 토글 뮤테이션이 실행된다', async () => {
+  localStorage.setItem('token', 'test-token');
+  const screen = await renderPage();
+  await screen.getByRole('button', { name: '좋아요' }).first().click();
+
+  expect(mockedUseWishlistToggle).toHaveBeenCalledWith(1);
+  expect(mockedToggleMutate).toHaveBeenCalledTimes(1);
+  localStorage.removeItem('token');
 });
