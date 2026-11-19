@@ -9,8 +9,6 @@ import Logo from '../Logo/Logo';
 
 interface RootProps {
   children?: ReactNode;
-  hasNotch?: boolean;
-  hasCamera?: boolean;
   hasDivider?: boolean;
 }
 
@@ -68,22 +66,16 @@ function MyPageLink() {
   );
 }
 
-function Root({ hasNotch, hasCamera, children, hasDivider = true }: RootProps) {
+function Root({ children, hasDivider = true }: RootProps) {
   return (
     <>
       <div className={styles.headerBody}>
-        {hasNotch ? (
-          <div className={styles.notchArea}>
-            {hasCamera ? <div className={styles.cameraArea} /> : null}
-          </div>
-        ) : null}
-        {/* 노치 부분은 앱으로 만들면 없애야 함 */}
         <div className={styles.headerContent}>{children}</div>
 
         {hasDivider ? <div className={styles.headerDivider} /> : null}
       </div>
       {/* headerBody가 position: fixed라 실제 문서 흐름엔 공간이 안 생겨서
-          여기서 대신 비워줌. 노치 제거 시(앱 전환 시) 이 값도 같이 수정. */}
+          여기서 대신 비워줌. 높이는 index.css --app-header-height(헤더 본문 56px + 구분선 1px). */}
       <div className={styles.headerSpace} />
     </>
   );

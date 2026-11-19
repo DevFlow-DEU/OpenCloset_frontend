@@ -10,12 +10,8 @@ interface Props {
 export default function Header({ title }: Props) {
   return (
     <>
-      <div className='header-body'>
-        <div className='app-notch'>
-          <div className='camera'></div>
-        </div>
-        {/* 노치 부분은 앱으로 만들면 없애야 함 */}
-        <div className='app-bar'>
+      <div className="header-body">
+        <div className="app-bar">
           <span>
             <Link to={'..'}>
               <SlArrowLeft size={24} />
@@ -30,9 +26,9 @@ export default function Header({ title }: Props) {
             </Link>
           </span>
         </div>
-        <div className='header-bar'></div>
+        <div className="header-bar"></div>
       </div>
-      <div className='header-space'></div>
+      <div className="header-space"></div>
     </>
   );
 }

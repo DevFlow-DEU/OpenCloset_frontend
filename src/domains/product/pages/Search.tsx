@@ -67,7 +67,7 @@ export default function Search() {
 
   return (
     <>
-      <Header.Root hasDivider={false} hasNotch>
+      <Header.Root hasDivider={false}>
         <Header.BackButton />
         <form
           className={styles.searchForm}

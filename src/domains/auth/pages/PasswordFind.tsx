@@ -58,7 +58,7 @@ export default function PasswordFind() {
 
   return (
     <div>
-      <Header.Root hasNotch hasCamera>
+      <Header.Root>
         <Header.BackButton />
         <Header.CenterTitle title="비밀번호 찾기" />
       </Header.Root>

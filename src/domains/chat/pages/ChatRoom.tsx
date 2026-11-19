@@ -56,7 +56,7 @@ export default function ChatRoom() {
 
   return (
     <>
-      <Header.Root hasNotch hasCamera>
+      <Header.Root>
         <Header.BackButton />
         <Header.CenterTitle title={room?.opponentNickname ?? ''} />
       </Header.Root>

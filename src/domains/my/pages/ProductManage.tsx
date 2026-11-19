@@ -45,11 +45,12 @@ export default function ProductManage() {
   );
 
   const currentItems = tab === 'owner' ? filterOwner : filterRenter;
-  const isPending = tab === 'owner' ? ownerQuery.isPending : renterQuery.isPending;
+  const isPending =
+    tab === 'owner' ? ownerQuery.isPending : renterQuery.isPending;
 
   return (
     <>
-      <Header.Root hasNotch hasCamera>
+      <Header.Root>
         <Header.BackButton />
         <Header.CenterTitle title="상품 관리" />
       </Header.Root>

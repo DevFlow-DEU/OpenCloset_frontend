@@ -59,7 +59,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <Header.Root hasNotch hasCamera>
+      <Header.Root>
         <Header.BackButton />
         <Header.CenterTitle title="이메일 로그인" />
       </Header.Root>
