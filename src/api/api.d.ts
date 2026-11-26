@@ -446,6 +446,40 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/chat/room/{roomId}/messages/image': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** 채팅방 이미지 전송 (JPEG/PNG, 최대 2MB 및 1,200만 픽셀) */
+    post: operations['sendChatImage'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/chat/room/{roomId}/messages/{messageId}/image': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** JWT 인증이 필요한 채팅 메시지 이미지 조회 */
+    get: operations['getChatMessageImage'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/chat/board/{boardId}/wearers': {
     parameters: {
       query?: never;
@@ -1421,6 +1455,10 @@ export interface components {
        * @example 2026-11-11T10:01:00
        */
       sentAt?: string;
+      /** @description 메시지 유형 */
+      type?: 'TEXT' | 'IMAGE';
+      /** @description 이미지 조회 경로. JWT 인증이 필요합니다. */
+      imageUrl?: string | null;
     };
     /** @description 게시물에 채팅 건 wearer(빌리려는 사람) 목록 DTO */
     WearerListResponseDto: {
@@ -1629,6 +1667,63 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+  sendChatImage: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: { roomId: string };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'multipart/form-data': {
+          /** Format: binary */
+          image: string;
+        };
+      };
+    };
+    responses: {
+      201: {
+        headers: { [name: string]: unknown };
+        content: { '*/*': components['schemas']['ChatMessageResponseDto'] };
+      };
+      400: {
+        headers: { [name: string]: unknown };
+        content: { '*/*': unknown };
+      };
+      401: {
+        headers: { [name: string]: unknown };
+        content: { '*/*': unknown };
+      };
+      403: {
+        headers: { [name: string]: unknown };
+        content: { '*/*': unknown };
+      };
+      404: {
+        headers: { [name: string]: unknown };
+        content: { '*/*': unknown };
+      };
+      413: {
+        headers: { [name: string]: unknown };
+        content: { '*/*': unknown };
+      };
+    };
+  };
+  getChatMessageImage: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: { roomId: string; messageId: string };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: { [name: string]: unknown };
+        content: { '*/*': string };
+      };
+    };
+  };
   getPost: {
     parameters: {
       query?: never;
