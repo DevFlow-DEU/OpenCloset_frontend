@@ -4,11 +4,13 @@ import Header from '../../../components/Header/Header';
 import type { StateType } from '../../../components/State/State';
 import ChatBar from '../components/ChatBar';
 import ChatBubble from '../components/ChatBubble';
+import ChatMessageImage from '../components/ChatMessageImage';
 import ChatState from '../components/ChatState';
 import WearerPicker from '../components/WearerPicker';
 import { type ChatMessageItem, type Message } from '../types';
 import { chatQueries } from '../queries';
 import { useChatSocket } from '../useChatSocket';
+import { sendChatImage } from '../api';
 import {
   useChatMessages,
   useConfirmDeal,
@@ -77,16 +79,27 @@ export default function ChatRoom() {
   const confirmDeal = useConfirmDeal();
 
   const [draft, setDraft] = useState<Message>(EMPTY_MESSAGE);
+  const draftRef = useRef(draft);
+  draftRef.current = draft;
+  const [isSending, setIsSending] = useState(false);
   const [pending, setPending] = useState<{ key: string; text: string }[]>([]);
   const [notice, setNotice] = useState<string | null>(null);
   const [pickerOpen, setPickerOpen] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const sendingRef = useRef(false);
 
   const myNickname = profile?.nickname;
 
   useEffect(() => {
     markAsRead();
   }, [roomId, markAsRead]);
+
+  useEffect(
+    () => () => {
+      draftRef.current.photos.forEach(({ src }) => URL.revokeObjectURL(src));
+    },
+    []
+  );
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ block: 'end' });
@@ -165,24 +178,64 @@ export default function ChatRoom() {
     return opponent?.senderId;
   }, [messages, myNickname]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
+    if (sendingRef.current) return;
     const text = draft.text.trim();
-    if (!text) return;
+    const photos = [...draft.photos];
+    if (!text && photos.length === 0) return;
     if (text.length > MAX_MESSAGE_LENGTH) {
       setNotice(`메시지는 ${MAX_MESSAGE_LENGTH}자 이하로 보내주세요.`);
       return;
     }
-    if (!send(text)) {
+    if (text && socketStatus !== 'connected') {
       setNotice(
         '실시간 연결이 아직 준비되지 않았습니다. 잠시 후 다시 시도해 주세요.'
       );
       return;
     }
-    setPending((prev) => [
-      ...prev,
-      { key: `${Date.now()}-${prev.length}`, text },
-    ]);
-    setDraft((prev) => ({ ...prev, text: '' }));
+
+    sendingRef.current = true;
+    setIsSending(true);
+    setNotice(null);
+    try {
+      // 이미지 전송 API는 요청당 한 장만 받으므로 선택한 순서대로 하나씩 전송합니다.
+      for (const photo of photos) {
+        const uploadedMessage = await sendChatImage(roomId, photo.file);
+        URL.revokeObjectURL(photo.src);
+        setDraft((prev) => ({
+          ...prev,
+          photos: prev.photos.filter((item) => item.uuid !== photo.uuid),
+        }));
+        if (uploadedMessage) {
+          queryClient.setQueryData<ChatMessageItem[]>(
+            chatQueries.messages(roomId).queryKey,
+            (current = []) => mergeIncoming(current, uploadedMessage)
+          );
+        }
+        queryClient.invalidateQueries({
+          queryKey: chatQueries.rooms().queryKey,
+        });
+      }
+
+      if (text) {
+        if (!send(text)) {
+          setNotice(
+            '사진은 전송했지만 실시간 연결이 끊겨 텍스트는 보내지 못했습니다. 텍스트를 다시 전송해 주세요.'
+          );
+          return;
+        }
+        setPending((prev) => [
+          ...prev,
+          { key: `${Date.now()}-${prev.length}`, text },
+        ]);
+        setDraft((prev) => ({ ...prev, text: '' }));
+      }
+    } catch (error) {
+      setNotice(getApiErrorMessage(error, '사진 전송에 실패했습니다.'));
+    } finally {
+      sendingRef.current = false;
+      setIsSending(false);
+    }
   };
 
   const handleStatusChange = (status: string) => {
@@ -253,12 +306,30 @@ export default function ChatRoom() {
           {messages.map((message, index) => {
             const isMine =
               Boolean(myNickname) && message.senderNickname === myNickname;
+            const content =
+              message.type === 'IMAGE' && message.messageId !== undefined ? (
+                <ChatMessageImage
+                  roomId={roomId}
+                  messageId={message.messageId}
+                  alt={`${message.senderNickname ?? '사용자'}가 보낸 사진`}
+                />
+              ) : (
+                (message.message ?? '')
+              );
+            const bubble = (
+              <ChatBubble
+                variant={isMine ? 'me' : 'them'}
+                className={message.type === 'IMAGE' ? styles.imageBubble : ''}
+              >
+                {content}
+              </ChatBubble>
+            );
             return isMine ? (
               <div
                 className={styles.myRow}
                 key={message.messageId ?? `db-${index}`}
               >
-                <ChatBubble variant="me">{message.message ?? ''}</ChatBubble>
+                {bubble}
               </div>
             ) : (
               <div
@@ -270,7 +341,7 @@ export default function ChatRoom() {
                   src={message.senderProfileImage || defaultProfileImage}
                   alt=""
                 />
-                <ChatBubble variant="them">{message.message ?? ''}</ChatBubble>
+                {bubble}
               </div>
             );
           })}
@@ -309,7 +380,9 @@ export default function ChatRoom() {
       <ChatBar
         message={draft}
         setMessage={setDraft}
-        onClickSendButton={handleSend}
+        onClickSendButton={() => void handleSend()}
+        onFileError={setNotice}
+        isSending={isSending}
       />
     </>
   );

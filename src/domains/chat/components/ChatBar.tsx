@@ -15,6 +15,8 @@ interface Props {
   message: Message;
   setMessage: Dispatch<SetStateAction<Message>>;
   onClickSendButton: MouseEventHandler<HTMLButtonElement>;
+  onFileError?: (message: string) => void;
+  isSending?: boolean;
   className?: string;
 }
 
@@ -22,6 +24,8 @@ export default function ChatBar({
   message,
   onClickSendButton,
   setMessage,
+  onFileError,
+  isSending = false,
   className,
 }: Props) {
   const deletePhoto = (uuid: string) => {
@@ -58,9 +62,37 @@ export default function ChatBar({
       return;
     }
     const fileArray = Array.from(event.currentTarget.files);
-    const newPhotos = fileArray.map(fileToPhoto);
     event.currentTarget.value = '';
-    addPhotos(newPhotos);
+
+    const validFiles: File[] = [];
+    let validationError: string | null = null;
+    for (const file of fileArray) {
+      if (!['image/jpeg', 'image/png'].includes(file.type)) {
+        validationError = 'JPEG 또는 PNG 사진만 보낼 수 있습니다.';
+        continue;
+      }
+      if (file.size > 2 * 1024 * 1024) {
+        validationError = '사진은 한 장당 2MB 이하로 보내주세요.';
+        continue;
+      }
+
+      try {
+        const bitmap = await createImageBitmap(file);
+        const withinPixelLimit = bitmap.width * bitmap.height <= 12_000_000;
+        bitmap.close();
+        if (!withinPixelLimit) {
+          validationError = '사진은 1,200만 픽셀 이하만 보낼 수 있습니다.';
+          continue;
+        }
+      } catch {
+        validationError = '사진 파일을 확인하지 못했습니다.';
+        continue;
+      }
+      validFiles.push(file);
+    }
+
+    if (validationError) onFileError?.(validationError);
+    if (validFiles.length > 0) addPhotos(validFiles.map(fileToPhoto));
   };
   const handleTextChange = (event: ChangeEvent<HTMLInputElement>) => {
     setMessage((message) => {
@@ -78,6 +110,7 @@ export default function ChatBar({
                 value={photo.uuid}
                 className={styles.photoDeleteButton}
                 onClick={handleDeletePhotoClick}
+                disabled={isSending}
               >
                 <PhotoDeleteIcon />
               </button>
@@ -97,8 +130,9 @@ export default function ChatBar({
             name="photo-upload"
             id="photo-upload"
             onChange={handleFileUpload}
-            accept="image/*"
+            accept="image/jpeg,image/png"
             multiple
+            disabled={isSending}
           />
         </div>
         <input
@@ -107,13 +141,14 @@ export default function ChatBar({
           placeholder="메시지 보내기"
           value={message.text}
           onChange={handleTextChange}
+          disabled={isSending}
         />
         <button
           className={styles.sendButton}
           onClick={onClickSendButton}
-          disabled={isEmpty}
+          disabled={isEmpty || isSending}
         >
-          {isEmpty ? <SendIconDisabled /> : <SendIcon />}
+          {isEmpty || isSending ? <SendIconDisabled /> : <SendIcon />}
         </button>
       </div>
     </div>

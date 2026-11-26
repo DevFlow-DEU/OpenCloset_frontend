@@ -1,0 +1,17 @@
+.image {
+  display: block;
+  width: 100%;
+  max-width: 240px;
+  max-height: 320px;
+  border-radius: 14px;
+  object-fit: contain;
+}
+
+.placeholder {
+  display: grid;
+  width: 220px;
+  min-height: 120px;
+  place-items: center;
+  color: var(--color-gray4);
+  font-size: var(--font-size-sm);
+}

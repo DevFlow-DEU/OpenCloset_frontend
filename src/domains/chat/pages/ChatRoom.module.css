@@ -30,6 +30,10 @@
   padding-right: 9px;
 }
 
+.imageBubble {
+  padding: 4px;
+}
+
 .socketState {
   padding: 8px 16px;
   background: var(--color-gray1);
