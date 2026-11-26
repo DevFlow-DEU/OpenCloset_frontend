@@ -84,8 +84,10 @@ export const productQueries = {
     mutationOptions({
       mutationFn: (variables: { status: string; buyerId?: number }) =>
         productApi.updateStatus(id, variables.status, variables.buyerId),
-      onSuccess: (updated) => {
-        queryClient.setQueryData(productQueries.detail(id).queryKey, updated);
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: productQueries.detail(id).queryKey,
+        });
         queryClient.invalidateQueries({ queryKey: ['board-my'] });
       },
     }),
