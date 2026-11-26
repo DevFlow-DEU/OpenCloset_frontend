@@ -62,13 +62,20 @@ export default function MyPage() {
         <div className="article-bar"></div>
 
         <article className="menu-item">
-          <Link to={'/'} onClick={() => logout.mutate()}>
+          <button
+            type="button"
+            onClick={() =>
+              logout.mutate(undefined, {
+                onSettled: () => navigate('/', { replace: true }),
+              })
+            }
+          >
             <span>로그아웃</span>{' '}
             <span>
               {' '}
               <SlArrowRight size={24} />{' '}
             </span>
-          </Link>
+          </button>
         </article>
         <div className="article-bar"></div>
       </section>

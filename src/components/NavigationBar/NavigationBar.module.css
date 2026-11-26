@@ -1,6 +1,6 @@
 .navigationBar {
   /* 본문(콘텐츠) 52px = 디자인 시안 기준. 전체 높이 = border 1 + padding-top 9 + 52 = 62px
-     (iOS safe-area용 padding-bottom 34px는 JIH-12에서 제거) */
+     + 홈인디케이터 세이프에어리어(padding-bottom)만큼 추가 */
   height: 52px;
   display: flex;
   justify-content: space-around;
@@ -11,6 +11,7 @@
   left: 0;
   right: 0;
   padding-top: 9px;
+  padding-bottom: var(--native-safe-bottom, env(safe-area-inset-bottom));
   border-top: 1px;
   border-top-style: solid;
   border-top-color: var(--color-gray2);

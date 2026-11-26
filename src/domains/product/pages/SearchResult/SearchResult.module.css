@@ -27,7 +27,7 @@
   width: 100%;
 }
 .container {
-  padding-bottom: 98.92px; /* 네비게이션 바 전체 높이(62px) + 시안 하단 여백 36.92px */
+  padding-bottom: calc(98.92px + var(--native-safe-bottom, env(safe-area-inset-bottom))); /* 네비게이션 바 전체 높이(62px) + 시안 하단 여백 36.92px + 홈인디케이터 세이프에어리어 */
 }
 .resultBar {
   height: 40px;

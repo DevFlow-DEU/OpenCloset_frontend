@@ -158,9 +158,9 @@ textarea::placeholder {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 100px;
+    height: calc(100px + var(--native-safe-bottom, env(safe-area-inset-bottom)));
     box-sizing: border-box;
-    padding: 0 16px;
+    padding: 0 16px calc(var(--native-safe-bottom, env(safe-area-inset-bottom)));
     background-color: #ffffff;
     display: flex;
     z-index: 10;

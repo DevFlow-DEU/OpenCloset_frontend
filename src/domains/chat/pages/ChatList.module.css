@@ -1,5 +1,5 @@
 .page {
-  padding-bottom: 62px; /* 네비게이션 바 전체 높이 */
+  padding-bottom: calc(62px + var(--native-safe-bottom, env(safe-area-inset-bottom))); /* 네비게이션 바 전체 높이 + 홈인디케이터 세이프에어리어 */
   box-sizing: border-box;
   min-height: 100vh;
 }
