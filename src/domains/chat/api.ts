@@ -24,6 +24,38 @@ export async function getChatMessages(roomId: string | number) {
   return data;
 }
 
+export async function sendChatImage(roomId: string | number, image: File) {
+  const body = new FormData();
+  body.append('image', image);
+
+  const { data, error, response } = await fetchClient.POST(
+    '/chat/room/{roomId}/messages/image',
+    {
+      params: { path: { roomId: String(roomId) } },
+      body: body as never,
+    }
+  );
+  if (!response.ok) throw new ApiError(response.status, error ?? null);
+  return data;
+}
+
+export async function getChatMessageImage(
+  roomId: string | number,
+  messageId: string | number
+) {
+  const { data, error, response } = await fetchClient.GET(
+    '/chat/room/{roomId}/messages/{messageId}/image',
+    {
+      params: {
+        path: { roomId: String(roomId), messageId: String(messageId) },
+      },
+      parseAs: 'blob',
+    }
+  );
+  if (!response.ok) throw new ApiError(response.status, error ?? null);
+  return data;
+}
+
 export async function getWearerList(boardId: string | number) {
   const { data, error, response } = await fetchClient.GET(
     '/chat/board/{boardId}/wearers',

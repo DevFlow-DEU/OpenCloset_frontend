@@ -21,9 +21,6 @@ export function useMarkAsRead(roomId: string | number) {
   return useMutation(chatQueries.markAsRead(roomId));
 }
 
-export function useConfirmDeal(
-  boardId: string | number,
-  wearerId: string | number
-) {
-  return useMutation(chatQueries.confirmDeal(boardId, wearerId));
+export function useConfirmDeal() {
+  return useMutation(chatQueries.confirmDeal());
 }
