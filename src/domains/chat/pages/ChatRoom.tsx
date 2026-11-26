@@ -17,7 +17,7 @@ import {
   useMarkAsRead,
   useMyRooms,
 } from '../hooks';
-import { useMyProfile, useOwnerBoards } from '../../my/hooks';
+import { useMyProfile } from '../../my/hooks';
 import { useProductDetail, useUpdateBoardStatus } from '../../product/hooks';
 import { queryClient } from '../../../api/queryClient';
 import { getApiErrorMessage } from '../../../api/http';
@@ -61,14 +61,11 @@ export default function ChatRoom() {
   const room = rooms?.find((item) => String(item.roomId) === roomId);
   const boardId = room?.boardId;
 
-  const { data: ownerBoards = [] } = useOwnerBoards();
-  const isSeller =
-    boardId !== undefined && ownerBoards.some((board) => board.id === boardId);
-
   const { data: product } = useProductDetail(
     boardId ?? '',
     boardId !== undefined
   );
+  const isSeller = product?.owner === true;
   const updateStatus = useUpdateBoardStatus(boardId ?? '');
 
   const { data: messages = [], refetch: refetchMessages } =
